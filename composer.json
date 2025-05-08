@@ -1,0 +1,25 @@
+{
+  "name": "honey/meilisearch-adapter",
+  "type": "library",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Honey\\MeilisearchAdapter\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=8.2",
+    "honey/criteria": "dev-main",
+    "bentools/meilisearch-filters": "dev-main"
+  },
+  "repositories": {
+    "honey/criteria": {
+      "type": "path",
+      "url": "/Users/benoit/Projects/Perso/honey-criteria"
+    }
+  },
+  "require-dev": {
+    "symfony/var-dumper": "7.3.x-dev"
+  }
+}
