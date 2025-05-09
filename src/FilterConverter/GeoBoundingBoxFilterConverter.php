@@ -2,27 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Honey\MeilisearchAdapter\Converter;
+namespace Honey\MeilisearchAdapter\FilterConverter;
 
+use Bentools\MeilisearchFilters\Coordinates;
 use Bentools\MeilisearchFilters\Expression;
 use Honey\Odm\AttributeConverter\AttributeConverterInterface;
 use Honey\Odm\Criteria\Filter\Filter;
-use Honey\Odm\Criteria\Filter\GeoRadiusFilter;
+use Honey\Odm\Criteria\Filter\GeoBoundingBoxFilter;
 use Honey\Odm\Criteria\Filter\Converter\FilterConverters;
 use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
 use InvalidArgumentException;
 
-use function Bentools\MeilisearchFilters\withinGeoRadius;
+use function Bentools\MeilisearchFilters\withinGeoBoundingBox;
 
-final readonly class GeoRadiusFilterConverter implements FilterConverterInterface
+final readonly class GeoBoundingBoxFilterConverter implements FilterConverterInterface
 {
     public function supports(Filter $filter): bool
     {
-        return $filter instanceof GeoRadiusFilter;
+        return $filter instanceof GeoBoundingBoxFilter;
     }
 
     /**
-     * @param GeoRadiusFilter $filter
+     * @param GeoBoundingBoxFilter $filter
      */
     public function convert(
         Filter $filter,
@@ -34,10 +35,9 @@ final readonly class GeoRadiusFilterConverter implements FilterConverterInterfac
             throw new InvalidArgumentException("GeoRadius Filter must be used with '_geo' attribute");
         }
 
-        $expression = withinGeoRadius(
-            $filter->coordinates->latitude,
-            $filter->coordinates->longitude,
-            $filter->distance,
+        $expression = withinGeoBoundingBox(
+            Coordinates::from($filter->boundingBox->topLeft->toArray()),
+            Coordinates::from($filter->boundingBox->bottomRight->toArray()),
         );
 
         if ($filter->isNegated()) {

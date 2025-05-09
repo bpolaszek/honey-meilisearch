@@ -2,26 +2,26 @@
 
 declare(strict_types=1);
 
-namespace Honey\MeilisearchAdapter\Converter;
+namespace Honey\MeilisearchAdapter\FilterConverter;
 
 use Bentools\MeilisearchFilters\Expression;
 use Honey\Odm\AttributeConverter\AttributeConverterInterface;
-use Honey\Odm\Criteria\Filter\ExistsFilter;
-use Honey\Odm\Criteria\Filter\Filter;
-use Honey\Odm\Criteria\Filter\Converter\FilterConverters;
 use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
+use Honey\Odm\Criteria\Filter\Converter\FilterConverters;
+use Honey\Odm\Criteria\Filter\Filter;
+use Honey\Odm\Criteria\Filter\NullFilter;
 
 use function Bentools\MeilisearchFilters\field;
 
-final readonly class ExistsFilterConverter implements FilterConverterInterface
+final readonly class NullFilterConverter implements FilterConverterInterface
 {
     public function supports(Filter $filter): bool
     {
-        return $filter instanceof ExistsFilter;
+        return $filter instanceof NullFilter;
     }
 
     /**
-     * @param ExistsFilter $filter
+     * @param NullFilter $filter
      */
     public function convert(
         Filter $filter,
@@ -29,7 +29,7 @@ final readonly class ExistsFilterConverter implements FilterConverterInterface
         AttributeConverterInterface $attributeConverter,
     ): Expression {
         $attribute = $attributeConverter->getAttribute($filter->attribute);
-        $expression = field($attribute)->exists();
+        $expression = field($attribute)->isNull();
 
         return $filter->isNegated() ? $expression->negate() : $expression;
     }

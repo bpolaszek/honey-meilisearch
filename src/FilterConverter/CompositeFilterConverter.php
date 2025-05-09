@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Honey\MeilisearchAdapter\Converter;
+namespace Honey\MeilisearchAdapter\FilterConverter;
 
 use Bentools\MeilisearchFilters\Expression;
 use Honey\Odm\AttributeConverter\AttributeConverterInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Honey\MeilisearchAdapter\Converter;
+namespace Honey\MeilisearchAdapter\FilterConverter;
 
 use Bentools\MeilisearchFilters\Expression;
 use Honey\Odm\Criteria\Filter\Converter\FilterConverters;

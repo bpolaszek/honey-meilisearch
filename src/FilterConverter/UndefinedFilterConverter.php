@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Honey\MeilisearchAdapter\Converter;
+namespace Honey\MeilisearchAdapter\FilterConverter;
 
 use Bentools\MeilisearchFilters\EmptyExpression;
 use Bentools\MeilisearchFilters\Expression;
