@@ -2,16 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Honey\MeilisearchAdapter\Parser;
+namespace Honey\MeilisearchAdapter\Converter;
 
 use Bentools\MeilisearchFilters\Expression;
-use Honey\Criteria\AttributeConverter\AttributeConverterInterface;
-use Honey\Criteria\Filter\ExistsFilter;
-use Honey\Criteria\Filter\Filter;
+use Honey\Odm\AttributeConverter\AttributeConverterInterface;
+use Honey\Odm\Criteria\Filter\ExistsFilter;
+use Honey\Odm\Criteria\Filter\Filter;
+use Honey\Odm\Criteria\Filter\Converter\FilterConverters;
+use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
 
 use function Bentools\MeilisearchFilters\field;
 
-final readonly class ExistsFilterParser implements FilterParserInterface
+final readonly class ExistsFilterConverter implements FilterConverterInterface
 {
     public function supports(Filter $filter): bool
     {
@@ -21,9 +23,9 @@ final readonly class ExistsFilterParser implements FilterParserInterface
     /**
      * @param ExistsFilter $filter
      */
-    public function parse(
+    public function convert(
         Filter $filter,
-        FilterParser $mainParser,
+        FilterConverters $filterConverters,
         AttributeConverterInterface $attributeConverter,
     ): Expression {
         $attribute = $attributeConverter->getAttribute($filter->attribute);

@@ -2,18 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Honey\MeilisearchAdapter\Parser;
+namespace Honey\MeilisearchAdapter\Converter;
 
 use Bentools\MeilisearchFilters\Coordinates;
 use Bentools\MeilisearchFilters\Expression;
-use Honey\Criteria\AttributeConverter\AttributeConverterInterface;
-use Honey\Criteria\Filter\Filter;
-use Honey\Criteria\Filter\GeoBoundingBoxFilter;
+use Honey\Odm\AttributeConverter\AttributeConverterInterface;
+use Honey\Odm\Criteria\Filter\Filter;
+use Honey\Odm\Criteria\Filter\GeoBoundingBoxFilter;
+use Honey\Odm\Criteria\Filter\Converter\FilterConverters;
+use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
 use InvalidArgumentException;
 
 use function Bentools\MeilisearchFilters\withinGeoBoundingBox;
 
-final readonly class GeoBoundingBoxFilterParser implements FilterParserInterface
+final readonly class GeoBoundingBoxFilterConverter implements FilterConverterInterface
 {
     public function supports(Filter $filter): bool
     {
@@ -23,9 +25,9 @@ final readonly class GeoBoundingBoxFilterParser implements FilterParserInterface
     /**
      * @param GeoBoundingBoxFilter $filter
      */
-    public function parse(
+    public function convert(
         Filter $filter,
-        FilterParser $mainParser,
+        FilterConverters $filterConverters,
         AttributeConverterInterface $attributeConverter,
     ): Expression {
         $attribute = $attributeConverter->getAttribute($filter->attribute);

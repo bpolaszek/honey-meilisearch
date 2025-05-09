@@ -10,13 +10,13 @@
   },
   "require": {
     "php": ">=8.2",
-    "honey/criteria": "dev-main",
+    "honey/odm": "dev-main",
     "bentools/meilisearch-filters": "dev-main"
   },
   "repositories": {
-    "honey/criteria": {
+    "honey/odm": {
       "type": "path",
-      "url": "/Users/benoit/Projects/Perso/honey-criteria"
+      "url": "/Users/benoit/Projects/Perso/honey-odm"
     }
   },
   "require-dev": {

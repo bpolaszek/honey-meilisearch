@@ -2,26 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Honey\MeilisearchAdapter\Parser;
+namespace Honey\MeilisearchAdapter\Converter;
 
 use Bentools\MeilisearchFilters\Expression;
-use Honey\Criteria\AttributeConverter\AttributeConverterInterface;
-use Honey\Criteria\Filter\ComparisonFilter;
-use Honey\Criteria\Filter\ComparisonOperator;
-use Honey\Criteria\Filter\Filter;
+use Honey\Odm\AttributeConverter\AttributeConverterInterface;
+use Honey\Odm\Criteria\Filter\ComparisonFilter;
+use Honey\Odm\Criteria\Filter\ComparisonOperator;
+use Honey\Odm\Criteria\Filter\Filter;
+use Honey\Odm\Criteria\Filter\Converter\FilterConverters;
+use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
 
 use function Bentools\MeilisearchFilters\field;
 
-final readonly class ComparisonFilterParser implements FilterParserInterface
+final readonly class ComparisonFilterConverter implements FilterConverterInterface
 {
     public function supports(Filter $filter): bool
     {
         return $filter instanceof ComparisonFilter;
     }
 
-    public function parse(
+    public function convert(
         Filter $filter,
-        FilterParser $mainParser,
+        FilterConverters $filterConverters,
         AttributeConverterInterface $attributeConverter,
     ): Expression {
         $attribute = $attributeConverter->getAttribute($filter->attribute);

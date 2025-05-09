@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0cc00f9576982716146ebf3520945437",
+    "content-hash": "dd6b24f67cc77bef8466995fb5569837",
     "packages": [
         {
             "name": "bentools/meilisearch-filters",
@@ -51,12 +51,12 @@
             "time": "2025-03-18T14:27:08+00:00"
         },
         {
-            "name": "honey/criteria",
+            "name": "honey/odm",
             "version": "dev-main",
             "dist": {
                 "type": "path",
-                "url": "/Users/benoit/Projects/Perso/honey-criteria",
-                "reference": "7df2744e5025917e426aef5a253b291aab6b7b53"
+                "url": "/Users/benoit/Projects/Perso/honey-odm",
+                "reference": "69e863af9ae1fce94c3aca81741106ce58703f6d"
             },
             "require": {
                 "php": ">=8.2"
@@ -67,7 +67,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Honey\\Criteria\\": "src/"
+                    "Honey\\Odm\\": "src/"
                 },
                 "files": [
                     "src/functions.php"
@@ -320,8 +320,9 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "honey/criteria": 20,
-        "bentools/meilisearch-filters": 20
+        "honey/odm": 20,
+        "bentools/meilisearch-filters": 20,
+        "symfony/var-dumper": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
