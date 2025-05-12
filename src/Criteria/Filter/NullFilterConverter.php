@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Honey\MeilisearchAdapter\FilterConverter;
+namespace Honey\MeilisearchAdapter\Criteria\Filter;
 
 use Bentools\MeilisearchFilters\Expression;
-use Honey\Odm\AttributeConverter\AttributeConverterInterface;
 use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
-use Honey\Odm\Criteria\Filter\Converter\FilterConverters;
 use Honey\Odm\Criteria\Filter\Filter;
 use Honey\Odm\Criteria\Filter\NullFilter;
 
@@ -23,12 +21,9 @@ final readonly class NullFilterConverter implements FilterConverterInterface
     /**
      * @param NullFilter $filter
      */
-    public function convert(
-        Filter $filter,
-        FilterConverters $filterConverters,
-        AttributeConverterInterface $attributeConverter,
-    ): Expression {
-        $attribute = $attributeConverter->getAttribute($filter->attribute);
+    public function convert(Filter $filter): Expression
+    {
+        $attribute = $filter->attribute;
         $expression = field($attribute)->isNull();
 
         return $filter->isNegated() ? $expression->negate() : $expression;

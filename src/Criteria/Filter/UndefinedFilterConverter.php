@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Honey\MeilisearchAdapter\FilterConverter;
+namespace Honey\MeilisearchAdapter\Criteria\Filter;
 
 use Bentools\MeilisearchFilters\EmptyExpression;
 use Bentools\MeilisearchFilters\Expression;
-use Honey\Odm\AttributeConverter\AttributeConverterInterface;
-use Honey\Odm\Criteria\Filter\Filter;
-use Honey\Odm\Criteria\Filter\Converter\FilterConverters;
 use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
+use Honey\Odm\Criteria\Filter\Filter;
 use Honey\Odm\Criteria\Filter\UndefinedFilter;
 
 final readonly class UndefinedFilterConverter implements FilterConverterInterface
@@ -22,11 +20,8 @@ final readonly class UndefinedFilterConverter implements FilterConverterInterfac
     /**
      * @param UndefinedFilter $filter
      */
-    public function convert(
-        Filter $filter,
-        FilterConverters $filterConverters,
-        AttributeConverterInterface $attributeConverter,
-    ): Expression {
+    public function convert(Filter $filter): Expression
+    {
         static $expression;
 
         return $expression ??= new EmptyExpression();

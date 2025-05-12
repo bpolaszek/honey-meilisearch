@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Honey\MeilisearchAdapter\FilterConverter;
+namespace Honey\MeilisearchAdapter\Criteria\Filter;
 
 use Bentools\MeilisearchFilters\Expression;
-use Honey\Odm\AttributeConverter\AttributeConverterInterface;
-use Honey\Odm\Criteria\Filter\Filter;
-use Honey\Odm\Criteria\Filter\Converter\FilterConverters;
 use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
+use Honey\Odm\Criteria\Filter\Filter;
 use Honey\Odm\Criteria\Filter\SubstringFilter;
 use Honey\Odm\Criteria\Filter\SubstringOperator;
 use InvalidArgumentException;
@@ -25,12 +23,9 @@ final readonly class SubstringFilterConverter implements FilterConverterInterfac
     /**
      * @param SubstringFilter $filter
      */
-    public function convert(
-        Filter $filter,
-        FilterConverters $filterConverters,
-        AttributeConverterInterface $attributeConverter,
-    ): Expression {
-        $attribute = $attributeConverter->getAttribute($filter->attribute);
+    public function convert(Filter $filter): Expression
+    {
+        $attribute = $filter->attribute;
         $expression = match ($filter->operator) {
             SubstringOperator::CONTAINS => field($attribute)->contains($filter->value),
             SubstringOperator::STARTS_WITH => field($attribute)->startsWith($filter->value),

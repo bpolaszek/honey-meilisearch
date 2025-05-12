@@ -2,15 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Honey\MeilisearchAdapter\FilterConverter;
+namespace Honey\MeilisearchAdapter\Criteria\Filter;
 
 use Bentools\MeilisearchFilters\Expression;
-use Honey\Odm\AttributeConverter\AttributeConverterInterface;
 use Honey\Odm\Criteria\Filter\ComparisonFilter;
 use Honey\Odm\Criteria\Filter\ComparisonOperator;
-use Honey\Odm\Criteria\Filter\Filter;
-use Honey\Odm\Criteria\Filter\Converter\FilterConverters;
 use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
+use Honey\Odm\Criteria\Filter\Filter;
 
 use function Bentools\MeilisearchFilters\field;
 
@@ -21,12 +19,12 @@ final readonly class ComparisonFilterConverter implements FilterConverterInterfa
         return $filter instanceof ComparisonFilter;
     }
 
-    public function convert(
-        Filter $filter,
-        FilterConverters $filterConverters,
-        AttributeConverterInterface $attributeConverter,
-    ): Expression {
-        $attribute = $attributeConverter->getAttribute($filter->attribute);
+    /**
+     * @param ComparisonFilter $filter
+     */
+    public function convert(Filter $filter): Expression
+    {
+        $attribute = $filter->attribute;
 
         $expression = match ($filter->operator) {
             ComparisonOperator::EQUALS => field($attribute)->equals($filter->value),
