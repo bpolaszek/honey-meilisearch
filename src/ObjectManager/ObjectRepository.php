@@ -2,13 +2,8 @@
 
 namespace Honey\MeilisearchAdapter\ObjectManager;
 
-use Honey\MeilisearchAdapter\Criteria\Filter\DelegatingFilterConverter;
-use Honey\MeilisearchAdapter\Criteria\Sort\SortConverter;
 use Honey\MeilisearchAdapter\Misc\LazySearchResult;
-use Honey\Odm\Config\AsDocument as ClassMetadata;
-use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
 use Honey\Odm\Criteria\Filter\Filter;
-use Honey\Odm\Criteria\Sort\Converter\SortConverterInterface;
 use Honey\Odm\Criteria\Sort\SortInterface;
 use Honey\Odm\Manager\ObjectRepositoryInterface;
 use Stringable;
@@ -22,8 +17,6 @@ final readonly class ObjectRepository implements ObjectRepositoryInterface
     public function __construct(
         private ObjectManager $objectManager,
         private string $className,
-        private FilterConverterInterface $filterConverter = new DelegatingFilterConverter(),
-        private SortConverterInterface $sortConverter = new SortConverter(),
     ) {
     }
 
@@ -36,11 +29,11 @@ final readonly class ObjectRepository implements ObjectRepositoryInterface
     ): LazySearchResult {
         $classMetadata = $this->objectManager->getClassMetadata($this->className);
         $filters = array_map(
-            fn (Filter $filter): Filter => $this->filterConverter->convert($filter),
+            fn (Filter $filter) => $this->objectManager->filterConverter->convert($filter),
             resolveFilters($filters),
         );
         $sort = array_map(
-            fn (SortInterface $sort): SortInterface => $this->sortConverter->convert($sort),
+            fn (SortInterface $sort) => $this->objectManager->sortConverter->convert($sort),
             resolveSorts($sort),
         );
 

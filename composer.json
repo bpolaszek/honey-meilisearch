@@ -26,7 +26,9 @@
     }
   },
   "require-dev": {
-    "symfony/var-dumper": "^7.2"
+    "symfony/var-dumper": "^7.2",
+    "symfony/http-client": "^7.2",
+    "nyholm/psr7": "^1.8"
   },
   "config": {
     "allow-plugins": {

@@ -2,14 +2,19 @@
 
 namespace Honey\MeilisearchAdapter\ObjectManager;
 
+use Honey\MeilisearchAdapter\Criteria\Filter\DelegatingFilterConverter;
+use Honey\MeilisearchAdapter\Criteria\Sort\SortConverter;
 use Honey\MeilisearchAdapter\Hydrater\PropertyTransformer\CoordinatesTransformer;
 use Honey\MeilisearchAdapter\Hydrater\PropertyTransformer\DateTimeTransformer;
 use Honey\MeilisearchAdapter\Hydrater\PropertyTransformer\ManyToOneRelationTransformer;
+use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
+use Honey\Odm\Criteria\Sort\Converter\SortConverterInterface;
 use Honey\Odm\Hydrater\Hydrater;
 use Honey\Odm\Hydrater\HydraterInterface;
 use Honey\Odm\Hydrater\PropertyTransformer\PropertyTransformerInterface;
 use Honey\Odm\Hydrater\PropertyTransformer\StringableTransformer;
 use Honey\Odm\Manager\ClassMetadataRegistry;
+use Honey\Odm\Manager\ObjectRepositoryInterface;
 use Meilisearch\Client;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -37,6 +42,8 @@ final class ObjectManager extends \Honey\Odm\Manager\ObjectManager
     public function __construct(
         public readonly Client $meili,
         public readonly PropertyAccessorInterface $propertyAccessor = new PropertyAccessor(),
+        public FilterConverterInterface $filterConverter = new DelegatingFilterConverter(),
+        public SortConverterInterface $sortConverter = new SortConverter(),
         ClassMetadataRegistry $classMetadataRegistry = new ClassMetadataRegistry(),
         EventDispatcherInterface $eventDispatcher = new EventDispatcher(),
         array $transformers = [new DateTimeTransformer(), new StringableTransformer(), new CoordinatesTransformer()],
@@ -52,6 +59,14 @@ final class ObjectManager extends \Honey\Odm\Manager\ObjectManager
         $optionsResolver->setAllowedTypes('flushTimeoutMs', ['int']);
         $optionsResolver->setAllowedTypes('flushCheckIntervalMs', ['int']);
         $this->options = $optionsResolver->resolve($options);
+    }
+
+    public function getRepository(string $className): ObjectRepositoryInterface
+    {
+        return $this->repositories[$className] ??= $this->registerRepository(
+            $className,
+            new ObjectRepository($this, $className),
+        );
     }
 
     protected function doFlush(): void

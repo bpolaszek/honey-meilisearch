@@ -8,10 +8,11 @@ use Honey\Odm\Criteria\Sort\Converter\SortConverterInterface;
 use Honey\Odm\Criteria\Sort\GeoDistanceSort;
 use Honey\Odm\Criteria\Sort\SortInterface;
 use Honey\Odm\Criteria\Sort\ValueSort;
+use Stringable;
 
 final class SortConverter implements SortConverterInterface
 {
-    public function convert(SortInterface $sort): mixed
+    public function convert(SortInterface $sort): Stringable
     {
         return match (true) {
             $sort instanceof ValueSort => Sort::make($sort->attribute, $sort->direction->value),
