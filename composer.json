@@ -1,5 +1,5 @@
 {
-  "name": "honey/meilisearch-adapter",
+  "name": "honey/meilisearch-odm",
   "type": "library",
   "license": "MIT",
   "minimum-stability": "stable",
