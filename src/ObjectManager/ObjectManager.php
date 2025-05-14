@@ -7,6 +7,7 @@ use Honey\MeilisearchAdapter\Criteria\Sort\SortConverter;
 use Honey\MeilisearchAdapter\Hydrater\PropertyTransformer\CoordinatesTransformer;
 use Honey\MeilisearchAdapter\Hydrater\PropertyTransformer\DateTimeTransformer;
 use Honey\MeilisearchAdapter\Hydrater\PropertyTransformer\ManyToOneRelationTransformer;
+use Honey\Odm\Config\AsDocument as ClassMetadata;
 use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
 use Honey\Odm\Criteria\Sort\Converter\SortConverterInterface;
 use Honey\Odm\Hydrater\Hydrater;
@@ -78,6 +79,7 @@ final class ObjectManager extends \Honey\Odm\Manager\ObjectManager
         $hash = $this->unitOfWork->hash;
 
         // Process Updates
+        /** @var WeakMap<object, ClassMetadata> $updateMetadata */
         $updateMetadata = new WeakMap();
         $deleteMetadata = new WeakMap();
         foreach ($this->unitOfWork->changesets as $object => $changeset) {
@@ -99,6 +101,7 @@ final class ObjectManager extends \Honey\Odm\Manager\ObjectManager
         }
 
         $tasks = [];
+        /** @var ClassMetadata $metadata */
         foreach (uniqueList(weakmap_values($updateMetadata)) as $metadata) {
             $documents = iterable($this->unitOfWork->getChangedObjects())
                 ->filter(fn (object $object) => $updateMetadata[$object] === $metadata)
@@ -106,7 +109,7 @@ final class ObjectManager extends \Honey\Odm\Manager\ObjectManager
 
             foreach (getItemsByBatches($documents, $flushBatchSize) as $documents) {
                 $docs = [...$documents];
-                $tasks[] = $this->meili->index($metadata->indexUid)->updateDocuments($docs);
+                $tasks[] = $this->meili->index($metadata->bucketName)->updateDocuments($docs);
             }
         }
 
@@ -115,7 +118,7 @@ final class ObjectManager extends \Honey\Odm\Manager\ObjectManager
             $scheduledDeletions = iterable($this->unitOfWork->removals)
                 ->filter(fn (object $object) => $deleteMetadata[$object] === $metadata);
             foreach (getItemsByBatches($scheduledDeletions, $flushBatchSize) as $objects) {
-                $tasks[] = $this->meili->index($metadata->indexUid)->deleteDocuments([
+                $tasks[] = $this->meili->index($metadata->bucketName)->deleteDocuments([
                     'filter' => (string) field($metadata->primaryKey)->isIn(
                         iterable($objects)
                             ->map(function (object $object) {

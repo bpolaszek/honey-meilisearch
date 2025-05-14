@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Honey\MeilisearchAdapter\Criteria\Filter;
 
 use Bentools\MeilisearchFilters\Expression;
+use Honey\Odm\Config\AsDocument as ClassMetadata;
 use Honey\Odm\Criteria\Filter\ComparisonFilter;
 use Honey\Odm\Criteria\Filter\ComparisonOperator;
-use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
 use Honey\Odm\Criteria\Filter\Filter;
+use Honey\Odm\Hydrater\HydraterInterface;
 
 use function Bentools\MeilisearchFilters\field;
 
@@ -22,17 +23,18 @@ final readonly class ComparisonFilterConverter implements FilterConverterInterfa
     /**
      * @param ComparisonFilter $filter
      */
-    public function convert(Filter $filter): Expression
+    public function convert(Filter $filter, ClassMetadata $classMetadata, HydraterInterface $hydrater): Expression
     {
-        $attribute = $filter->attribute;
+        $attr = $classMetadata->getAttributeMetadata($filter->attribute);
+        $value = $filter->value;
 
         $expression = match ($filter->operator) {
-            ComparisonOperator::EQUALS => field($attribute)->equals($filter->value),
-            ComparisonOperator::NOT_EQUALS => field($attribute)->notEquals($filter->value),
-            ComparisonOperator::LOWER_THAN => field($attribute)->isLowerThan($filter->value),
-            ComparisonOperator::LOWER_THAN_OR_EQUALS => field($attribute)->isLowerThan($filter->value, true),
-            ComparisonOperator::GREATER_THAN => field($attribute)->isGreaterThan($filter->value, true),
-            ComparisonOperator::GREATER_THAN_OR_EQUALS => field($attribute)->isGreaterThan($filter->value, true),
+            ComparisonOperator::EQUALS => field($attr->attributeName)->equals($value),
+            ComparisonOperator::NOT_EQUALS => field($attr->attributeName)->notEquals($value),
+            ComparisonOperator::LOWER_THAN => field($attr->attributeName)->isLowerThan($value),
+            ComparisonOperator::LOWER_THAN_OR_EQUALS => field($attr->attributeName)->isLowerThan($value, true),
+            ComparisonOperator::GREATER_THAN => field($attr->attributeName)->isGreaterThan($value, true),
+            ComparisonOperator::GREATER_THAN_OR_EQUALS => field($attr->attributeName)->isGreaterThan($value, true),
         };
 
         return $filter->isNegated() ? $expression->negate() : $expression;

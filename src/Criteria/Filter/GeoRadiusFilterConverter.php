@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Honey\MeilisearchAdapter\Criteria\Filter;
 
 use Bentools\MeilisearchFilters\Expression;
-use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
+use Honey\Odm\Config\AsDocument as ClassMetadata;
 use Honey\Odm\Criteria\Filter\Filter;
 use Honey\Odm\Criteria\Filter\GeoRadiusFilter;
+use Honey\Odm\Hydrater\HydraterInterface;
 use InvalidArgumentException;
 
 use function Bentools\MeilisearchFilters\withinGeoRadius;
@@ -22,9 +23,9 @@ final readonly class GeoRadiusFilterConverter implements FilterConverterInterfac
     /**
      * @param GeoRadiusFilter $filter
      */
-    public function convert(Filter $filter): Expression
+    public function convert(Filter $filter, ClassMetadata $classMetadata, HydraterInterface $hydrater): Expression
     {
-        $attribute = $filter->attribute;
+        $attribute = $classMetadata->getAttributeMetadata($filter->attribute)->attributeName;
         if ('_geo' !== $attribute) {
             throw new InvalidArgumentException("GeoRadius Filter must be used with '_geo' attribute");
         }

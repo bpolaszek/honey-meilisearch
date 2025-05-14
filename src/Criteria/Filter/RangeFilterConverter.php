@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Honey\MeilisearchAdapter\Criteria\Filter;
 
 use Bentools\MeilisearchFilters\Expression;
-use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
+use Honey\Odm\Config\AsDocument as ClassMetadata;
 use Honey\Odm\Criteria\Filter\Filter;
 use Honey\Odm\Criteria\Filter\RangeFilter;
+
+use Honey\Odm\Hydrater\HydraterInterface;
 
 use function Bentools\MeilisearchFilters\field;
 
@@ -21,29 +23,33 @@ final readonly class RangeFilterConverter implements FilterConverterInterface
     /**
      * @param RangeFilter $filter
      */
-    public function convert(Filter $filter): Expression
+    public function convert(Filter $filter, ClassMetadata $classMetadata, HydraterInterface $hydrater): Expression
     {
-        $attribute = $filter->attribute;
+        $attr = $classMetadata->getAttributeMetadata($filter->attribute);
+        $left = $filter->left;
+        $right = $filter->right;
+        $attributeName = $attr->attributeName;
+
         $expression = match (true) {
-            $filter->includeLeft && $filter->includeRight => field($attribute)->isBetween(
-                $filter->left,
-                $filter->right,
+            $filter->includeLeft && $filter->includeRight => field($attributeName)->isBetween(
+                $left,
+                $right,
                 true,
             ),
-            !$filter->includeLeft && !$filter->includeRight => field($attribute)->isBetween(
-                $filter->left,
-                $filter->right,
+            !$filter->includeLeft && !$filter->includeRight => field($attributeName)->isBetween(
+                $left,
+                $right,
                 false,
             ),
-            $filter->includeLeft => field($attribute)
-                ->isGreaterThan($filter->left, true)
+            $filter->includeLeft => field($attributeName)
+                ->isGreaterThan($left, true)
                 ->and(
-                    field($attribute)->isLowerThan($filter->right),
+                    field($attributeName)->isLowerThan($right),
                 ),
-            $filter->includeRight => field($attribute)
-                ->isGreaterThan($filter->left)
+            $filter->includeRight => field($attributeName)
+                ->isGreaterThan($left)
                 ->and(
-                    field($attribute)->isLowerThan($filter->right, true),
+                    field($attributeName)->isLowerThan($right, true),
                 ),
         };
 

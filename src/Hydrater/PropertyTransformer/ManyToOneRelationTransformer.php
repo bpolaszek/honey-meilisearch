@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Honey\MeilisearchAdapter\Hydrater\PropertyTransformer;
 
 use Honey\MeilisearchAdapter\ObjectManager\ObjectManager;

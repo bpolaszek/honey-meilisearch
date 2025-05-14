@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Honey\MeilisearchAdapter\Criteria\Filter;
 
 use Bentools\MeilisearchFilters\Expression;
-use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
+use Honey\Odm\Config\AsDocument as ClassMetadata;
 use Honey\Odm\Criteria\Filter\Filter;
 use Honey\Odm\Criteria\Filter\SubstringFilter;
 use Honey\Odm\Criteria\Filter\SubstringOperator;
+use Honey\Odm\Hydrater\HydraterInterface;
 use InvalidArgumentException;
 
 use function Bentools\MeilisearchFilters\field;
@@ -23,12 +24,14 @@ final readonly class SubstringFilterConverter implements FilterConverterInterfac
     /**
      * @param SubstringFilter $filter
      */
-    public function convert(Filter $filter): Expression
+    public function convert(Filter $filter, ClassMetadata $classMetadata, HydraterInterface $hydrater): Expression
     {
-        $attribute = $filter->attribute;
+        $attr = $classMetadata->getAttributeMetadata($filter->attribute);
+        $attributeName = $attr->attributeName;
+        $value = $filter->substring;
         $expression = match ($filter->operator) {
-            SubstringOperator::CONTAINS => field($attribute)->contains($filter->value),
-            SubstringOperator::STARTS_WITH => field($attribute)->startsWith($filter->value),
+            SubstringOperator::CONTAINS => field($attributeName)->contains($value),
+            SubstringOperator::STARTS_WITH => field($attributeName)->startsWith($value),
             default => throw new InvalidArgumentException('Invalid operator'),
         };
 

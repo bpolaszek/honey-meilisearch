@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Honey\MeilisearchAdapter\Hydrater\PropertyTransformer;
 
 use Honey\Odm\Config\AsAttribute as AttributeMetadata;
@@ -11,7 +13,7 @@ use ReflectionNamedType;
 
 use function ltrim;
 
-class CoordinatesTransformer implements PropertyTransformerInterface
+final readonly class CoordinatesTransformer implements PropertyTransformerInterface
 {
     public function supports(AttributeMetadata $metadata): bool
     {

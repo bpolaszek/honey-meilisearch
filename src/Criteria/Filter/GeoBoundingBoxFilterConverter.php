@@ -6,9 +6,10 @@ namespace Honey\MeilisearchAdapter\Criteria\Filter;
 
 use Bentools\MeilisearchFilters\Coordinates;
 use Bentools\MeilisearchFilters\Expression;
-use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
+use Honey\Odm\Config\AsDocument as ClassMetadata;
 use Honey\Odm\Criteria\Filter\Filter;
 use Honey\Odm\Criteria\Filter\GeoBoundingBoxFilter;
+use Honey\Odm\Hydrater\HydraterInterface;
 use InvalidArgumentException;
 
 use function Bentools\MeilisearchFilters\withinGeoBoundingBox;
@@ -23,9 +24,9 @@ final readonly class GeoBoundingBoxFilterConverter implements FilterConverterInt
     /**
      * @param GeoBoundingBoxFilter $filter
      */
-    public function convert(Filter $filter): Expression
+    public function convert(Filter $filter, ClassMetadata $classMetadata, HydraterInterface $hydrater): Expression
     {
-        $attribute = $filter->attribute;
+        $attribute = $classMetadata->getAttributeMetadata($filter->attribute)->attributeName;
         if ('_geo' !== $attribute) {
             throw new InvalidArgumentException("GeoRadius Filter must be used with '_geo' attribute");
         }

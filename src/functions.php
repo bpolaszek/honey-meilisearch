@@ -13,6 +13,10 @@ use const PHP_INT_MAX;
 
 /**
  * @internal
+ * @template TKey
+ * @template TValue
+ * @param WeakMap<TKey, TValue> $weakmap
+ * @return array<TValue>
  */
 function weakmap_values(WeakMap $weakmap): array
 {
