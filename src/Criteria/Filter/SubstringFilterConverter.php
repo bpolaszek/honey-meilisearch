@@ -9,7 +9,6 @@ use Honey\Odm\Config\AsDocument as ClassMetadata;
 use Honey\Odm\Criteria\Filter\Filter;
 use Honey\Odm\Criteria\Filter\SubstringFilter;
 use Honey\Odm\Criteria\Filter\SubstringOperator;
-use Honey\Odm\Hydrater\HydraterInterface;
 use InvalidArgumentException;
 
 use function Bentools\MeilisearchFilters\field;
@@ -24,7 +23,7 @@ final readonly class SubstringFilterConverter implements FilterConverterInterfac
     /**
      * @param SubstringFilter $filter
      */
-    public function convert(Filter $filter, ClassMetadata $classMetadata, HydraterInterface $hydrater): Expression
+    public function convert(Filter $filter, ClassMetadata $classMetadata): Expression
     {
         $attr = $classMetadata->getAttributeMetadata($filter->attribute);
         $attributeName = $attr->attributeName;

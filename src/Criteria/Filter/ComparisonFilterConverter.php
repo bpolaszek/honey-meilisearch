@@ -9,7 +9,6 @@ use Honey\Odm\Config\AsDocument as ClassMetadata;
 use Honey\Odm\Criteria\Filter\ComparisonFilter;
 use Honey\Odm\Criteria\Filter\ComparisonOperator;
 use Honey\Odm\Criteria\Filter\Filter;
-use Honey\Odm\Hydrater\HydraterInterface;
 
 use function Bentools\MeilisearchFilters\field;
 
@@ -23,7 +22,7 @@ final readonly class ComparisonFilterConverter implements FilterConverterInterfa
     /**
      * @param ComparisonFilter $filter
      */
-    public function convert(Filter $filter, ClassMetadata $classMetadata, HydraterInterface $hydrater): Expression
+    public function convert(Filter $filter, ClassMetadata $classMetadata): Expression
     {
         $attr = $classMetadata->getAttributeMetadata($filter->attribute);
         $value = $filter->value;

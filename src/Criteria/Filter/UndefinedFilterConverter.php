@@ -9,7 +9,6 @@ use Bentools\MeilisearchFilters\Expression;
 use Honey\Odm\Config\AsDocument as ClassMetadata;
 use Honey\Odm\Criteria\Filter\Filter;
 use Honey\Odm\Criteria\Filter\UndefinedFilter;
-use Honey\Odm\Hydrater\HydraterInterface;
 
 final readonly class UndefinedFilterConverter implements FilterConverterInterface
 {
@@ -21,7 +20,7 @@ final readonly class UndefinedFilterConverter implements FilterConverterInterfac
     /**
      * @param UndefinedFilter $filter
      */
-    public function convert(Filter $filter, ClassMetadata $classMetadata, HydraterInterface $hydrater): Expression
+    public function convert(Filter $filter, ClassMetadata $classMetadata): Expression
     {
         static $expression;
 

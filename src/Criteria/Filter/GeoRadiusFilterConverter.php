@@ -8,7 +8,6 @@ use Bentools\MeilisearchFilters\Expression;
 use Honey\Odm\Config\AsDocument as ClassMetadata;
 use Honey\Odm\Criteria\Filter\Filter;
 use Honey\Odm\Criteria\Filter\GeoRadiusFilter;
-use Honey\Odm\Hydrater\HydraterInterface;
 use InvalidArgumentException;
 
 use function Bentools\MeilisearchFilters\withinGeoRadius;
@@ -23,7 +22,7 @@ final readonly class GeoRadiusFilterConverter implements FilterConverterInterfac
     /**
      * @param GeoRadiusFilter $filter
      */
-    public function convert(Filter $filter, ClassMetadata $classMetadata, HydraterInterface $hydrater): Expression
+    public function convert(Filter $filter, ClassMetadata $classMetadata): Expression
     {
         $attribute = $classMetadata->getAttributeMetadata($filter->attribute)->attributeName;
         if ('_geo' !== $attribute) {

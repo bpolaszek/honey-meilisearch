@@ -10,7 +10,6 @@ use Honey\Odm\Criteria\Filter\CompositeFilter;
 use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface as BaseFilterConverterInterface;
 use Honey\Odm\Criteria\Filter\Filter;
 use Honey\Odm\Criteria\Filter\Satisfy;
-use Honey\Odm\Hydrater\HydraterInterface;
 use RuntimeException;
 
 use function Bentools\MeilisearchFilters\filterBuilder;
@@ -48,29 +47,26 @@ final class DelegatingFilterConverter implements BaseFilterConverterInterface
     /**
      * @return Expression
      */
-    public function convert(Filter $filter, ClassMetadata $classMetadata, HydraterInterface $hydrater): Expression
+    public function convert(Filter $filter, ClassMetadata $classMetadata): Expression
     {
         if ($filter instanceof CompositeFilter) {
-            return $this->convertCompositeFilter($filter, $classMetadata, $hydrater);
+            return $this->convertCompositeFilter($filter, $classMetadata);
         }
 
         foreach ($this->converters as $converter) {
             if ($converter->supports($filter)) {
-                return $converter->convert($filter, $classMetadata, $hydrater);
+                return $converter->convert($filter, $classMetadata);
             }
         }
 
         throw new RuntimeException(sprintf('No converter found for filter of type %s', $filter::class));
     }
 
-    private function convertCompositeFilter(
-        CompositeFilter $filter,
-        ClassMetadata $classMetadata,
-        HydraterInterface $hydrater,
-    ): Expression {
+    private function convertCompositeFilter(CompositeFilter $filter, ClassMetadata $classMetadata): Expression
+    {
         $converted = [];
         foreach ($filter as $subFilter) {
-            $converted[] = $this->convert($subFilter, $classMetadata, $hydrater);
+            $converted[] = $this->convert($subFilter, $classMetadata);
         }
 
         $expression = match ($filter->satisfies) {

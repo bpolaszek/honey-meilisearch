@@ -9,7 +9,6 @@ use Bentools\MeilisearchFilters\Expression;
 use Honey\Odm\Config\AsDocument as ClassMetadata;
 use Honey\Odm\Criteria\Filter\Filter;
 use Honey\Odm\Criteria\Filter\GeoBoundingBoxFilter;
-use Honey\Odm\Hydrater\HydraterInterface;
 use InvalidArgumentException;
 
 use function Bentools\MeilisearchFilters\withinGeoBoundingBox;
@@ -24,7 +23,7 @@ final readonly class GeoBoundingBoxFilterConverter implements FilterConverterInt
     /**
      * @param GeoBoundingBoxFilter $filter
      */
-    public function convert(Filter $filter, ClassMetadata $classMetadata, HydraterInterface $hydrater): Expression
+    public function convert(Filter $filter, ClassMetadata $classMetadata): Expression
     {
         $attribute = $classMetadata->getAttributeMetadata($filter->attribute)->attributeName;
         if ('_geo' !== $attribute) {

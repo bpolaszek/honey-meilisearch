@@ -9,8 +9,6 @@ use Honey\Odm\Config\AsDocument as ClassMetadata;
 use Honey\Odm\Criteria\Filter\Filter;
 use Honey\Odm\Criteria\Filter\RangeFilter;
 
-use Honey\Odm\Hydrater\HydraterInterface;
-
 use function Bentools\MeilisearchFilters\field;
 
 final readonly class RangeFilterConverter implements FilterConverterInterface
@@ -23,7 +21,7 @@ final readonly class RangeFilterConverter implements FilterConverterInterface
     /**
      * @param RangeFilter $filter
      */
-    public function convert(Filter $filter, ClassMetadata $classMetadata, HydraterInterface $hydrater): Expression
+    public function convert(Filter $filter, ClassMetadata $classMetadata): Expression
     {
         $attr = $classMetadata->getAttributeMetadata($filter->attribute);
         $left = $filter->left;
