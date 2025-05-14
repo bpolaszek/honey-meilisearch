@@ -17,7 +17,7 @@ final class SortConverter implements SortConverterInterface
     {
         return match (true) {
             $sort instanceof ValueSort => Sort::make(
-                $classMetadata->resolveAttributeName($sort->attribute),
+                $classMetadata->getAttributeMetadata($sort->attribute)->attributeName,
                 $sort->direction->value,
             ),
             $sort instanceof GeoDistanceSort => Sort::make(
