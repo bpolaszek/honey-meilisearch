@@ -72,7 +72,7 @@ final readonly class ObjectRepository implements ObjectRepositoryInterface
     public function find(Stringable|int|string $id, array $params = []): ?object
     {
         $classMetadata = $this->objectManager->getClassMetadata($this->className);
-        $object = $this->objectManager->loadedObjects->getObject($id, $this->className);
+        $object = $this->objectManager->objects->getObject($id, $this->className);
 
         if ($object !== null) {
             return $object;

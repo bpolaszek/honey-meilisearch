@@ -6,13 +6,11 @@ use Honey\MeilisearchAdapter\Criteria\Filter\DelegatingFilterConverter;
 use Honey\MeilisearchAdapter\Criteria\Sort\SortConverter;
 use Honey\MeilisearchAdapter\Hydrater\PropertyTransformer\CoordinatesTransformer;
 use Honey\MeilisearchAdapter\Hydrater\PropertyTransformer\DateTimeTransformer;
-use Honey\MeilisearchAdapter\Hydrater\PropertyTransformer\ManyToOneRelationTransformer;
 use Honey\Odm\Config\AsDocument as ClassMetadata;
 use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
 use Honey\Odm\Criteria\Sort\Converter\SortConverterInterface;
 use Honey\Odm\Hydrater\Hydrater;
-use Honey\Odm\Hydrater\HydraterInterface;
-use Honey\Odm\Hydrater\PropertyTransformer\PropertyTransformerInterface;
+use Honey\Odm\Hydrater\PropertyTransformer\ManyToOneRelationTransformer;
 use Honey\Odm\Hydrater\PropertyTransformer\StringableTransformer;
 use Honey\Odm\Manager\ClassMetadataRegistry;
 use Honey\Odm\Manager\ObjectRepositoryInterface;
@@ -140,7 +138,7 @@ final class ObjectManager extends \Honey\Odm\Manager\ObjectManager
 
         // Update identity map
         foreach ($this->unitOfWork->getChangedObjects() as $object) {
-            $this->loadedObjects->rememberState($object, $this->unitOfWork->changesets[$object]->newDocument);
+            $this->objects->rememberState($object, $this->unitOfWork->changesets[$object]->newDocument);
         }
 
         // Fire post-flush events
