@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Honey\MeilisearchAdapter\Hydrater\PropertyTransformer;
 
+use BenTools\ReflectionPlus\Reflection;
 use Honey\Odm\Config\AsAttribute as AttributeMetadata;
 use Honey\Odm\Criteria\Geo\Coordinates;
 use Honey\Odm\Hydrater\PropertyTransformer\PropertyTransformerInterface;
 use Honey\Odm\Misc\CoordinatesInterface;
-use Honey\Odm\Misc\Reflection;
 use ReflectionNamedType;
 
 use function ltrim;

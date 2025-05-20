@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "db2aff4ac2ada962277884490e02c15c",
+    "content-hash": "8ddc856df9750fea975c7469e8c1928f",
     "packages": [
         {
             "name": "bentools/iterable-functions",
@@ -97,15 +97,57 @@
             "time": "2025-05-12T13:31:35+00:00"
         },
         {
+            "name": "bentools/reflection-plus",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bpolaszek/reflection-plus.git",
+                "reference": "b1dc57d089b3c8098797c04ee4ddec624e83a73f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bpolaszek/reflection-plus/zipball/b1dc57d089b3c8098797c04ee4ddec624e83a73f",
+                "reference": "b1dc57d089b3c8098797c04ee4ddec624e83a73f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.4"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.75",
+                "mockery/mockery": "^1.6",
+                "pestphp/pest": "^3.8",
+                "phpstan/phpstan": "^2.1",
+                "symfony/var-dumper": "^7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BenTools\\ReflectionPlus\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Another improved code reflection API",
+            "support": {
+                "issues": "https://github.com/bpolaszek/reflection-plus/issues",
+                "source": "https://github.com/bpolaszek/reflection-plus/tree/1.0"
+            },
+            "time": "2025-05-20T13:25:32+00:00"
+        },
+        {
             "name": "honey/odm",
             "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "/Users/benoit/Projects/Perso/honey-odm",
-                "reference": "86e87e940e03a7b30950973a0542a789b0f5e73d"
+                "reference": "22a03382ec195c0f30dffcaa9df320abab41e644"
             },
             "require": {
                 "bentools/iterable-functions": "^2.3",
+                "bentools/reflection-plus": "^1.0",
                 "php": ">=8.4",
                 "psr/event-dispatcher": "^1.0",
                 "symfony/event-dispatcher": "~5.0|~6.0|~7.0",

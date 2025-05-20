@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Honey\MeilisearchAdapter\Hydrater\PropertyTransformer;
 
+use BenTools\ReflectionPlus\Reflection;
 use Honey\Odm\Config\AsAttribute as AttributeMetadata;
 use Honey\Odm\Hydrater\PropertyTransformer\PropertyTransformerInterface;
-use Honey\Odm\Misc\Reflection;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
