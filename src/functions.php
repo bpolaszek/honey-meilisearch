@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Honey\MeilisearchAdapter;
+namespace Honey\ODM\Meilisearch;
 
 use WeakMap;
 

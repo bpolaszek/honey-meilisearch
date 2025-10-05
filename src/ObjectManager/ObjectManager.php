@@ -1,147 +1,31 @@
 <?php
 
-namespace Honey\MeilisearchAdapter\ObjectManager;
+namespace Honey\ODM\Meilisearch\ObjectManager;
 
-use Honey\MeilisearchAdapter\Criteria\Filter\DelegatingFilterConverter;
-use Honey\MeilisearchAdapter\Criteria\Sort\SortConverter;
-use Honey\MeilisearchAdapter\Hydrater\PropertyTransformer\CoordinatesTransformer;
-use Honey\MeilisearchAdapter\Hydrater\PropertyTransformer\DateTimeTransformer;
-use Honey\Odm\Config\AsDocument as ClassMetadata;
-use Honey\Odm\Criteria\Filter\Converter\FilterConverterInterface;
-use Honey\Odm\Criteria\Sort\Converter\SortConverterInterface;
-use Honey\Odm\Hydrater\Hydrater;
-use Honey\Odm\Hydrater\PropertyTransformer\ManyToOneRelationTransformer;
-use Honey\Odm\Hydrater\PropertyTransformer\StringableTransformer;
-use Honey\Odm\Manager\ClassMetadataRegistry;
-use Honey\Odm\Manager\ObjectRepositoryInterface;
+use Honey\ODM\Core\Config\ClassMetadataRegistryInterface;
+use Honey\ODM\Core\Manager\ObjectManager as BaseObjectManager;
+use Honey\ODM\Core\Mapper\DocumentMapperInterface;
+use Honey\ODM\Core\Misc\NullEventDispatcher;
+use Honey\ODM\Meilisearch\Config\ClassMetadataRegistry;
+use Honey\ODM\Meilisearch\Mapper\DocumentMapper;
+use Honey\ODM\Meilisearch\Transport\MeiliTransport;
 use Meilisearch\Client;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
-use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use WeakMap;
 
-use function BenTools\IterableFunctions\iterable;
-use function Bentools\MeilisearchFilters\field;
-use function Honey\MeilisearchAdapter\getItemsByBatches;
-use function Honey\MeilisearchAdapter\weakmap_values;
-use function Honey\Odm\uniqueList;
-
-final class ObjectManager extends \Honey\Odm\Manager\ObjectManager
+final class ObjectManager extends BaseObjectManager
 {
-    private const array DEFAULT_OPTIONS = [
-        'flushBatchSize' => PHP_INT_MAX,
-        'flushTimeoutMs' => 900_000,
-        'flushCheckIntervalMs' => 50,
-    ];
-
-    public readonly array $options;
-
     public function __construct(
         public readonly Client $meili,
-        public readonly PropertyAccessorInterface $propertyAccessor = new PropertyAccessor(),
-        public FilterConverterInterface $filterConverter = new DelegatingFilterConverter(),
-        public SortConverterInterface $sortConverter = new SortConverter(),
-        ClassMetadataRegistry $classMetadataRegistry = new ClassMetadataRegistry(),
-        EventDispatcherInterface $eventDispatcher = new EventDispatcher(),
-        array $transformers = [new DateTimeTransformer(), new StringableTransformer(), new CoordinatesTransformer()],
-        array $repositories = [],
         array $options = [],
+        public readonly ClassMetadataRegistryInterface $classMetadataRegistry = new ClassMetadataRegistry(),
+        public readonly DocumentMapperInterface $documentMapper = new DocumentMapper(),
+        public readonly EventDispatcherInterface $eventDispatcher = new NullEventDispatcher(),
     ) {
-        $transformers = [...$transformers, new ManyToOneRelationTransformer($this)];
-        $hydrater = new Hydrater($this->propertyAccessor, $transformers);
-        parent::__construct($classMetadataRegistry, $eventDispatcher, $hydrater, $repositories);
-        $optionsResolver = new OptionsResolver();
-        $optionsResolver->setDefaults(self::DEFAULT_OPTIONS);
-        $optionsResolver->setAllowedTypes('flushBatchSize', ['int']);
-        $optionsResolver->setAllowedTypes('flushTimeoutMs', ['int']);
-        $optionsResolver->setAllowedTypes('flushCheckIntervalMs', ['int']);
-        $this->options = $optionsResolver->resolve($options);
-    }
-
-    public function getRepository(string $className): ObjectRepositoryInterface
-    {
-        return $this->repositories[$className] ??= $this->registerRepository(
-            $className,
-            new ObjectRepository($this, $className),
+        parent::__construct(
+            $this->classMetadataRegistry,
+            $this->documentMapper,
+            $this->eventDispatcher,
+            new MeiliTransport($this->meili, $options),
         );
-    }
-
-    protected function doFlush(): void
-    {
-        $flushBatchSize = $this->options['flushBatchSize'];
-        $this->unitOfWork->computeChangesets();
-
-        CheckChangesetsAndFireEvents:
-        $hash = $this->unitOfWork->hash;
-
-        // Process Updates
-        /** @var WeakMap<object, ClassMetadata> $updateMetadata */
-        $updateMetadata = new WeakMap();
-        $deleteMetadata = new WeakMap();
-        foreach ($this->unitOfWork->changesets as $object => $changeset) {
-            $metadata = $this->classMetadataRegistry->getClassMetadata($object::class);
-            $updateMetadata[$object] = $metadata;
-            $this->maybeFirePrePersistEvent($object);
-            $this->maybeFirePreUpdateEvent($object);
-        }
-        foreach ($this->unitOfWork->removals as $object) {
-            $metadata = $this->classMetadataRegistry->getClassMetadata($object::class);
-            $deleteMetadata[$object] = $metadata;
-            $this->maybeFirePreRemoveEvent($object);
-        }
-
-        // Check if changesets have changed during events
-        $this->unitOfWork->computeChangesets();
-        if ($this->unitOfWork->hash !== $hash) {
-            goto CheckChangesetsAndFireEvents;
-        }
-
-        $tasks = [];
-        /** @var ClassMetadata $metadata */
-        foreach (uniqueList(weakmap_values($updateMetadata)) as $metadata) {
-            $documents = iterable($this->unitOfWork->getChangedObjects())
-                ->filter(fn (object $object) => $updateMetadata[$object] === $metadata)
-                ->map(fn (object $object) => $this->unitOfWork->changesets[$object]->newDocument);
-
-            foreach (getItemsByBatches($documents, $flushBatchSize) as $documents) {
-                $docs = [...$documents];
-                $tasks[] = $this->meili->index($metadata->bucketName)->updateDocuments($docs);
-            }
-        }
-
-        // Process Deletions
-        foreach (uniqueList(weakmap_values($deleteMetadata)) as $metadata) {
-            $scheduledDeletions = iterable($this->unitOfWork->removals)
-                ->filter(fn (object $object) => $deleteMetadata[$object] === $metadata);
-            foreach (getItemsByBatches($scheduledDeletions, $flushBatchSize) as $objects) {
-                $tasks[] = $this->meili->index($metadata->bucketName)->deleteDocuments([
-                    'filter' => (string) field($metadata->primaryKey)->isIn(
-                        iterable($objects)
-                            ->map(function (object $object) {
-                                $classMetadata = $this->getClassMetadata($object::class);
-
-                                return $this->hydrater->getIdFromObject($object, $classMetadata);
-                            })
-                            ->asArray(),
-                    ),
-                ]);
-            }
-        }
-
-        $this->meili->waitForTasks(
-            array_column($tasks, 'taskUid'),
-            $this->options['flushTimeoutMs'],
-            $this->options['flushCheckIntervalMs'],
-        );
-
-        // Update identity map
-        foreach ($this->unitOfWork->getChangedObjects() as $object) {
-            $this->objects->rememberState($object, $this->unitOfWork->changesets[$object]->newDocument);
-        }
-
-        // Fire post-flush events
-        $this->firePostFlushEvents();
     }
 }

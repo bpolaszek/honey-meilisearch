@@ -5,7 +5,7 @@
   "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
-      "Honey\\MeilisearchAdapter\\": "src/"
+      "Honey\\ODM\\Meilisearch\\": "src/"
     },
     "files": [
       "src/functions.php"
@@ -13,14 +13,13 @@
   },
   "require": {
     "php": ">=8.4",
-    "honey/odm": "dev-main",
+    "honey/odm-core": "dev-main",
     "bentools/meilisearch-filters": "^1.0",
-    "meilisearch/meilisearch-php": "~1.13",
-    "symfony/property-access": "^7.2",
+    "meilisearch/meilisearch-php": "^1.16",
     "symfony/options-resolver": "^7.2"
   },
   "repositories": {
-    "honey/odm": {
+    "honey/odm-core": {
       "type": "path",
       "url": "/Users/benoit/Projects/Perso/honey-odm"
     }

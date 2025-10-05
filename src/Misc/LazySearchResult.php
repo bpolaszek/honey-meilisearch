@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Honey\MeilisearchAdapter\Misc;
+namespace Honey\ODM\Meilisearch\Misc;
 
 use Closure;
-use Honey\Odm\Misc\ResultInterface;
+use Honey\ODM\Core\Misc\ResultInterface;
 use IteratorAggregate;
 use Meilisearch\Client;
 use Traversable;
