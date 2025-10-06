@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Honey\ODM\Meilisearch\Result;
 
-use BenTools\ReflectionPlus\Reflection;
-use Closure;
-use Exception;
 use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
 use Meilisearch\Client;
 use Meilisearch\Contracts\DocumentsQuery;
@@ -16,22 +13,13 @@ use const PHP_INT_MAX;
 
 final class DocumentResultset implements \IteratorAggregate, \Countable
 {
-    public private(set) int $totalItems;
+    private(set) int $totalItems;
     private int $limit;
-    private ?Closure $transformer;
     public function __construct(
         private readonly Client $meili,
         private readonly DocumentsCriteriaWrapper $criteria,
     ) {
         $this->limit = $this->criteria->query?->toArray()['limit'] ?? PHP_INT_MAX;
-    }
-
-    public function withTransformer(Closure $transformer): self
-    {
-        $that = clone $this;
-        $that->transformer = $transformer;
-
-        return $that;
     }
 
     public function getIterator(): Traversable
@@ -48,7 +36,7 @@ final class DocumentResultset implements \IteratorAggregate, \Countable
         $this->totalItems ??= $result->getTotal();
 
         foreach ($result as $item) {
-            yield $this->transformer ? ($this->transformer)($item) : $item;
+            yield $item;
             $i++;
             if ($i >= $this->limit) {
                 return;

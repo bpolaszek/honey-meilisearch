@@ -3,7 +3,7 @@
 namespace Honey\ODM\Meilisearch\Repository;
 
 use Honey\ODM\Core\Repository\ObjectRepositoryInterface as BaseObjectRepositoryInterface;
-use Honey\ODM\Meilisearch\Result\DocumentResultset;
+use Honey\ODM\Meilisearch\Result\ObjectResultset;
 use Meilisearch\Contracts\DocumentsQuery;
 
 /**
@@ -12,7 +12,7 @@ use Meilisearch\Contracts\DocumentsQuery;
  */
 interface ObjectRepositoryInterface extends BaseObjectRepositoryInterface
 {
-    public function findBy(mixed $criteria): DocumentResultset;
+    public function findBy(mixed $criteria): ObjectResultset;
 
-    public function findAll(): DocumentResultset;
+    public function findAll(): ObjectResultset;
 }

@@ -3,17 +3,13 @@
 namespace Honey\ODM\Meilisearch\Repository;
 
 
-use Countable;
 use Honey\ODM\Core\Manager\ObjectManager;
 use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
-use Honey\ODM\Meilisearch\Result\DocumentResultset;
+use Honey\ODM\Meilisearch\Result\ObjectResultset;
 use Honey\ODM\Meilisearch\Transport\MeiliTransport;
 use InvalidArgumentException;
 use Meilisearch\Contracts\DocumentsQuery;
-use Meilisearch\Contracts\DocumentsResults;
-use Traversable;
 
-use function array_map;
 use function get_debug_type;
 
 /**
@@ -28,19 +24,17 @@ final readonly class ObjectRepository implements ObjectRepositoryInterface
     ) {
     }
 
-    public function findBy(mixed $criteria): DocumentResultset
+    public function findBy(mixed $criteria): ObjectResultset
     {
         /** @var MeiliTransport $transport */
         $transport = $this->manager->transport;
         $classMetadata = $this->manager->classMetadataRegistry->getClassMetadata($this->className);
         $documents = $transport->retrieveDocuments(new DocumentsCriteriaWrapper($classMetadata->index, $criteria));
 
-        return $documents->withTransformer(
-            fn (array $document) => $this->manager->factory($document, $classMetadata),
-        );
+        return new ObjectResultset($this->manager, $documents, $classMetadata);
     }
 
-    public function findAll(): DocumentResultset
+    public function findAll(): ObjectResultset
     {
         return $this->findBy(null);
     }
