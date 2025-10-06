@@ -11,7 +11,8 @@ use Honey\ODM\Core\Transport\TransportInterface;
 use Honey\ODM\Core\UnitOfWork\UnitOfWork;
 use Honey\ODM\Meilisearch\Config\AsAttribute;
 use Honey\ODM\Meilisearch\Config\AsDocument;
-use Honey\ODM\Meilisearch\Criteria\DocumentsCriteria;
+use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
+use Honey\ODM\Meilisearch\Result\DocumentResultset;
 use Meilisearch\Client;
 use Meilisearch\Contracts\DocumentsQuery;
 use Meilisearch\Contracts\DocumentsResults;
@@ -26,7 +27,7 @@ use function Honey\ODM\Meilisearch\getItemsByBatches;
 use function Honey\ODM\Meilisearch\weakmap_values;
 
 /**
- * @implements TransportInterface<DocumentsCriteria>
+ * @implements TransportInterface<DocumentsCriteriaWrapper>
  */
 final readonly class MeiliTransport implements TransportInterface
 {
@@ -113,9 +114,9 @@ final readonly class MeiliTransport implements TransportInterface
         );
     }
 
-    public function retrieveDocuments(mixed $criteria): DocumentsResults
+    public function retrieveDocuments(mixed $criteria): DocumentResultset
     {
-        return $this->meili->index($criteria->index)->getDocuments($criteria->getQuery());
+        return new DocumentResultset($this->meili, $criteria);
     }
 
     public function retrieveDocumentById(ClassMetadataInterface $classMetadata, mixed $id): ?array

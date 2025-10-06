@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fcac52e43b15e284e77fab0088bdb731",
+    "content-hash": "c11c837392b0c7770ac290b7fc92f9c0",
     "packages": [
         {
             "name": "bentools/iterable-functions",
@@ -142,8 +142,8 @@
             "version": "dev-main",
             "dist": {
                 "type": "path",
-                "url": "/Users/benoit/Projects/Perso/honey-odm",
-                "reference": "7674c68712e38387c46ad5d4eb3407f4fdd0c54d"
+                "url": "../honey-odm",
+                "reference": "567c9cf7d9e0dba841b01c7df63d5b9c6157ee45"
             },
             "require": {
                 "bentools/iterable-functions": "^2.3",
@@ -198,7 +198,7 @@
                 "MIT"
             ],
             "transport-options": {
-                "relative": false
+                "relative": true
             }
         },
         {

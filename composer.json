@@ -21,7 +21,7 @@
   "repositories": {
     "honey/odm-core": {
       "type": "path",
-      "url": "/Users/benoit/Projects/Perso/honey-odm"
+      "url": "../honey-odm"
     }
   },
   "require-dev": {
