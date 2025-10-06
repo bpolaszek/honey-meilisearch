@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Honey\ODM\Meilisearch\ObjectManager;
 
 use Honey\ODM\Core\Config\ClassMetadataRegistryInterface;

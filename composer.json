@@ -27,11 +27,27 @@
   "require-dev": {
     "symfony/var-dumper": "^7.2",
     "symfony/http-client": "^7.2",
-    "nyholm/psr7": "^1.8"
+    "nyholm/psr7": "^1.8",
+    "pestphp/pest": "^4.1",
+    "phpstan/phpstan": "^2.1",
+    "squizlabs/php_codesniffer": "^4.0",
+    "friendsofphp/php-cs-fixer": "^3.88"
   },
   "config": {
     "allow-plugins": {
-      "php-http/discovery": true
+      "php-http/discovery": true,
+      "pestphp/pest-plugin": true
     }
+  },
+  "scripts": {
+    "style:check": "vendor/bin/phpcs",
+    "style:fix": "vendor/bin/php-cs-fixer fix src --allow-risky=yes; vendor/bin/phpcbf",
+    "types:check": "vendor/bin/phpstan",
+    "tests:run": "vendor/bin/pest --coverage --min=100",
+    "ci:check": [
+      "@style:check",
+      "@types:check",
+      "@tests:run"
+    ]
   }
 }

@@ -13,9 +13,12 @@ use const PHP_INT_MAX;
 
 /**
  * @internal
+ *
  * @template TKey
  * @template TValue
+ *
  * @param WeakMap<TKey, TValue> $weakmap
+ *
  * @return array<TValue>
  */
 function weakmap_values(WeakMap $weakmap): array
@@ -32,6 +35,7 @@ function weakmap_values(WeakMap $weakmap): array
 
 /**
  * @template T
+ *
  * @return iterable<T[]>
  */
 function getItemsByBatches(iterable $items, int $batchSize): iterable

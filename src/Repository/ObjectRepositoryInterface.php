@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Honey\ODM\Meilisearch\Repository;
 
 use Honey\ODM\Core\Repository\ObjectRepositoryInterface as BaseObjectRepositoryInterface;
@@ -8,6 +10,7 @@ use Meilisearch\Contracts\DocumentsQuery;
 
 /**
  * @template O of object
+ *
  * @extends  BaseObjectRepositoryInterface<DocumentsQuery, O>
  */
 interface ObjectRepositoryInterface extends BaseObjectRepositoryInterface

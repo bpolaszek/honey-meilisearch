@@ -30,7 +30,6 @@ final class ClassMetadataRegistry implements ClassMetadataRegistryInterface
     /**
      * @param array<string, mixed> $document
      * @param class-string<object> $className
-     * @return mixed
      */
     public function getIdFromDocument(array $document, string $className): mixed
     {

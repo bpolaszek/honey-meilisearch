@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace Honey\ODM\Meilisearch\Result;
 
+use Countable;
 use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
+use IteratorAggregate;
 use Meilisearch\Client;
 use Meilisearch\Contracts\DocumentsQuery;
 use Traversable;
 
 use const PHP_INT_MAX;
 
-final class DocumentResultset implements \IteratorAggregate, \Countable
+final class DocumentResultset implements IteratorAggregate, Countable
 {
-    private(set) int $totalItems;
+    public private(set) int $totalItems;
     private int $limit;
+
     public function __construct(
         private readonly Client $meili,
         private readonly DocumentsCriteriaWrapper $criteria,
@@ -37,7 +40,7 @@ final class DocumentResultset implements \IteratorAggregate, \Countable
 
         foreach ($result as $item) {
             yield $item;
-            $i++;
+            ++$i;
             if ($i >= $this->limit) {
                 return;
             }

@@ -1,7 +1,8 @@
 <?php
 
-namespace Honey\ODM\Meilisearch\Repository;
+declare(strict_types=1);
 
+namespace Honey\ODM\Meilisearch\Repository;
 
 use Honey\ODM\Core\Manager\ObjectManager;
 use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
@@ -14,6 +15,7 @@ use function get_debug_type;
 
 /**
  * @template O of object
+ *
  * @implements ObjectRepositoryInterface<O>
  */
 final readonly class ObjectRepository implements ObjectRepositoryInterface
@@ -42,9 +44,7 @@ final readonly class ObjectRepository implements ObjectRepositoryInterface
     public function findOneBy(mixed $criteria): ?object
     {
         if (!$criteria instanceof DocumentsQuery) {
-            throw new InvalidArgumentException(
-                sprintf('Expected %s, got %s', DocumentsQuery::class, get_debug_type($criteria)),
-            );
+            throw new InvalidArgumentException(sprintf('Expected %s, got %s', DocumentsQuery::class, get_debug_type($criteria)));
         }
 
         $criteria = clone $criteria;
@@ -67,5 +67,4 @@ final readonly class ObjectRepository implements ObjectRepositoryInterface
 
         return $this->manager->factory($document, $classMetadata);
     }
-
 }

@@ -4,23 +4,25 @@ declare(strict_types=1);
 
 namespace Honey\ODM\Meilisearch\Result;
 
+use Countable;
 use Honey\ODM\Core\Config\ClassMetadataInterface;
 use Honey\ODM\Core\Manager\ObjectManager;
+use IteratorAggregate;
 use Traversable;
 use WeakMap;
 
-final class ObjectResultset implements \IteratorAggregate, \Countable
+final class ObjectResultset implements IteratorAggregate, Countable
 {
-    private(set) Weakmap $geo;
-    private(set) Weakmap $vectors;
+    public private(set) WeakMap $geo;
+    public private(set) WeakMap $vectors;
 
     public function __construct(
         private readonly ObjectManager $objectManager,
         private readonly DocumentResultset $documents,
         private readonly ClassMetadataInterface $classMetadata,
     ) {
-        $this->geo = new Weakmap();
-        $this->vectors = new Weakmap();
+        $this->geo = new WeakMap();
+        $this->vectors = new WeakMap();
     }
 
     public function getIterator(): Traversable

@@ -15,7 +15,6 @@ use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
 use Honey\ODM\Meilisearch\Result\DocumentResultset;
 use Meilisearch\Client;
 use Meilisearch\Contracts\DocumentsQuery;
-use Meilisearch\Contracts\DocumentsResults;
 use Meilisearch\Exceptions\ApiException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use WeakMap;
@@ -53,7 +52,6 @@ final readonly class MeiliTransport implements TransportInterface
 
     /**
      * @param UnitOfWork<AsDocument, AsAttribute, DocumentsQuery> $unitOfWork
-     * @return void
      */
     public function flushPendingOperations(UnitOfWork $unitOfWork): void
     {
@@ -131,5 +129,4 @@ final readonly class MeiliTransport implements TransportInterface
             throw $e;
         }
     }
-
 }
