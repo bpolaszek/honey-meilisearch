@@ -21,6 +21,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @extends BaseObjectManager<AsDocument, AsAttribute, DocumentsCriteriaWrapper>
+ *
  * @phpstan-import-type MeiliTransportOptions from MeiliTransport
  */
 final class ObjectManager extends BaseObjectManager
@@ -51,7 +52,9 @@ final class ObjectManager extends BaseObjectManager
 
     /**
      * @template O of object
+     *
      * @param class-string<O> $className
+     *
      * @return ObjectRepositoryInterface<O>
      */
     public function getRepository(string $className): ObjectRepositoryInterface // @phpstan-ignore method.childReturnType

@@ -37,6 +37,7 @@ function weakmap_values(WeakMap $weakmap): array
  * @template T
  *
  * @param iterable<T> $items
+ *
  * @return iterable<iterable<T>>
  */
 function getItemsByBatches(iterable $items, int $batchSize): iterable

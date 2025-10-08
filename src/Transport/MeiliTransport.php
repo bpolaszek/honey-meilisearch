@@ -14,7 +14,6 @@ use Honey\ODM\Meilisearch\Config\AsDocument;
 use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
 use Honey\ODM\Meilisearch\Result\DocumentResultset;
 use Meilisearch\Client;
-use Meilisearch\Contracts\DocumentsQuery;
 use Meilisearch\Exceptions\ApiException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use WeakMap;
@@ -27,6 +26,7 @@ use function Honey\ODM\Meilisearch\weakmap_values;
 
 /**
  * @implements TransportInterface<DocumentsCriteriaWrapper>
+ *
  * @phpstan-type MeiliTransportOptions array{flushBatchSize?: int, flushTimeoutMs?: int, flushCheckIntervalMs?: int}
  */
 final readonly class MeiliTransport implements TransportInterface
@@ -141,7 +141,7 @@ final readonly class MeiliTransport implements TransportInterface
     public function retrieveDocumentById(ClassMetadataInterface $classMetadata, mixed $id): ?array // @phpstan-ignore method.childParameterType
     {
         try {
-            /** @var AsDocument<object, AsAttribute> $classMetadata */
+            /* @var AsDocument<object, AsAttribute> $classMetadata */
             return $this->meili->index($classMetadata->index)->getDocument($id);
         } catch (ApiException $e) {
             if (404 === $e->httpStatus) {

@@ -61,7 +61,7 @@ final readonly class ObjectRepository implements ObjectRepositoryInterface
         $criteria = clone $criteria;
         $criteria->setLimit(1);
 
-        /** @var O|null */
+        /* @var O|null */
         return [...$this->findBy($criteria)][0] ?? null;
     }
 
