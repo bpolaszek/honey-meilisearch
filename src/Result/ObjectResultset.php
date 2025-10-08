@@ -7,15 +7,32 @@ namespace Honey\ODM\Meilisearch\Result;
 use Countable;
 use Honey\ODM\Core\Config\ClassMetadataInterface;
 use Honey\ODM\Core\Manager\ObjectManager;
+use Honey\ODM\Meilisearch\Config\AsAttribute;
+use Honey\ODM\Meilisearch\Config\AsDocument;
+use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
 use IteratorAggregate;
 use Traversable;
 use WeakMap;
 
+/**
+ * @implements IteratorAggregate<int, object>
+ */
 final class ObjectResultset implements IteratorAggregate, Countable
 {
+    /**
+     * @var WeakMap<object, array<string, mixed>>
+     */
     public private(set) WeakMap $geo;
+
+    /**
+     * @var WeakMap<object, array<string, mixed>>
+     */
     public private(set) WeakMap $vectors;
 
+    /**
+     * @param ObjectManager<AsDocument<object, AsAttribute>, AsAttribute, DocumentsCriteriaWrapper> $objectManager
+     * @param ClassMetadataInterface<object, AsAttribute> $classMetadata
+     */
     public function __construct(
         private readonly ObjectManager $objectManager,
         private readonly DocumentResultset $documents,

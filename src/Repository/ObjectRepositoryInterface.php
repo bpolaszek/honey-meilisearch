@@ -11,7 +11,7 @@ use Meilisearch\Contracts\DocumentsQuery;
 /**
  * @template O of object
  *
- * @extends  BaseObjectRepositoryInterface<DocumentsQuery, O>
+ * @extends  BaseObjectRepositoryInterface<DocumentsQuery|null, O>
  */
 interface ObjectRepositoryInterface extends BaseObjectRepositoryInterface
 {

@@ -7,7 +7,6 @@ namespace Honey\ODM\Meilisearch\Config;
 use Attribute;
 use Honey\ODM\Core\Config\ClassMetadataInterface;
 use Honey\ODM\Core\Config\PropertyMetadataInterface;
-use Honey\ODM\Core\Tests\Implementation\Config\TestAsField;
 use ReflectionClass;
 use RuntimeException;
 
@@ -15,7 +14,7 @@ use function array_find;
 
 /**
  * @template O of object
- * @template P of TestAsField
+ * @template P of AsAttribute
  *
  * @implements ClassMetadataInterface<O, P>
  */

@@ -13,6 +13,9 @@ use Traversable;
 
 use const PHP_INT_MAX;
 
+/**
+ * @implements IteratorAggregate<int, array<string, mixed>>
+ */
 final class DocumentResultset implements IteratorAggregate, Countable
 {
     public private(set) int $totalItems;
@@ -32,8 +35,12 @@ final class DocumentResultset implements IteratorAggregate, Countable
         return $this->iterate((clone $documentsQuery)->setLimit($this->criteria->batchSize));
     }
 
-    private function iterate(DocumentsQuery $query, $i = 0): Traversable
+    /**
+     * @return Traversable<int, array<string, mixed>>
+     */
+    private function iterate(DocumentsQuery $query, int $i = 0): Traversable
     {
+        /** @var non-negative-int $offset */
         $offset = $query->toArray()['offset'] ?? 0;
         $result = $this->meili->index($this->criteria->index)->getDocuments($query);
         $this->totalItems ??= $result->getTotal();
@@ -58,6 +65,7 @@ final class DocumentResultset implements IteratorAggregate, Countable
 
     public function count(): int
     {
+        // @phpstan-ignore return.type
         return $this->totalItems ??= (function () {
             $query = clone ($this->criteria->query ?? new DocumentsQuery());
             $query->setLimit(0);

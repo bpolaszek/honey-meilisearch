@@ -27,6 +27,7 @@ use function Honey\ODM\Meilisearch\weakmap_values;
 
 /**
  * @implements TransportInterface<DocumentsCriteriaWrapper>
+ * @phpstan-type MeiliTransportOptions array{flushBatchSize?: int, flushTimeoutMs?: int, flushCheckIntervalMs?: int}
  */
 final readonly class MeiliTransport implements TransportInterface
 {
@@ -36,8 +37,14 @@ final readonly class MeiliTransport implements TransportInterface
         'flushCheckIntervalMs' => 50,
     ];
 
+    /**
+     * @var MeiliTransportOptions
+     */
     public array $options;
 
+    /**
+     * @param MeiliTransportOptions $options
+     */
     public function __construct(
         public Client $meili,
         array $options = [],
@@ -51,9 +58,9 @@ final readonly class MeiliTransport implements TransportInterface
     }
 
     /**
-     * @param UnitOfWork<AsDocument, AsAttribute, DocumentsQuery> $unitOfWork
+     * @param UnitOfWork<AsDocument<object, AsAttribute>, AsAttribute, DocumentsCriteriaWrapper> $unitOfWork
      */
-    public function flushPendingOperations(UnitOfWork $unitOfWork): void
+    public function flushPendingOperations(UnitOfWork $unitOfWork): void // @phpstan-ignore method.childParameterType
     {
         $tasks = [];
         $flushBatchSize = $this->options['flushBatchSize'];
@@ -64,10 +71,14 @@ final readonly class MeiliTransport implements TransportInterface
         // Process upserts
         $objectsIndex = new WeakMap();
         foreach ($unitOfWork->getPendingUpserts() as $object) {
+            /** @var AsDocument<object, AsAttribute> $metadata */
             $metadata = $classMetadataRegistry->getClassMetadata($object::class);
             $objectsIndex[$object] = $metadata->index;
         }
-        $updateIndexes = new UniqueList([...weakmap_values($objectsIndex)]);
+        $updateIndexes = new UniqueList();
+        foreach (weakmap_values($objectsIndex) as $index) {
+            $updateIndexes[] = $index;
+        }
         foreach ($updateIndexes as $index) {
             $objects = iterable($unitOfWork->getPendingUpserts())
                 ->filter(fn (object $object) => $objectsIndex[$object] === $index);
@@ -86,20 +97,27 @@ final readonly class MeiliTransport implements TransportInterface
 
         // Process deletions
         $objectsIndex = new WeakMap();
+        $indexMetadataMap = [];
         foreach ($unitOfWork->getPendingDeletes() as $object) {
+            /** @var AsDocument<object, AsAttribute> $metadata */
             $metadata = $classMetadataRegistry->getClassMetadata($object::class);
             $objectsIndex[$object] = $metadata->index;
+            $indexMetadataMap[$metadata->index] = $metadata;
         }
-        $deletionIndexes = new UniqueList([...weakmap_values($objectsIndex)]);
+        $deletionIndexes = new UniqueList();
+        foreach (weakmap_values($objectsIndex) as $index) {
+            $deletionIndexes[] = $index;
+        }
         foreach ($deletionIndexes as $index) {
+            $metadata = $indexMetadataMap[$index];
             foreach (getItemsByBatches($unitOfWork->getPendingDeletes(), $flushBatchSize) as $objects) {
                 $primaryKey = $metadata->getIdPropertyMetadata()->name
                     ?? $metadata->getIdPropertyMetadata()->reflection->name;
                 $tasks[] = $this->meili->index($index)->deleteDocuments([
                     'filter' => (string) field($primaryKey)->isIn(
-                        iterable($objects)
+                        array_values(iterable($objects)
                             ->map(fn (object $object) => $classMetadataRegistry->getIdFromObject($object))
-                            ->asArray(),
+                            ->asArray()),
                     ),
                 ]);
             }
@@ -117,9 +135,13 @@ final readonly class MeiliTransport implements TransportInterface
         return new DocumentResultset($this->meili, $criteria);
     }
 
-    public function retrieveDocumentById(ClassMetadataInterface $classMetadata, mixed $id): ?array
+    /**
+     * @param ClassMetadataInterface<object, AsAttribute> $classMetadata
+     */
+    public function retrieveDocumentById(ClassMetadataInterface $classMetadata, mixed $id): ?array // @phpstan-ignore method.childParameterType
     {
         try {
+            /** @var AsDocument<object, AsAttribute> $classMetadata */
             return $this->meili->index($classMetadata->index)->getDocument($id);
         } catch (ApiException $e) {
             if (404 === $e->httpStatus) {

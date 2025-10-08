@@ -10,6 +10,9 @@ final class DocumentsCriteriaWrapper
 {
     private const int DEFAULT_BATCH_SIZE = 1000;
 
+    /**
+     * @param non-negative-int $batchSize
+     */
     public function __construct(
         public readonly string $index,
         public readonly ?DocumentsQuery $query = null,

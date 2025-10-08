@@ -14,7 +14,7 @@ use const PHP_INT_MAX;
 /**
  * @internal
  *
- * @template TKey
+ * @template TKey of object
  * @template TValue
  *
  * @param WeakMap<TKey, TValue> $weakmap
@@ -36,12 +36,13 @@ function weakmap_values(WeakMap $weakmap): array
 /**
  * @template T
  *
- * @return iterable<T[]>
+ * @param iterable<T> $items
+ * @return iterable<iterable<T>>
  */
 function getItemsByBatches(iterable $items, int $batchSize): iterable
 {
     if (PHP_INT_MAX === $batchSize) {
-        return [$items];
+        return [is_array($items) ? $items : iterator_to_array($items)];
     }
 
     return iterable_chunk($items, $batchSize);

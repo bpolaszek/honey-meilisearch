@@ -9,8 +9,6 @@ use Honey\ODM\Core\Config\ClassMetadataInterface;
 use Honey\ODM\Core\Config\PropertyMetadataInterface;
 use Honey\ODM\Core\Config\TransformerMetadata;
 use Honey\ODM\Core\Config\TransformerMetadataInterface;
-use Honey\ODM\Core\Tests\Implementation\Config\TestAsDocument;
-use Honey\ODM\Core\Tests\Implementation\Config\TestAsField;
 use ReflectionProperty;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
@@ -19,7 +17,7 @@ final class AsAttribute implements PropertyMetadataInterface
     public ReflectionProperty $reflection;
 
     /**
-     * @var TestAsDocument<object, TestAsField>
+     * @var AsDocument<object, AsAttribute>
      */
     public ClassMetadataInterface $classMetadata;
 
