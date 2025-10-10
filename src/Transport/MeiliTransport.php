@@ -136,12 +136,11 @@ final readonly class MeiliTransport implements TransportInterface
     }
 
     /**
-     * @param ClassMetadataInterface<object, AsAttribute> $classMetadata
+     * @param AsDocument<object, AsAttribute> $classMetadata
      */
-    public function retrieveDocumentById(ClassMetadataInterface $classMetadata, mixed $id): ?array // @phpstan-ignore method.childParameterType
+    public function retrieveDocumentById(ClassMetadataInterface $classMetadata, mixed $id): ?array
     {
         try {
-            /* @var AsDocument<object, AsAttribute> $classMetadata */
             return $this->meili->index($classMetadata->index)->getDocument($id);
         } catch (ApiException $e) {
             if (404 === $e->httpStatus) {

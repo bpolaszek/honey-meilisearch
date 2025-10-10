@@ -15,7 +15,13 @@ use Meilisearch\Contracts\DocumentsQuery;
  */
 interface ObjectRepositoryInterface extends BaseObjectRepositoryInterface
 {
+    /**
+     * @return ObjectResultset<O>
+     */
     public function findBy(mixed $criteria): ObjectResultset;
 
+    /**
+     * @return ObjectResultset<O>
+     */
     public function findAll(): ObjectResultset;
 }

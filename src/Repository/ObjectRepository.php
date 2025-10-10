@@ -41,7 +41,7 @@ final readonly class ObjectRepository implements ObjectRepositoryInterface
         $documentsQuery = $criteria instanceof DocumentsQuery ? $criteria : null;
         $documents = $transport->retrieveDocuments(new DocumentsCriteriaWrapper($classMetadata->index, $documentsQuery));
 
-        return new ObjectResultset($this->manager, $documents, $classMetadata);
+        return new ObjectResultset($this->manager, $documents, $classMetadata); // @phpstan-ignore return.type
     }
 
     public function findAll(): ObjectResultset
@@ -61,7 +61,6 @@ final readonly class ObjectRepository implements ObjectRepositoryInterface
         $criteria = clone $criteria;
         $criteria->setLimit(1);
 
-        /* @var O|null */
         return [...$this->findBy($criteria)][0] ?? null;
     }
 

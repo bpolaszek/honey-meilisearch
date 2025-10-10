@@ -15,23 +15,25 @@ use Traversable;
 use WeakMap;
 
 /**
- * @implements IteratorAggregate<int, object>
+ * @template O of object
+ *
+ * @implements IteratorAggregate<int, O>
  */
 final class ObjectResultset implements IteratorAggregate, Countable
 {
     /**
-     * @var WeakMap<object, array<string, mixed>>
+     * @var WeakMap<O, array<string, mixed>>
      */
     public private(set) WeakMap $geo;
 
     /**
-     * @var WeakMap<object, array<string, mixed>>
+     * @var WeakMap<O, array<string, mixed>>
      */
     public private(set) WeakMap $vectors;
 
     /**
-     * @param ObjectManager<AsDocument<object, AsAttribute>, AsAttribute, DocumentsCriteriaWrapper> $objectManager
-     * @param ClassMetadataInterface<object, AsAttribute> $classMetadata
+     * @param ObjectManager<AsDocument<O, AsAttribute>, AsAttribute, DocumentsCriteriaWrapper> $objectManager
+     * @param ClassMetadataInterface<O, AsAttribute> $classMetadata
      */
     public function __construct(
         private readonly ObjectManager $objectManager,
