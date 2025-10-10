@@ -11,6 +11,11 @@
       "src/functions.php"
     ]
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Honey\\ODM\\Meilisearch\\Tests\\": "tests/"
+    }
+  },
   "require": {
     "php": ">=8.4",
     "honey/odm-core": "dev-main",
