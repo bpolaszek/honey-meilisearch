@@ -21,7 +21,7 @@ use WeakMap;
 use function array_column;
 use function BenTools\IterableFunctions\iterable;
 use function Bentools\MeilisearchFilters\field;
-use function Honey\ODM\Meilisearch\getItemsByBatches;
+use function Honey\ODM\Meilisearch\iterable_chunk;
 use function Honey\ODM\Meilisearch\weakmap_values;
 
 /**
@@ -89,7 +89,7 @@ final readonly class MeiliTransport implements TransportInterface
                 return $mapper->objectToDocument($object, [], $context);
             });
 
-            foreach (getItemsByBatches($documents, $flushBatchSize) as $documents) {
+            foreach (iterable_chunk($documents, $flushBatchSize) as $documents) {
                 $docs = [...$documents];
                 $tasks[] = $this->meili->index($index)->updateDocuments($docs);
             }
@@ -110,7 +110,7 @@ final readonly class MeiliTransport implements TransportInterface
         }
         foreach ($deletionIndexes as $index) {
             $metadata = $indexMetadataMap[$index];
-            foreach (getItemsByBatches($unitOfWork->getPendingDeletes(), $flushBatchSize) as $objects) {
+            foreach (iterable_chunk($unitOfWork->getPendingDeletes(), $flushBatchSize) as $objects) {
                 $primaryKey = $metadata->getIdPropertyMetadata()->name
                     ?? $metadata->getIdPropertyMetadata()->reflection->name;
                 $tasks[] = $this->meili->index($index)->deleteDocuments([

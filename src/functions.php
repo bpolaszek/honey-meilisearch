@@ -6,7 +6,6 @@ namespace Honey\ODM\Meilisearch;
 
 use WeakMap;
 
-use function BenTools\IterableFunctions\iterable_chunk;
 use function in_array;
 
 use const PHP_INT_MAX;
@@ -40,11 +39,11 @@ function weakmap_values(WeakMap $weakmap): array
  *
  * @return iterable<iterable<T>>
  */
-function getItemsByBatches(iterable $items, int $batchSize): iterable
+function iterable_chunk(iterable $items, int $batchSize = PHP_INT_MAX): iterable
 {
     if (PHP_INT_MAX === $batchSize) {
         return [is_array($items) ? $items : iterator_to_array($items)];
     }
 
-    return iterable_chunk($items, $batchSize);
+    return \BenTools\IterableFunctions\iterable_chunk($items, $batchSize);
 }
