@@ -4,19 +4,25 @@ declare(strict_types=1);
 
 namespace Honey\ODM\Meilisearch\Result;
 
+use ArrayAccess;
 use Countable;
 use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
+use InvalidArgumentException;
 use IteratorAggregate;
 use Meilisearch\Client;
 use Meilisearch\Contracts\DocumentsQuery;
+use RuntimeException;
 use Traversable;
+
+use function count;
+use function is_int;
 
 use const PHP_INT_MAX;
 
 /**
  * @implements IteratorAggregate<int, array<string, mixed>>
  */
-final class DocumentResultset implements IteratorAggregate, Countable
+final class DocumentResultset implements IteratorAggregate, Countable, ArrayAccess
 {
     public private(set) int $totalItems;
     private int $limit;
@@ -72,5 +78,39 @@ final class DocumentResultset implements IteratorAggregate, Countable
 
             return $this->meili->index($this->criteria->index)->getDocuments($query)->getTotal();
         })();
+    }
+
+    public function offsetExists(mixed $offset): bool
+    {
+        return is_int($offset) && $offset < count($this);
+    }
+
+    public function offsetGet(mixed $offset): ?array
+    {
+        if (!is_int($offset)) {
+            throw new InvalidArgumentException('Offset must be an integer');
+        }
+
+        if ($offset >= count($this)) {
+            return null;
+        }
+
+        foreach ($this as $i => $item) {
+            if ($i === $offset) {
+                return $item;
+            }
+        }
+
+        return null;
+    }
+
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        throw new RuntimeException('ArrayAccess on this object is read-only.');
+    }
+
+    public function offsetUnset(mixed $offset): void
+    {
+        throw new RuntimeException('ArrayAccess on this object is read-only.');
     }
 }
