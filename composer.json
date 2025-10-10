@@ -36,7 +36,8 @@
     "pestphp/pest": "^4.1",
     "phpstan/phpstan": "^2.1",
     "squizlabs/php_codesniffer": "^4.0",
-    "friendsofphp/php-cs-fixer": "^3.88"
+    "friendsofphp/php-cs-fixer": "^3.88",
+    "symfony/dotenv": "^7.3"
   },
   "config": {
     "allow-plugins": {

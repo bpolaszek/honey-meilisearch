@@ -1,0 +1,664 @@
+[
+    {
+        "author_id": 1,
+        "author_name": "J.K. Rowling",
+        "books": [
+            4
+        ]
+    },
+    {
+        "author_id": 2,
+        "author_name": "Douglas Adams",
+        "books": [
+            13,
+            14,
+            18,
+            357,
+            359,
+            367,
+            368
+        ]
+    },
+    {
+        "author_id": 3,
+        "author_name": "Bill Bryson",
+        "books": [
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29
+        ]
+    },
+    {
+        "author_id": 4,
+        "author_name": "J.R.R. Tolkien",
+        "books": [
+            30,
+            31,
+            34
+        ]
+    },
+    {
+        "author_id": 5,
+        "author_name": "Chris Smith",
+        "books": [
+            36,
+            39
+        ]
+    },
+    {
+        "author_id": 6,
+        "author_name": "Jude Fisher",
+        "books": [
+            37
+        ]
+    },
+    {
+        "author_id": 7,
+        "author_name": "Gary Paulsen",
+        "books": [
+            50,
+            53
+        ]
+    },
+    {
+        "author_id": 8,
+        "author_name": "",
+        "books": [
+            51,
+            177,
+            681
+        ]
+    },
+    {
+        "author_id": 9,
+        "author_name": "Molly Hatchet",
+        "books": [
+            54
+        ]
+    },
+    {
+        "author_id": 10,
+        "author_name": "Dale Peck",
+        "books": [
+            55
+        ]
+    },
+    {
+        "author_id": 11,
+        "author_name": "Delia Sherman",
+        "books": [
+            58
+        ]
+    },
+    {
+        "author_id": 12,
+        "author_name": "Patricia A. McKillip",
+        "books": [
+            59
+        ]
+    },
+    {
+        "author_id": 13,
+        "author_name": "Zilpha Keatley Snyder",
+        "books": [
+            61
+        ]
+    },
+    {
+        "author_id": 14,
+        "author_name": "Kate Horsley",
+        "books": [
+            63
+        ]
+    },
+    {
+        "author_id": 15,
+        "author_name": "Philippa Carr",
+        "books": [
+            66
+        ]
+    },
+    {
+        "author_id": 16,
+        "author_name": "Edward P. Jones",
+        "books": [
+            67,
+            69
+        ]
+    },
+    {
+        "author_id": 17,
+        "author_name": "Satyajit Das",
+        "books": [
+            71
+        ]
+    },
+    {
+        "author_id": 18,
+        "author_name": "Mark Smylie",
+        "books": [
+            72
+        ]
+    },
+    {
+        "author_id": 19,
+        "author_name": "John McPhee",
+        "books": [
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            83
+        ]
+    },
+    {
+        "author_id": 20,
+        "author_name": "Wendy Wasserstein",
+        "books": [
+            85,
+            86
+        ]
+    },
+    {
+        "author_id": 21,
+        "author_name": "Heidi Hayes Jacobs",
+        "books": [
+            89,
+            92,
+            94
+        ]
+    },
+    {
+        "author_id": 22,
+        "author_name": "Heidi Boyd",
+        "books": [
+            90,
+            100
+        ]
+    },
+    {
+        "author_id": 23,
+        "author_name": "Frank Herbert",
+        "books": [
+            103,
+            105,
+            106,
+            109,
+            117
+        ]
+    },
+    {
+        "author_id": 24,
+        "author_name": "Brian Herbert",
+        "books": [
+            107
+        ]
+    },
+    {
+        "author_id": 25,
+        "author_name": "Gary Russell",
+        "books": [
+            119
+        ]
+    },
+    {
+        "author_id": 26,
+        "author_name": "Bryce Courtenay",
+        "books": [
+            122,
+            123
+        ]
+    },
+    {
+        "author_id": 27,
+        "author_name": "Dave Lakhani",
+        "books": [
+            130
+        ]
+    },
+    {
+        "author_id": 28,
+        "author_name": "Louis E. Catron",
+        "books": [
+            131
+        ]
+    },
+    {
+        "author_id": 29,
+        "author_name": "Adam Ginsberg",
+        "books": [
+            132
+        ]
+    },
+    {
+        "author_id": 30,
+        "author_name": "Marsha Collier",
+        "books": [
+            133,
+            137,
+            139,
+            140
+        ]
+    },
+    {
+        "author_id": 31,
+        "author_name": "Julia Wilkinson",
+        "books": [
+            138
+        ]
+    },
+    {
+        "author_id": 32,
+        "author_name": "Ruby Ann Boxcar",
+        "books": [
+            142,
+            144
+        ]
+    },
+    {
+        "author_id": 33,
+        "author_name": "Rob Orsini",
+        "books": [
+            147
+        ]
+    },
+    {
+        "author_id": 34,
+        "author_name": "Gloria Goldreich",
+        "books": [
+            159
+        ]
+    },
+    {
+        "author_id": 35,
+        "author_name": "Anthony Thorlby",
+        "books": [
+            160
+        ]
+    },
+    {
+        "author_id": 36,
+        "author_name": "John Banville",
+        "books": [
+            163
+        ]
+    },
+    {
+        "author_id": 37,
+        "author_name": "Narendra Jadhav",
+        "books": [
+            165
+        ]
+    },
+    {
+        "author_id": 38,
+        "author_name": "Barry R. Cournoyer",
+        "books": [
+            171
+        ]
+    },
+    {
+        "author_id": 39,
+        "author_name": "Madeleine L'Engle",
+        "books": [
+            181,
+            201
+        ]
+    },
+    {
+        "author_id": 40,
+        "author_name": "Tara MacCarthy",
+        "books": [
+            182
+        ]
+    },
+    {
+        "author_id": 41,
+        "author_name": "Cynthia Harrod-Eagles",
+        "books": [
+            204
+        ]
+    },
+    {
+        "author_id": 42,
+        "author_name": "Charles Todd",
+        "books": [
+            205
+        ]
+    },
+    {
+        "author_id": 43,
+        "author_name": "Daniel Abraham",
+        "books": [
+            208
+        ]
+    },
+    {
+        "author_id": 44,
+        "author_name": "Charles Willeford",
+        "books": [
+            230
+        ]
+    },
+    {
+        "author_id": 45,
+        "author_name": "Tom Wolfe",
+        "books": [
+            231
+        ]
+    },
+    {
+        "author_id": 46,
+        "author_name": "Quentin Blake",
+        "books": [
+            244
+        ]
+    },
+    {
+        "author_id": 47,
+        "author_name": "Henry Miller",
+        "books": [
+            247,
+            250,
+            251,
+            252,
+            253
+        ]
+    },
+    {
+        "author_id": 48,
+        "author_name": "Marguerite Duras",
+        "books": [
+            277
+        ]
+    },
+    {
+        "author_id": 49,
+        "author_name": "Robert Louis Stevenson",
+        "books": [
+            295,
+            297
+        ]
+    },
+    {
+        "author_id": 50,
+        "author_name": "Ralph Ginzburg",
+        "books": [
+            313
+        ]
+    },
+    {
+        "author_id": 51,
+        "author_name": "Gabriel García Márquez",
+        "books": [
+            324
+        ]
+    },
+    {
+        "author_id": 52,
+        "author_name": "Dr. Seuss",
+        "books": [
+            330
+        ]
+    },
+    {
+        "author_id": 53,
+        "author_name": "Debbie Raleigh",
+        "books": [
+            332
+        ]
+    },
+    {
+        "author_id": 54,
+        "author_name": "Kevin Henkes",
+        "books": [
+            333
+        ]
+    },
+    {
+        "author_id": 55,
+        "author_name": "Patrick Süskind",
+        "books": [
+            337
+        ]
+    },
+    {
+        "author_id": 56,
+        "author_name": "Robert A. Heinlein",
+        "books": [
+            348,
+            350,
+            354,
+            355,
+            356
+        ]
+    },
+    {
+        "author_id": 57,
+        "author_name": "Nick  Webb",
+        "books": [
+            362
+        ]
+    },
+    {
+        "author_id": 58,
+        "author_name": "Harry G. Frankfurt",
+        "books": [
+            385
+        ]
+    },
+    {
+        "author_id": 59,
+        "author_name": "Nick Flynn",
+        "books": [
+            386
+        ]
+    },
+    {
+        "author_id": 60,
+        "author_name": "Garry Wills",
+        "books": [
+            394
+        ]
+    },
+    {
+        "author_id": 61,
+        "author_name": "Don DeLillo",
+        "books": [
+            399,
+            400,
+            403,
+            404,
+            406,
+            407,
+            408
+        ]
+    },
+    {
+        "author_id": 62,
+        "author_name": "Thomas Pynchon",
+        "books": [
+            409,
+            410,
+            411,
+            412,
+            414,
+            415,
+            416
+        ]
+    },
+    {
+        "author_id": 63,
+        "author_name": "Joan Didion",
+        "books": [
+            420,
+            421,
+            422,
+            423,
+            424,
+            425
+        ]
+    },
+    {
+        "author_id": 64,
+        "author_name": "Paul Auster",
+        "books": [
+            432,
+            434,
+            435,
+            446,
+            447,
+            453,
+            454,
+            456,
+            463,
+            466
+        ]
+    },
+    {
+        "author_id": 65,
+        "author_name": "Jared Diamond",
+        "books": [
+            475
+        ]
+    },
+    {
+        "author_id": 66,
+        "author_name": "Joseph A. Tainter",
+        "books": [
+            477
+        ]
+    },
+    {
+        "author_id": 67,
+        "author_name": "Robert D. Putnam",
+        "books": [
+            478
+        ]
+    },
+    {
+        "author_id": 68,
+        "author_name": "Philip K. Howard",
+        "books": [
+            481
+        ]
+    },
+    {
+        "author_id": 69,
+        "author_name": "Nikola Tesla",
+        "books": [
+            493
+        ]
+    },
+    {
+        "author_id": 70,
+        "author_name": "Carol Dommermuth-Costa",
+        "books": [
+            497
+        ]
+    },
+    {
+        "author_id": 71,
+        "author_name": "William Golding",
+        "books": [
+            524
+        ]
+    },
+    {
+        "author_id": 72,
+        "author_name": "Victor Davis Hanson",
+        "books": [
+            531
+        ]
+    },
+    {
+        "author_id": 73,
+        "author_name": "Alice Sebold",
+        "books": [
+            537,
+            538
+        ]
+    },
+    {
+        "author_id": 74,
+        "author_name": "Sharyn McCrumb",
+        "books": [
+            539
+        ]
+    },
+    {
+        "author_id": 75,
+        "author_name": "Elizabeth Castro",
+        "books": [
+            570
+        ]
+    },
+    {
+        "author_id": 76,
+        "author_name": "Chuck Klosterman",
+        "books": [
+            597,
+            599
+        ]
+    },
+    {
+        "author_id": 77,
+        "author_name": "Jane Feather",
+        "books": [
+            619
+        ]
+    },
+    {
+        "author_id": 78,
+        "author_name": "Robert M. Pirsig",
+        "books": [
+            629
+        ]
+    },
+    {
+        "author_id": 79,
+        "author_name": "John Harold Haynes",
+        "books": [
+            643
+        ]
+    },
+    {
+        "author_id": 80,
+        "author_name": "Ayn Rand",
+        "books": [
+            663,
+            664,
+            667
+        ]
+    },
+    {
+        "author_id": 81,
+        "author_name": "Colin  Wells",
+        "books": [
+            675
+        ]
+    },
+    {
+        "author_id": 82,
+        "author_name": "Billy Collins",
+        "books": [
+            676
+        ]
+    },
+    {
+        "author_id": 83,
+        "author_name": "Christopher Caswell",
+        "books": [
+            678
+        ]
+    }
+]
