@@ -24,6 +24,7 @@ use function is_int;
  * @template O of object
  *
  * @implements IteratorAggregate<int, O>
+ * @implements ArrayAccess<int, O>
  */
 final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
 {
