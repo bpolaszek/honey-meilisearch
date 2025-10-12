@@ -8,7 +8,9 @@ use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
 use Honey\ODM\Meilisearch\ObjectManager\ObjectManager;
 use Honey\ODM\Meilisearch\Result\ObjectResultset;
 use Honey\ODM\Meilisearch\Tests\Implementation\Document\Book;
+use InvalidArgumentException;
 use Meilisearch\Contracts\DocumentsQuery;
+use stdClass;
 
 use function afterAll;
 use function array_column;
@@ -27,7 +29,7 @@ beforeAll(function () {
     $tasks[] = meili()->index('authors')->addDocumentsJson(file_get_contents(dirname(__DIR__) . '/fixtures/authors.json'));
     $tasks[] = meili()->index('books')->addDocumentsJson(file_get_contents(dirname(__DIR__) . '/fixtures/books.json'));
     $tasks[] = meili()->index('books')->updateSortableAttributes(['id', 'author', 'publisher']);
-    $tasks[] = meili()->index('books')->updateFilterableAttributes(['id', 'author', 'publisher', 'language']);
+    $tasks[] = meili()->index('books')->updateFilterableAttributes(['id', 'author', 'publisher', 'language', 'isbn13']);
     meili()->waitForTasks(array_column($tasks, 'taskUid'));
 });
 
@@ -56,3 +58,39 @@ it('uses filters', function () {
     $books = $repository->findBy($query->setFilter(["language = spa"]));
     expect(count($books))->toBe(3);
 });
+
+it('finds a specific book by its id', function () {
+    $objectManager = new ObjectManager(meili());
+    $repository = $objectManager->getRepository(Book::class);
+    /** @var Book $book */
+    $book = $repository->find(619);
+    expect($book)->toBeInstanceOf(Book::class)
+        ->and($book->id)->toBe(619)
+        ->and($book->isbn)->toBe('9780439786190')
+    ;
+});
+
+it('returns null when the document does not exist', function () {
+    $objectManager = new ObjectManager(meili());
+    $repository = $objectManager->getRepository(Book::class);
+    /** @var Book $book */
+    $book = $repository->find(1337);
+    expect($book)->toBeNull();
+});
+
+it('finds a specific book using filters', function () {
+    $objectManager = new ObjectManager(meili());
+    $repository = $objectManager->getRepository(Book::class);
+    $query = new DocumentsQuery()->setFilter(['isbn13 = 9780439786184']);
+    /** @var Book $book */
+    $book = $repository->findOneBy($query);
+    expect($book)->toBeInstanceOf(Book::class)
+        ->and($book->isbn)->toBe('9780439786184')
+    ;
+});
+
+it('complains when criteria are not of the expected type', function () {
+    $objectManager = new ObjectManager(meili());
+    $repository = $objectManager->getRepository(Book::class);
+    $repository->findOneBy(new stdClass()); // @phpstan-ignore argument.type
+})->throws(InvalidArgumentException::class);

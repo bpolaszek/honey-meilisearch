@@ -73,7 +73,6 @@ final readonly class ObjectRepository implements ObjectRepositoryInterface
         $transport = $this->manager->transport;
         /** @var AsDocument<O, AsAttribute> $classMetadata */
         $classMetadata = $this->manager->classMetadataRegistry->getClassMetadata($this->className);
-        $mapper = $this->manager->documentMapper;
 
         $document = $transport->retrieveDocumentById($classMetadata, $id);
         if (null === $document) {
