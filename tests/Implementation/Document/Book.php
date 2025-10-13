@@ -19,6 +19,14 @@ final class Book
         public string $name,
         #[AsAttribute(transformer: new TransformerMetadata(RelationTransformer::class))]
         public ?Author $author,
+        #[AsAttribute]
+        public ?string $cover = null,
+        #[AsAttribute]
+        public ?string $language = null,
+        #[AsAttribute]
+        public array $details = [],
+        #[AsAttribute(name: 'isbn13')]
+        public ?string $isbn = null,
     ) {
     }
 }
