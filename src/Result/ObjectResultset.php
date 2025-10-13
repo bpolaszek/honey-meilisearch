@@ -17,7 +17,6 @@ use Traversable;
 use WeakMap;
 
 use function count;
-use function is_array;
 
 /**
  * @template O of object
@@ -60,6 +59,7 @@ final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
 
     /**
      * @param array<string, mixed> $document
+     *
      * @return O
      */
     private function factory(array $document): object

@@ -37,37 +37,28 @@ final class DocumentResultset implements IteratorAggregate, Countable, ArrayAcce
 
     public function getIterator(): Traversable
     {
-        $documentsQuery = $this->criteria->query ?? new DocumentsQuery();
-
-        return $this->iterate((clone $documentsQuery)->setLimit($this->criteria->batchSize));
-    }
-
-    /**
-     * @return Traversable<int, array<string, mixed>>
-     */
-    private function iterate(DocumentsQuery $query, int $i = 0): Traversable
-    {
-        /** @var non-negative-int $offset */
+        $query = $this->criteria->query ?? new DocumentsQuery();
         $offset = $query->toArray()['offset'] ?? 0;
-        $result = $this->meili->index($this->criteria->index)->getDocuments($query);
-        $this->totalItems ??= $result->getTotal();
+        $i = 0;
 
-        foreach ($result as $item) {
-            yield $item;
-            ++$i;
-            if ($i >= $this->limit) {
-                return;
+        do {
+            $batchQuery = (clone $query)->setOffset($offset);
+            $result = $this->meili->index($this->criteria->index)->getDocuments($batchQuery);
+            $this->totalItems ??= $result->getTotal();
+
+            foreach ($result as $item) {
+                yield $item;
+                ++$i;
+                if ($i >= $this->limit) {
+                    return;
+                }
             }
-        }
 
-        $nextOffset = $offset + $this->criteria->batchSize;
-        if ($nextOffset > $this->totalItems) {
-            return;
-        }
-
-        foreach ($this->iterate($query->setOffset($nextOffset), $i) as $item) {
-            yield $item;
-        }
+            $offset += $this->criteria->batchSize;
+            if ($offset > $this->totalItems) {
+                break;
+            }
+        } while ($offset <= $this->totalItems && $i < $this->limit);
     }
 
     public function count(): int
