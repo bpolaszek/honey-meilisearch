@@ -36,7 +36,7 @@ final class ObjectManager extends BaseObjectManager
      * @param ClassMetadataRegistry $classMetadataRegistry
      */
     public function __construct(
-        public readonly Client $meili,
+        public readonly Client $meili = new Client('http://localhost:7700'),
         array $options = [],
         ClassMetadataRegistryInterface $classMetadataRegistry = new ClassMetadataRegistry(),
         DocumentMapperInterface $documentMapper = new DocumentMapper(),

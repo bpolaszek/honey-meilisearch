@@ -10,6 +10,7 @@ use Honey\ODM\Meilisearch\Result\ObjectResultset;
 use Honey\ODM\Meilisearch\Tests\Implementation\Document\Book;
 use InvalidArgumentException;
 use Meilisearch\Contracts\DocumentsQuery;
+use RuntimeException;
 use stdClass;
 
 use function afterAll;
@@ -42,11 +43,21 @@ afterAll(function () {
 
 it('retrieves all books', function () {
     $objectManager = new ObjectManager(meili());
+    DocumentsCriteriaWrapper::setDefaultBatchSize(100, 'books');
     $repository = $objectManager->getRepository(Book::class);
     $allBooks = $repository->findAll();
     expect($allBooks)->toBeInstanceOf(ObjectResultset::class)
         ->and($allBooks)->toHaveCount(164)
         ->and($allBooks)->each->toBeInstanceOf(Book::class)
+        ->and(isset($allBooks[0]))->toBe(true)
+        ->and(isset($allBooks[1_000_000]))->toBe(false)
+        ->and($allBooks[0])->toBeInstanceOf(Book::class)
+        ->and($allBooks[1_000_000])->toBeNull()
+        ->and(fn () => $allBooks['foo'])->toThrow(InvalidArgumentException::class)
+        ->and(fn () => $allBooks[0] = 'foo')->toThrow(RuntimeException::class)
+        ->and(function () use ($allBooks) {
+            unset($allBooks[0]);
+        })->toThrow(RuntimeException::class)
         ;
 });
 

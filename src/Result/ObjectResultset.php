@@ -11,14 +11,11 @@ use Honey\ODM\Core\Manager\ObjectManager;
 use Honey\ODM\Meilisearch\Config\AsAttribute;
 use Honey\ODM\Meilisearch\Config\AsDocument;
 use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
-use InvalidArgumentException;
 use IteratorAggregate;
-use RuntimeException;
 use Traversable;
 use WeakMap;
 
 use function count;
-use function is_int;
 
 /**
  * @template O of object
@@ -44,7 +41,7 @@ final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
      */
     public function __construct(
         private readonly ObjectManager $objectManager,
-        private readonly DocumentResultset $documents,
+        private readonly array|(Traversable&Countable&ArrayAccess) $documents,
         private readonly ClassMetadataInterface $classMetadata,
     ) {
         $this->geo = new WeakMap();
@@ -54,15 +51,21 @@ final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
     public function getIterator(): Traversable
     {
         foreach ($this->documents as $document) {
-            $object = $this->objectManager->factory($document, $this->classMetadata);
-            if (isset($document['_geo'])) {
-                $this->geo[$object] = $document['_geo'];
-            }
-            if (isset($document['_vectors'])) {
-                $this->vectors[$object] = $document['_vectors'];
-            }
-            yield $object;
+            yield $this->factory($document);
         }
+    }
+
+    private function factory(array $document): object
+    {
+        $object = $this->objectManager->factory($document, $this->classMetadata);
+        if (isset($document['_geo'])) {
+            $this->geo[$object] = $document['_geo'];
+        }
+        if (isset($document['_vectors'])) {
+            $this->vectors[$object] = $document['_vectors'];
+        }
+
+        return $object;
     }
 
     public function count(): int
@@ -77,30 +80,21 @@ final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
 
     public function offsetGet(mixed $offset): ?object
     {
-        if (!is_int($offset)) {
-            throw new InvalidArgumentException('Offset must be an integer');
-        }
+        $document = $this->documents[$offset];
 
-        if ($offset >= count($this)) {
-            return null;
-        }
-
-        foreach ($this as $i => $item) {
-            if ($i === $offset) {
-                return $item;
-            }
-        }
-
-        return null;
+        return match ($document)  {
+            null => null,
+            default => $this->factory($document),
+        };
     }
 
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        throw new RuntimeException('ArrayAccess on this object is read-only.');
+        $this->documents->offsetSet($offset, $value);
     }
 
     public function offsetUnset(mixed $offset): void
     {
-        throw new RuntimeException('ArrayAccess on this object is read-only.');
+        $this->documents->offsetUnset($offset);
     }
 }

@@ -21,7 +21,6 @@ use const PHP_INT_MAX;
 
 /**
  * @implements IteratorAggregate<int, array<string, mixed>>
- * @implements ArrayAccess<int, array<string, mixed>>
  */
 final class DocumentResultset implements IteratorAggregate, Countable, ArrayAccess
 {
@@ -102,7 +101,7 @@ final class DocumentResultset implements IteratorAggregate, Countable, ArrayAcce
             }
         }
 
-        return null;
+        return null; // @codeCoverageIgnore
     }
 
     public function offsetSet(mixed $offset, mixed $value): void
