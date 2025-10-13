@@ -147,7 +147,7 @@ final readonly class MeiliTransport implements TransportInterface
                 return null;
             }
 
-            throw $e;
+            throw $e; // @codeCoverageIgnore
         }
     }
 }

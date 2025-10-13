@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Honey\ODM\Meilisearch\Tests\Integration;
 
+use BenTools\ReflectionPlus\Reflection;
+use Honey\ODM\Core\Manager\Identities;
+use Honey\ODM\Core\Mapper\MappingContext;
 use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
 use Honey\ODM\Meilisearch\ObjectManager\ObjectManager;
 use Honey\ODM\Meilisearch\Result\ObjectResultset;
@@ -19,6 +22,7 @@ use function beforeAll;
 use function dirname;
 use function file_get_contents;
 use function Honey\ODM\Meilisearch\Tests\meili;
+use function is_array;
 
 beforeAll(function () {
     $tasks = [];
@@ -105,3 +109,29 @@ it('complains when criteria are not of the expected type', function () {
     $repository = $objectManager->getRepository(Book::class);
     $repository->findOneBy(new stdClass()); // @phpstan-ignore argument.type
 })->throws(InvalidArgumentException::class);
+
+it('persists stuff', function () {
+    $objectManager = new ObjectManager(meili());
+    $classMetadata = $objectManager->classMetadataRegistry->getClassMetadata(Book::class);
+    $book = $objectManager->find(Book::class, 4);
+    assert($book instanceof Book);
+
+    $rememberedStates = Reflection::property(Identities::class, 'rememberedStates')->getValue($objectManager->identities);
+    $initialDocument = $rememberedStates[$book];
+    assert(is_array($initialDocument));
+
+    // When
+    $objectManager->remove($book);
+    $objectManager->flush();
+
+    // Then
+    expect($objectManager->find(Book::class, 4))->toBeNull();
+
+    // When
+    $book = $objectManager->factory($initialDocument, $classMetadata);
+    $objectManager->persist($book);
+    $objectManager->flush();
+
+    // Then
+    expect($objectManager->find(Book::class, 4))->toBeInstanceOf(Book::class);
+})->depends('it retrieves all books');

@@ -12,10 +12,12 @@ use Honey\ODM\Meilisearch\Config\AsAttribute;
 use Honey\ODM\Meilisearch\Config\AsDocument;
 use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
 use IteratorAggregate;
+use RuntimeException;
 use Traversable;
 use WeakMap;
 
 use function count;
+use function is_array;
 
 /**
  * @template O of object
@@ -38,6 +40,7 @@ final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
     /**
      * @param ObjectManager<AsDocument<O, AsAttribute>, AsAttribute, DocumentsCriteriaWrapper> $objectManager
      * @param ClassMetadataInterface<O, AsAttribute> $classMetadata
+     * @param list<array<string, mixed>>|(Traversable<int, array<string, mixed>>&Countable&ArrayAccess<int, array<string, mixed>>) $documents
      */
     public function __construct(
         private readonly ObjectManager $objectManager,
@@ -55,6 +58,10 @@ final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
         }
     }
 
+    /**
+     * @param array<string, mixed> $document
+     * @return O
+     */
     private function factory(array $document): object
     {
         $object = $this->objectManager->factory($document, $this->classMetadata);
@@ -82,7 +89,7 @@ final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
     {
         $document = $this->documents[$offset];
 
-        return match ($document)  {
+        return match ($document) {
             null => null,
             default => $this->factory($document),
         };
@@ -90,11 +97,11 @@ final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
 
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        $this->documents->offsetSet($offset, $value);
+        throw new RuntimeException('ArrayAccess on this object is read-only.');
     }
 
     public function offsetUnset(mixed $offset): void
     {
-        $this->documents->offsetUnset($offset);
+        throw new RuntimeException('ArrayAccess on this object is read-only.');
     }
 }

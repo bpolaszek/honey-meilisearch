@@ -21,6 +21,7 @@ use const PHP_INT_MAX;
 
 /**
  * @implements IteratorAggregate<int, array<string, mixed>>
+ * @implements ArrayAccess<int, array<string, mixed>>
  */
 final class DocumentResultset implements IteratorAggregate, Countable, ArrayAccess
 {
