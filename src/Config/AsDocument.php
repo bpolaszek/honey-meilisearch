@@ -48,4 +48,11 @@ final class AsDocument implements ClassMetadataInterface
             fn (PropertyMetadataInterface $metadata) => $metadata->primary,
         ) ?? throw new RuntimeException('No primary property found in class metadata');
     }
+
+    public function getAttributeName(string $propertyName): string
+    {
+        return $this->propertiesMetadata[$propertyName]?->name // @phpstan-ignore nullsafe.neverNull
+            ?? $this->propertiesMetadata[$propertyName]?->reflection?->name // @phpstan-ignore nullsafe.neverNull
+            ?? throw new RuntimeException("No attribute mapped to `$propertyName` was found.");
+    }
 }
