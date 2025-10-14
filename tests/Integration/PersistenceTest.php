@@ -96,9 +96,8 @@ it('returns null when the document does not exist', function () {
 it('finds a specific book using filters', function () {
     $objectManager = new ObjectManager(meili());
     $repository = $objectManager->getRepository(Book::class);
-    $query = new DocumentsQuery()->setFilter(['isbn13 = 9780439786184']);
     /** @var Book $book */
-    $book = $repository->findOneBy($query);
+    $book = $repository->findOneBy(['isbn' => '9780439786184']);
     expect($book)->toBeInstanceOf(Book::class)
         ->and($book->isbn)->toBe('9780439786184')
     ;

@@ -20,12 +20,12 @@ final class CriteriaBuilder
     /**
      * @var UniqueList<string>
      */
-    private(set) UniqueList $filters;
+    public private(set) UniqueList $filters;
 
     /**
      * @var UniqueList<string>
      */
-    private(set) UniqueList $sorts;
+    public private(set) UniqueList $sorts;
 
     /**
      * @var string[]|null
@@ -59,7 +59,9 @@ final class CriteriaBuilder
 
     public function addSort(string|GeoPoint $sortBy, string|SortDirection $direction = 'asc'): self
     {
-        if (!$direction instanceof SortDirection) {
+        if ($direction instanceof SortDirection) {
+            $direction = $direction->value;
+        } else {
             $direction = SortDirection::from($direction)->value;
         }
 
@@ -69,6 +71,13 @@ final class CriteriaBuilder
         };
 
         $this->sorts[] = sprintf('%s:%s', $sortBy, $direction);
+
+        return $this;
+    }
+
+    public function setFields(?array $fields): CriteriaBuilder
+    {
+        $this->fields = $fields;
 
         return $this;
     }
@@ -100,7 +109,7 @@ final class CriteriaBuilder
         if (isset($this->filters[0])) {
             $query = $query->setFilter($this->filters->toArray());
         }
-        if (isset($this->$sorts[0])) {
+        if (isset($this->sorts[0])) {
             $query = $query->setSort($this->sorts->toArray());
         }
         if (isset($this->fields)) {

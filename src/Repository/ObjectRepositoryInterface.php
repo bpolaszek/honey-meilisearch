@@ -37,8 +37,5 @@ interface ObjectRepositoryInterface extends BaseObjectRepositoryInterface
      */
     public function find(mixed $id): ?object;
 
-    /**
-     * @return CriteriaBuilder
-     */
     public function createCriteriaBuilder(): CriteriaBuilder;
 }

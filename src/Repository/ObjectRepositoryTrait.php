@@ -14,7 +14,6 @@ use Honey\ODM\Meilisearch\Transport\MeiliTransport;
 use InvalidArgumentException;
 use Meilisearch\Contracts\DocumentsQuery;
 
-use function get_debug_type;
 use function is_array;
 
 /**
@@ -111,6 +110,6 @@ trait ObjectRepositoryTrait
             return $builder->build();
         }
 
-        throw new InvalidArgumentException("Invalid criteria.");
+        throw new InvalidArgumentException('Invalid criteria.');
     }
 }
