@@ -6,6 +6,7 @@ namespace Honey\ODM\Meilisearch\Criteria;
 
 use Bentools\MeilisearchFilters\Field;
 use Honey\ODM\Core\Misc\UniqueList;
+use Honey\ODM\Meilisearch\Config\AsAttribute as PropertyMetadata;
 use Honey\ODM\Meilisearch\Config\AsDocument as ClassMetadata;
 use Meilisearch\Contracts\DocumentsQuery;
 use Stringable;
@@ -28,14 +29,25 @@ final class CriteriaBuilder
     public private(set) UniqueList $sorts;
 
     /**
-     * @var string[]|null
+     * @var non-empty-list<string>|null
      */
     private ?array $fields = null;
 
     private bool $retrieveVectors = false;
+
+    /**
+     * @var non-negative-int
+     */
     private int $offset = 0;
+
+    /**
+     * @var non-negative-int
+     */
     private int $limit = PHP_INT_MAX;
 
+    /**
+     * @param ClassMetadata<object, PropertyMetadata> $classMetadata
+     */
     public function __construct(
         private readonly ClassMetadata $classMetadata,
     ) {
@@ -75,6 +87,9 @@ final class CriteriaBuilder
         return $this;
     }
 
+    /**
+     * @param non-empty-list<string>|null $fields
+     */
     public function setFields(?array $fields): CriteriaBuilder
     {
         $this->fields = $fields;
@@ -89,6 +104,9 @@ final class CriteriaBuilder
         return $this;
     }
 
+    /**
+     * @param non-negative-int $offset
+     */
     public function setOffset(int $offset): CriteriaBuilder
     {
         $this->offset = $offset;
@@ -96,6 +114,10 @@ final class CriteriaBuilder
         return $this;
     }
 
+    /**
+     * @param non-negative-int $limit
+     * @return $this
+     */
     public function setLimit(int $limit): CriteriaBuilder
     {
         $this->limit = $limit;
@@ -103,14 +125,17 @@ final class CriteriaBuilder
         return $this;
     }
 
+    /**
+     * @param non-negative-int|null $batchSize
+     */
     public function build(?int $batchSize = null): DocumentsCriteriaWrapper
     {
         $query = new DocumentsQuery();
         if (isset($this->filters[0])) {
-            $query = $query->setFilter($this->filters->toArray());
+            $query = $query->setFilter($this->filters->toArray()); // @phpstan-ignore argument.type
         }
         if (isset($this->sorts[0])) {
-            $query = $query->setSort($this->sorts->toArray());
+            $query = $query->setSort($this->sorts->toArray()); // @phpstan-ignore argument.type
         }
         if (isset($this->fields)) {
             $query = $query->setFields($this->fields);

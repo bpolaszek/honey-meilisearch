@@ -11,5 +11,8 @@ namespace Honey\ODM\Meilisearch\Repository;
  */
 final readonly class ObjectRepository implements ObjectRepositoryInterface
 {
+    /**
+     * @use ObjectRepositoryTrait<O>
+     */
     use ObjectRepositoryTrait;
 }

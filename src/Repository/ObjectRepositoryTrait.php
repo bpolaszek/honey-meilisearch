@@ -57,7 +57,7 @@ trait ObjectRepositoryTrait
     public function findOneBy(mixed $criteria): ?object
     {
         $criteria = $this->resolveCriteria($criteria);
-        $criteria->query->setLimit(1);
+        $criteria->query?->setLimit(1);
 
         return [...$this->findBy($criteria)][0] ?? null;
     }
@@ -82,7 +82,7 @@ trait ObjectRepositoryTrait
 
     public function createCriteriaBuilder(): CriteriaBuilder
     {
-        /** @var AsDocument $classMetadata */
+        /** @var AsDocument<O, AsAttribute> $classMetadata */
         $classMetadata = $this->manager->classMetadataRegistry->getClassMetadata($this->className);
 
         return new CriteriaBuilder($classMetadata);
@@ -90,7 +90,7 @@ trait ObjectRepositoryTrait
 
     private function resolveCriteria(mixed $criteria): DocumentsCriteriaWrapper
     {
-        /** @var AsDocument $classMetadata */
+        /** @var AsDocument<O, AsAttribute> $classMetadata */
         $classMetadata = $this->manager->classMetadataRegistry->getClassMetadata($this->className);
         if (null === $criteria) {
             return new DocumentsCriteriaWrapper($classMetadata->index);
