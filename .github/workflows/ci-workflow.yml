@@ -7,6 +7,17 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    services:
+      meilisearch:
+        image: getmeili/meilisearch:latest
+        ports:
+          - '7700:7700'
+        env:
+          MEILI_MASTER_KEY: 8TO0OgHT5OUc0FsmiQceFEGhWDCz9OBTP4fJ8Jx2cWY
+          MEILI_NO_ANALYTICS: true
+    env:
+      MEILISEARCH_API_KEY: 8TO0OgHT5OUc0FsmiQceFEGhWDCz9OBTP4fJ8Jx2cWY
+      MEILISEARCH_BASE_URI: http://localhost:7700
     strategy:
       matrix:
         php:
