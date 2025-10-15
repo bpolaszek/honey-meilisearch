@@ -1,0 +1,2280 @@
+[
+    {
+        "id": "4",
+        "title": "Harry Potter and the Chamber of Secrets",
+        "author": 1,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Scholastic",
+        "details": {
+            "isbn": "0439554896",
+            "rating": "4.42",
+            "pages": "352"
+        },
+        "isbn13": "9780439785971"
+    },
+    {
+        "id": "13",
+        "title": "The Ultimate Hitchhiker's Guide to the Galaxy (Hitchhiker's Guide to the Galaxy  #1-5)",
+        "author": 2,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Del Rey",
+        "details": {
+            "isbn": "0345453743",
+            "rating": "4.38",
+            "pages": "815"
+        },
+        "isbn13": "9780439785973"
+    },
+    {
+        "id": "14",
+        "title": "The Hitchhiker's Guide to the Galaxy (Hitchhiker's Guide to the Galaxy  #1)",
+        "author": 2,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Crown",
+        "details": {
+            "isbn": "1400052920",
+            "rating": "4.22",
+            "pages": "215"
+        },
+        "isbn13": "9780439785974"
+    },
+    {
+        "id": "18",
+        "title": "The Ultimate Hitchhiker's Guide (Hitchhiker's Guide to the Galaxy  #1-5)",
+        "author": 2,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Wings Books",
+        "details": {
+            "isbn": "0517149257",
+            "rating": "4.38",
+            "pages": "815"
+        },
+        "isbn13": "9780439785976"
+    },
+    {
+        "id": "21",
+        "title": "A Short History of Nearly Everything",
+        "author": 3,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Broadway Books",
+        "details": {
+            "isbn": "076790818X",
+            "rating": "4.21",
+            "pages": "544"
+        },
+        "isbn13": "9780439785977"
+    },
+    {
+        "id": "22",
+        "title": "Bill Bryson's African Diary",
+        "author": 3,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Broadway Books",
+        "details": {
+            "isbn": "0767915062",
+            "rating": "3.44",
+            "pages": "55"
+        },
+        "isbn13": "9780439785978"
+    },
+    {
+        "id": "23",
+        "title": "Bryson's Dictionary of Troublesome Words: A Writer's Guide to Getting It Right",
+        "author": 3,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Broadway Books",
+        "details": {
+            "isbn": "0767910435",
+            "rating": "3.87",
+            "pages": "256"
+        },
+        "isbn13": "9780439785979"
+    },
+    {
+        "id": "24",
+        "title": "In a Sunburned Country",
+        "author": 3,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Broadway Books",
+        "details": {
+            "isbn": "0767903862",
+            "rating": "4.07",
+            "pages": "335"
+        },
+        "isbn13": "9780439785980"
+    },
+    {
+        "id": "25",
+        "title": "I'm a Stranger Here Myself: Notes on Returning to America After Twenty Years Away",
+        "author": 3,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Broadway Books",
+        "details": {
+            "isbn": "076790382X",
+            "rating": "3.90",
+            "pages": "304"
+        },
+        "isbn13": "9780439785981"
+    },
+    {
+        "id": "26",
+        "title": "The Lost Continent: Travels in Small Town America",
+        "author": 3,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "William Morrow Paperbacks",
+        "details": {
+            "isbn": "0060920084",
+            "rating": "3.83",
+            "pages": "299"
+        },
+        "isbn13": "9780439785982"
+    },
+    {
+        "id": "27",
+        "title": "Neither Here nor There: Travels in Europe",
+        "author": 3,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "William Morrow Paperbacks",
+        "details": {
+            "isbn": "0380713802",
+            "rating": "3.86",
+            "pages": "254"
+        },
+        "isbn13": "9780439785983"
+    },
+    {
+        "id": "28",
+        "title": "Notes from a Small Island",
+        "author": 3,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "William Morrow Paperbacks",
+        "details": {
+            "isbn": "0380727501",
+            "rating": "3.91",
+            "pages": "324"
+        },
+        "isbn13": "9780439785984"
+    },
+    {
+        "id": "29",
+        "title": "The Mother Tongue: English and How It Got That Way",
+        "author": 3,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "William Morrow Paperbacks",
+        "details": {
+            "isbn": "0380715430",
+            "rating": "3.93",
+            "pages": "270"
+        },
+        "isbn13": "9780439785985"
+    },
+    {
+        "id": "30",
+        "title": "The Lord of the Rings 4",
+        "author": 4,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Ballantine Books",
+        "details": {
+            "isbn": "0345538374",
+            "rating": "4.59",
+            "pages": "1728"
+        },
+        "isbn13": "9780439785986"
+    },
+    {
+        "id": "31",
+        "title": "The Lord of the Rings 4",
+        "author": 4,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Ballantine Books",
+        "details": {
+            "isbn": "0345538374",
+            "rating": "4.59",
+            "pages": "1728"
+        },
+        "isbn13": "9780439785986"
+    },
+    {
+        "id": "34",
+        "title": "The Fellowship of the Ring 1",
+        "author": 4,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Houghton Mifflin Harcourt",
+        "details": {
+            "isbn": "0618346252",
+            "rating": "4.36",
+            "pages": "398"
+        },
+        "isbn13": "9780439785988"
+    },
+    {
+        "id": "36",
+        "title": "The Lord of the Rings Weapons and Warfare",
+        "author": 5,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Houghton Mifflin Harcourt",
+        "details": {
+            "isbn": "0618391002",
+            "rating": "4.53",
+            "pages": "218"
+        },
+        "isbn13": "9780439785991"
+    },
+    {
+        "id": "39",
+        "title": "The Lord of the Rings Weapons and Warfare",
+        "author": 5,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Houghton Mifflin Harcourt",
+        "details": {
+            "isbn": "0618391002",
+            "rating": "4.53",
+            "pages": "218"
+        },
+        "isbn13": "9780439785992"
+    },
+    {
+        "id": "37",
+        "title": "The Lord of the Rings Complete Visual Companion",
+        "author": 6,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Houghton Mifflin Harcourt",
+        "details": {
+            "isbn": "0618510826",
+            "rating": "4.50",
+            "pages": "224"
+        },
+        "isbn13": "9780439785993"
+    },
+    {
+        "id": "50",
+        "title": "Hatchet (Brian's Saga #1)",
+        "author": 7,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Atheneum Books for Young Readers: Richard Jackson Books",
+        "details": {
+            "isbn": "0689840926",
+            "rating": "3.72",
+            "pages": "208"
+        },
+        "isbn13": "9780439785995"
+    },
+    {
+        "id": "51",
+        "title": "Hatchet: A Guide for Using \"Hatchet\" in the Classroom,Donna Ickes/Edward Sciranko/Keith Vasconcelles,4.00,1557344493,9781557344496,eng,48,36,2,8/28/1994,Teacher Created Resources",
+        "cover": "hard cover with dust jacket",
+        "details": [],
+        "isbn13": "9780439785996",
+        "author": 8
+    },
+    {
+        "id": "53",
+        "title": "Guts: The True Stories behind Hatchet and the Brian Books",
+        "author": 7,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Delacorte Press",
+        "details": {
+            "isbn": "0385326505",
+            "rating": "3.88",
+            "pages": "144"
+        },
+        "isbn13": "9780439785997"
+    },
+    {
+        "id": "54",
+        "title": "Molly Hatchet - 5 of the Best",
+        "author": 9,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Cherry Lane Music Company",
+        "details": {
+            "isbn": "1575606240",
+            "rating": "4.33",
+            "pages": "56"
+        },
+        "isbn13": "9780439785998"
+    },
+    {
+        "id": "55",
+        "title": "Hatchet Jobs: Writings on Contemporary Fiction",
+        "author": 10,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "The New Press",
+        "details": {
+            "isbn": "1595580271",
+            "rating": "3.45",
+            "pages": "228"
+        },
+        "isbn13": "9780439785999"
+    },
+    {
+        "id": "58",
+        "title": "Changeling",
+        "author": 11,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Viking Juvenile",
+        "details": {
+            "isbn": "0670059676",
+            "rating": "3.60",
+            "pages": "256"
+        },
+        "isbn13": "9780439786001"
+    },
+    {
+        "id": "59",
+        "title": "The Changeling Sea",
+        "author": 12,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Firebird",
+        "details": {
+            "isbn": "0141312629",
+            "rating": "4.06",
+            "pages": "137"
+        },
+        "isbn13": "9780439786002"
+    },
+    {
+        "id": "61",
+        "title": "The Changeling",
+        "author": 13,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "iUniverse",
+        "details": {
+            "isbn": "0595321801",
+            "rating": "4.17",
+            "pages": "228"
+        },
+        "isbn13": "9780439786003"
+    },
+    {
+        "id": "63",
+        "title": "The Changeling",
+        "author": 14,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Shambhala",
+        "details": {
+            "isbn": "1590301943",
+            "rating": "3.55",
+            "pages": "339"
+        },
+        "isbn13": "9780439786004"
+    },
+    {
+        "id": "66",
+        "title": "The Changeling (Daughters of England #15)",
+        "author": 15,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Ivy Books",
+        "details": {
+            "isbn": "0449146979",
+            "rating": "3.98",
+            "pages": "369"
+        },
+        "isbn13": "9780439786005"
+    },
+    {
+        "id": "67",
+        "title": "The Known World",
+        "author": 16,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Amistad",
+        "details": {
+            "isbn": "0061159174",
+            "rating": "3.83",
+            "pages": "388"
+        },
+        "isbn13": "9780439786006"
+    },
+    {
+        "id": "69",
+        "title": "The Known World",
+        "author": 16,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Harper",
+        "details": {
+            "isbn": "0060749911",
+            "rating": "3.83",
+            "pages": "576"
+        },
+        "isbn13": "9780439786008"
+    },
+    {
+        "id": "71",
+        "title": "Traders Guns & Money: Knowns and Unknowns in the Dazzling World of Derivatives",
+        "author": 17,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "FT Press",
+        "details": {
+            "isbn": "0273704745",
+            "rating": "3.83",
+            "pages": "334"
+        },
+        "isbn13": "9780439786009"
+    },
+    {
+        "id": "72",
+        "title": "Artesia: Adventures in the Known World",
+        "author": 18,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Archaia",
+        "details": {
+            "isbn": "1932386106",
+            "rating": "4.13",
+            "pages": "352"
+        },
+        "isbn13": "9780439786010"
+    },
+    {
+        "id": "75",
+        "title": "Uncommon Carriers",
+        "author": 19,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Farrar Straus Giroux",
+        "details": {
+            "isbn": "0374280398",
+            "rating": "3.95",
+            "pages": "248"
+        },
+        "isbn13": "9780439786012"
+    },
+    {
+        "id": "76",
+        "title": "Heirs of General Practice",
+        "author": 19,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Farrar  Straus and Giroux",
+        "details": {
+            "isbn": "0374519749",
+            "rating": "4.17",
+            "pages": "128"
+        },
+        "isbn13": "9780439786013"
+    },
+    {
+        "id": "77",
+        "title": "The Control of Nature",
+        "author": 19,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Farrar  Straus and Giroux",
+        "details": {
+            "isbn": "0374522596",
+            "rating": "4.24",
+            "pages": "288"
+        },
+        "isbn13": "9780439786014"
+    },
+    {
+        "id": "78",
+        "title": "Annals of the Former World",
+        "author": 19,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Farrar  Straus and Giroux",
+        "details": {
+            "isbn": "0374518734",
+            "rating": "4.34",
+            "pages": "720"
+        },
+        "isbn13": "9780439786015"
+    },
+    {
+        "id": "79",
+        "title": "Coming Into the Country",
+        "author": 19,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Farrar  Straus and Giroux",
+        "details": {
+            "isbn": "0374522871",
+            "rating": "4.22",
+            "pages": "448"
+        },
+        "isbn13": "9780439786016"
+    },
+    {
+        "id": "80",
+        "title": "La Place de la Concorde Suisse",
+        "author": 19,
+        "cover": "hard cover",
+        "language": "fre",
+        "publisher": "Farrar  Straus and Giroux",
+        "details": {
+            "isbn": "0374519323",
+            "rating": "3.92",
+            "pages": "160"
+        },
+        "isbn13": "9780439786017"
+    },
+    {
+        "id": "81",
+        "title": "Giving Good Weight",
+        "author": 19,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Farrar  Straus and Giroux",
+        "details": {
+            "isbn": "0374516006",
+            "rating": "4.23",
+            "pages": "288"
+        },
+        "isbn13": "9780439786018"
+    },
+    {
+        "id": "83",
+        "title": "Rising from the Plains",
+        "author": 19,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Farrar  Straus and Giroux",
+        "details": {
+            "isbn": "0374520658",
+            "rating": "4.23",
+            "pages": "208"
+        },
+        "isbn13": "9780439786019"
+    },
+    {
+        "id": "85",
+        "title": "The Heidi Chronicles",
+        "author": 20,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Dramatists Play Service",
+        "details": {
+            "isbn": "0822205106",
+            "rating": "3.75",
+            "pages": "81"
+        },
+        "isbn13": "9780439786020"
+    },
+    {
+        "id": "86",
+        "title": "The Heidi Chronicles: Uncommon Women and Others & Isn't It Romantic",
+        "author": 20,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Vintage",
+        "details": {
+            "isbn": "0679734996",
+            "rating": "3.84",
+            "pages": "249"
+        },
+        "isbn13": "9780439786021"
+    },
+    {
+        "id": "89",
+        "title": "Active Literacy Across the Curriculum: Strategies for Reading  Writing  Speaking  and Listening",
+        "author": 21,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Routledge",
+        "details": {
+            "isbn": "1596670231",
+            "rating": "3.94",
+            "pages": "138"
+        },
+        "isbn13": "9780439786022"
+    },
+    {
+        "id": "90",
+        "title": "Simply Beautiful Beaded Jewelry",
+        "author": 22,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "North Light Books",
+        "details": {
+            "isbn": "1581807740",
+            "rating": "3.77",
+            "pages": "128"
+        },
+        "isbn13": "9780439786023"
+    },
+    {
+        "id": "92",
+        "title": "Mapping the Big Picture: Integrating Curriculum & Assessment K-12",
+        "author": 21,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Association for Supervision & Curriculum Development",
+        "details": {
+            "isbn": "0871202867",
+            "rating": "3.68",
+            "pages": "108"
+        },
+        "isbn13": "9780439786025"
+    },
+    {
+        "id": "94",
+        "title": "Getting Results with Curriculum Mapping",
+        "author": 21,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "ASCD",
+        "details": {
+            "isbn": "0871209993",
+            "rating": "3.25",
+            "pages": "192"
+        },
+        "isbn13": "9780439786027"
+    },
+    {
+        "id": "100",
+        "title": "Simply Beautiful Beading: 53 Quick and Easy Projects",
+        "author": 22,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "North Light Books",
+        "details": {
+            "isbn": "1581805632",
+            "rating": "3.78",
+            "pages": "128"
+        },
+        "isbn13": "9780439786031"
+    },
+    {
+        "id": "103",
+        "title": "God Emperor of Dune (Dune Chronicles  #4)",
+        "author": 23,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Ace Books",
+        "details": {
+            "isbn": "0441294677",
+            "rating": "3.84",
+            "pages": "423"
+        },
+        "isbn13": "9780439786032"
+    },
+    {
+        "id": "105",
+        "title": "Chapterhouse: Dune (Dune Chronicles #6)",
+        "author": 23,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Ace Books",
+        "details": {
+            "isbn": "0441102670",
+            "rating": "3.91",
+            "pages": "436"
+        },
+        "isbn13": "9780439786033"
+    },
+    {
+        "id": "106",
+        "title": "Dune Messiah (Dune Chronicles #2)",
+        "author": 23,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Ace Books",
+        "details": {
+            "isbn": "0441172695",
+            "rating": "3.88",
+            "pages": "331"
+        },
+        "isbn13": "9780439786034"
+    },
+    {
+        "id": "107",
+        "title": "Dreamer of Dune: The Biography of Frank Herbert",
+        "author": 24,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Tor Books",
+        "details": {
+            "isbn": "0765306476",
+            "rating": "4.01",
+            "pages": "592"
+        },
+        "isbn13": "9780439786035"
+    },
+    {
+        "id": "109",
+        "title": "Heretics of Dune (Dune Chronicles  #5)",
+        "author": 23,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Putnam",
+        "details": {
+            "isbn": "0399128980",
+            "rating": "3.86",
+            "pages": "480"
+        },
+        "isbn13": "9780439786036"
+    },
+    {
+        "id": "117",
+        "title": "Heretics of Dune (Dune Chronicles #5)",
+        "author": 23,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Ace Books",
+        "details": {
+            "isbn": "0441328008",
+            "rating": "3.86",
+            "pages": "471"
+        },
+        "isbn13": "9780439786038"
+    },
+    {
+        "id": "119",
+        "title": "The Lord of the Rings The Art of the Fellowship of the Ring",
+        "author": 25,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Houghton Mifflin Harcourt",
+        "details": {
+            "isbn": "0618212906",
+            "rating": "4.59",
+            "pages": "192"
+        },
+        "isbn13": "9780439786039"
+    },
+    {
+        "id": "122",
+        "title": "The Power of One (The Power of One  #1)",
+        "author": 26,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Ballantine Books",
+        "details": {
+            "isbn": "034541005X",
+            "rating": "4.35",
+            "pages": "544"
+        },
+        "isbn13": "9780439786040"
+    },
+    {
+        "id": "123",
+        "title": "The Power of One (The Power of One  #1)",
+        "author": 26,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Delacorte Books for Young Readers",
+        "details": {
+            "isbn": "0385732546",
+            "rating": "4.35",
+            "pages": "291"
+        },
+        "isbn13": "9780439786041"
+    },
+    {
+        "id": "130",
+        "title": "Power of an Hour: Business and Life Mastery in One Hour a Week",
+        "author": 27,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Wiley",
+        "details": {
+            "isbn": "0471780936",
+            "rating": "3.34",
+            "pages": "205"
+        },
+        "isbn13": "9780439786043"
+    },
+    {
+        "id": "131",
+        "title": "The Power of One: The Solo Play for Playwrights  Actors  and Directors",
+        "author": 28,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Heinemann Drama",
+        "details": {
+            "isbn": "0325001537",
+            "rating": "3.67",
+            "pages": "240"
+        },
+        "isbn13": "9780439786044"
+    },
+    {
+        "id": "132",
+        "title": "How to Buy  Sell & Profit on eBay: Kick-Start Your Home-Based Business in Just Thirty Days",
+        "author": 29,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "William Morrow Paperbacks",
+        "details": {
+            "isbn": "006076287X",
+            "rating": "3.48",
+            "pages": "336"
+        },
+        "isbn13": "9780439786045"
+    },
+    {
+        "id": "133",
+        "title": "eBay for Dummies",
+        "author": 30,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Wiley",
+        "details": {
+            "isbn": "0470045299",
+            "rating": "3.50",
+            "pages": "386"
+        },
+        "isbn13": "9780439786046"
+    },
+    {
+        "id": "137",
+        "title": "Starting an eBay Business for Dummies",
+        "author": 30,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Wiley",
+        "details": {
+            "isbn": "0764569244",
+            "rating": "3.55",
+            "pages": "384"
+        },
+        "isbn13": "9780439786048"
+    },
+    {
+        "id": "138",
+        "title": "eBay: Top 100 Simplified Tips & Tricks",
+        "author": 31,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Wiley",
+        "details": {
+            "isbn": "0471933821",
+            "rating": "4.27",
+            "pages": "260"
+        },
+        "isbn13": "9780439786049"
+    },
+    {
+        "id": "139",
+        "title": "ebay Timesaving Techniques for Dummies",
+        "author": 30,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Wiley",
+        "details": {
+            "isbn": "0764559915",
+            "rating": "3.39",
+            "pages": "391"
+        },
+        "isbn13": "9780439786050"
+    },
+    {
+        "id": "140",
+        "title": "eBay Business All-in-One Desk Reference for Dummies",
+        "author": 30,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Wiley",
+        "details": {
+            "isbn": "0764584383",
+            "rating": "3.89",
+            "pages": "864"
+        },
+        "isbn13": "9780439786051"
+    },
+    {
+        "id": "142",
+        "title": "Ruby Ann's Down Home Trailer Park Cookbook",
+        "author": 32,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Citadel",
+        "details": {
+            "isbn": "0806523492",
+            "rating": "4.12",
+            "pages": "240"
+        },
+        "isbn13": "9780439786053"
+    },
+    {
+        "id": "144",
+        "title": "Ruby Ann's Down Home Trailer Park BBQin' Cookbook",
+        "author": 32,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Citadel",
+        "details": {
+            "isbn": "0806525363",
+            "rating": "4.08",
+            "pages": "206"
+        },
+        "isbn13": "9780439786054"
+    },
+    {
+        "id": "147",
+        "title": "Rails Cookbook: Recipes for Rapid Web Development with Ruby",
+        "author": 33,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "O'Reilly Media",
+        "details": {
+            "isbn": "0596527314",
+            "rating": "3.48",
+            "pages": "514"
+        },
+        "isbn13": "9780439786055"
+    },
+    {
+        "id": "159",
+        "title": "Dinner with Anna Karenina",
+        "author": 34,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Mira Books",
+        "details": {
+            "isbn": "0778322270",
+            "rating": "2.99",
+            "pages": "360"
+        },
+        "isbn13": "9780439786063"
+    },
+    {
+        "id": "160",
+        "title": "Tolstoy: Anna Karenina",
+        "author": 35,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Cambridge University Press",
+        "details": {
+            "isbn": "0521313252",
+            "rating": "4.19",
+            "pages": "128"
+        },
+        "isbn13": "9780439786064"
+    },
+    {
+        "id": "163",
+        "title": "The Untouchable",
+        "author": 36,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Vintage",
+        "details": {
+            "isbn": "0679767479",
+            "rating": "3.95",
+            "pages": "367"
+        },
+        "isbn13": "9780439786066"
+    },
+    {
+        "id": "165",
+        "title": "Untouchables: My Family's Triumphant Journey Out of the Caste System in Modern India",
+        "author": 37,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Scribner",
+        "details": {
+            "isbn": "0743270797",
+            "rating": "3.82",
+            "pages": "320"
+        },
+        "isbn13": "9780439786068"
+    },
+    {
+        "id": "171",
+        "title": "The Evidence-Based Social Work Skills Book",
+        "author": 38,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Pearson",
+        "details": {
+            "isbn": "0205358624",
+            "rating": "3.40",
+            "pages": "216"
+        },
+        "isbn13": "9780439786071"
+    },
+    {
+        "id": "177",
+        "title": "A Wrinkle in Time: A Guide for Using \"A Wrinkle in Time\" in the Classroom,John Carratello/Patty Carratello/Theresa Wright,4.00,1557344035,9781557344038,eng,48,17,0,9/28/1991,Teacher Created Resources",
+        "cover": "hard cover with dust jacket",
+        "details": [],
+        "isbn13": "9780439786072",
+        "author": 8
+    },
+    {
+        "id": "181",
+        "title": "A Wrinkle in Time: With Related Readings (A Wrinkle in Time Quintet #1)",
+        "author": 39,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "EMC/Paradigm Publishing",
+        "details": {
+            "isbn": "0821925326",
+            "rating": "4.00",
+            "pages": "250"
+        },
+        "isbn13": "9780439786074"
+    },
+    {
+        "id": "182",
+        "title": "Literature Circle Guide: A Wrinkle in Time",
+        "author": 40,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Teaching Resources",
+        "details": {
+            "isbn": "043927169X",
+            "rating": "3.60",
+            "pages": "32"
+        },
+        "isbn13": "9780439786075"
+    },
+    {
+        "id": "201",
+        "title": "Una arruga en el tiempo – A Wrinkle in Time",
+        "author": 39,
+        "cover": "hard cover with dust jacket",
+        "language": "spa",
+        "publisher": "Turtleback Books",
+        "details": {
+            "isbn": "0606105263",
+            "rating": "4.00",
+            "pages": "205"
+        },
+        "isbn13": "9780439786076"
+    },
+    {
+        "id": "204",
+        "title": "The Long Shadow (The Morland Dynasty  #6)",
+        "author": 41,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Little  Brown Book Group",
+        "details": {
+            "isbn": "0751506435",
+            "rating": "4.12",
+            "pages": "367"
+        },
+        "isbn13": "9780439786077"
+    },
+    {
+        "id": "205",
+        "title": "A Long Shadow (Inspector Ian Rutledge  #8)",
+        "author": 42,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "William Morrow",
+        "details": {
+            "isbn": "006078671X",
+            "rating": "4.11",
+            "pages": "352"
+        },
+        "isbn13": "9780439786078"
+    },
+    {
+        "id": "208",
+        "title": "A Shadow in Summer (Long Price Quartet  #1)",
+        "author": 43,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Tor Books",
+        "details": {
+            "isbn": "0765313405",
+            "rating": "3.60",
+            "pages": "331"
+        },
+        "isbn13": "9780439786080"
+    },
+    {
+        "id": "230",
+        "title": "The Burnt Orange Heresy (Vintage Crime/Black Lizard)",
+        "author": 44,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Vintage",
+        "details": {
+            "isbn": "0679732527",
+            "rating": "3.89",
+            "pages": "144"
+        },
+        "isbn13": "9780439786084"
+    },
+    {
+        "id": "231",
+        "title": "I am Charlotte Simmons",
+        "author": 45,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Picador USA",
+        "details": {
+            "isbn": "0312424442",
+            "rating": "3.42",
+            "pages": "738"
+        },
+        "isbn13": "9780439786085"
+    },
+    {
+        "id": "244",
+        "title": "The Puffin Book of Nonsense Verse",
+        "author": 46,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Puffin",
+        "details": {
+            "isbn": "0140366601",
+            "rating": "4.02",
+            "pages": "287"
+        },
+        "isbn13": "9780439786087"
+    },
+    {
+        "id": "247",
+        "title": "Quiet Days in Clichy",
+        "author": 47,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Grove Press",
+        "details": {
+            "isbn": "080213016X",
+            "rating": "3.69",
+            "pages": "154"
+        },
+        "isbn13": "9780439786089"
+    },
+    {
+        "id": "250",
+        "title": "Tropic of Capricorn",
+        "author": 47,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Grove Press",
+        "details": {
+            "isbn": "0802151825",
+            "rating": "3.78",
+            "pages": "348"
+        },
+        "isbn13": "9780439786091"
+    },
+    {
+        "id": "251",
+        "title": "Nexus (The Rosy Crucifixion  #3)",
+        "author": 47,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Grove Press",
+        "details": {
+            "isbn": "0802151787",
+            "rating": "4.10",
+            "pages": "316"
+        },
+        "isbn13": "9780439786092"
+    },
+    {
+        "id": "252",
+        "title": "Sexus (The Rosy Crucifixion  #1)",
+        "author": 47,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Grove Press",
+        "details": {
+            "isbn": "0802151809",
+            "rating": "3.98",
+            "pages": "506"
+        },
+        "isbn13": "9780439786093"
+    },
+    {
+        "id": "253",
+        "title": "The Air-Conditioned Nightmare",
+        "author": 47,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "New Directions",
+        "details": {
+            "isbn": "0811201066",
+            "rating": "3.83",
+            "pages": "292"
+        },
+        "isbn13": "9780439786094"
+    },
+    {
+        "id": "277",
+        "title": "Writing",
+        "author": 48,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Brookline Books",
+        "details": {
+            "isbn": "1571290532",
+            "rating": "3.75",
+            "pages": "91"
+        },
+        "isbn13": "9780439786097"
+    },
+    {
+        "id": "295",
+        "title": "Treasure Island",
+        "author": 49,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Kingfisher",
+        "details": {
+            "isbn": "0753453800",
+            "rating": "3.83",
+            "pages": "311"
+        },
+        "isbn13": "9780439786102"
+    },
+    {
+        "id": "297",
+        "title": "Treasure Island",
+        "author": 49,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Simon & Schuster",
+        "details": {
+            "isbn": "1416500294",
+            "rating": "3.83",
+            "pages": "245"
+        },
+        "isbn13": "9780439786104"
+    },
+    {
+        "id": "313",
+        "title": "100 Years of Lynchings",
+        "author": 50,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Black Classic Press",
+        "details": {
+            "isbn": "0933121180",
+            "rating": "4.61",
+            "pages": "270"
+        },
+        "isbn13": "9780439786108"
+    },
+    {
+        "id": "324",
+        "title": "Cien años de soledad",
+        "author": 51,
+        "cover": "hard cover",
+        "language": "spa",
+        "publisher": "French & European",
+        "details": {
+            "isbn": "0785950109",
+            "rating": "4.07",
+            "pages": "448"
+        },
+        "isbn13": "9780439786109"
+    },
+    {
+        "id": "330",
+        "title": "On Beyond Zebra!",
+        "author": 52,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Random House Books for Young Readers",
+        "details": {
+            "isbn": "0394800842",
+            "rating": "4.04",
+            "pages": "64"
+        },
+        "isbn13": "9780439786110"
+    },
+    {
+        "id": "332",
+        "title": "The Wedding Clause",
+        "author": 53,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Zebra",
+        "details": {
+            "isbn": "0821778250",
+            "rating": "3.60",
+            "pages": "256"
+        },
+        "isbn13": "9780439786111"
+    },
+    {
+        "id": "333",
+        "title": "The Zebra Wall",
+        "author": 54,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Greenwillow Books",
+        "details": {
+            "isbn": "0060733039",
+            "rating": "3.44",
+            "pages": "147"
+        },
+        "isbn13": "9780439786112"
+    },
+    {
+        "id": "337",
+        "title": "El perfume: Historia de un asesino",
+        "author": 55,
+        "cover": "hard cover",
+        "language": "spa",
+        "publisher": "Booket",
+        "details": {
+            "isbn": "8432216062",
+            "rating": "4.02",
+            "pages": "239"
+        },
+        "isbn13": "9780439786113"
+    },
+    {
+        "id": "348",
+        "title": "The Door Into Summer",
+        "author": 56,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Del Rey",
+        "details": {
+            "isbn": "0345413997",
+            "rating": "4.01",
+            "pages": "304"
+        },
+        "isbn13": "9780439786114"
+    },
+    {
+        "id": "350",
+        "title": "Stranger in a Strange Land",
+        "author": 56,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Ace",
+        "details": {
+            "isbn": "0441788386",
+            "rating": "3.92",
+            "pages": "528"
+        },
+        "isbn13": "9780439786115"
+    },
+    {
+        "id": "354",
+        "title": "To Sail Beyond the Sunset",
+        "author": 56,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Ace Books",
+        "details": {
+            "isbn": "0441748600",
+            "rating": "3.87",
+            "pages": "434"
+        },
+        "isbn13": "9780439786116"
+    },
+    {
+        "id": "355",
+        "title": "Job: A Comedy of Justice",
+        "author": 56,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Del Rey",
+        "details": {
+            "isbn": "0345316509",
+            "rating": "3.78",
+            "pages": "439"
+        },
+        "isbn13": "9780439786117"
+    },
+    {
+        "id": "356",
+        "title": "Time for the Stars (Heinlein's Juveniles  #10)",
+        "author": 56,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Tor Books",
+        "details": {
+            "isbn": "0765314932",
+            "rating": "3.97",
+            "pages": "256"
+        },
+        "isbn13": "9780439786118"
+    },
+    {
+        "id": "357",
+        "title": "The Long Dark Tea-Time of the Soul (Dirk Gently  #2)",
+        "author": 2,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Pocket Books",
+        "details": {
+            "isbn": "0671742515",
+            "rating": "4.06",
+            "pages": "307"
+        },
+        "isbn13": "9780439786119"
+    },
+    {
+        "id": "359",
+        "title": "The Salmon of Doubt (Dirk Gently  #3)",
+        "author": 2,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Del Rey",
+        "details": {
+            "isbn": "0345455290",
+            "rating": "3.93",
+            "pages": "298"
+        },
+        "isbn13": "9780439786120"
+    },
+    {
+        "id": "362",
+        "title": "Wish You Were Here: The Official Biography of Douglas Adams",
+        "author": 57,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Del Rey",
+        "details": {
+            "isbn": "0345476514",
+            "rating": "4.14",
+            "pages": "368"
+        },
+        "isbn13": "9780439786121"
+    },
+    {
+        "id": "367",
+        "title": "Douglas Adams's Starship Titanic",
+        "author": 2,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Ballantine Books",
+        "details": {
+            "isbn": "0345368436",
+            "rating": "3.60",
+            "pages": "256"
+        },
+        "isbn13": "9780439786122"
+    },
+    {
+        "id": "368",
+        "title": "El restaurante del fin del mundo",
+        "author": 2,
+        "cover": "hard cover with dust jacket",
+        "language": "esp",
+        "publisher": "Del Rey",
+        "details": {
+            "isbn": "0341218436",
+            "rating": "3.51",
+            "pages": "450"
+        },
+        "isbn13": "9780439786123"
+    },
+    {
+        "id": "385",
+        "title": "On Bullshit",
+        "author": 58,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Princeton University Press",
+        "details": {
+            "isbn": "0691122946",
+            "rating": "3.57",
+            "pages": "67"
+        },
+        "isbn13": "9780439786126"
+    },
+    {
+        "id": "386",
+        "title": "Another Bullshit Night in Suck City",
+        "author": 59,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "W. W. Norton & Company",
+        "details": {
+            "isbn": "0393329402",
+            "rating": "3.78",
+            "pages": "347"
+        },
+        "isbn13": "9780439786127"
+    },
+    {
+        "id": "394",
+        "title": "Lincoln at Gettysburg: The Words That Remade America",
+        "author": 60,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Simon & Schuster",
+        "details": {
+            "isbn": "0671867423",
+            "rating": "4.14",
+            "pages": "317"
+        },
+        "isbn13": "9780439786128"
+    },
+    {
+        "id": "399",
+        "title": "Underworld",
+        "author": 61,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Scribner",
+        "details": {
+            "isbn": "0684848155",
+            "rating": "3.92",
+            "pages": "827"
+        },
+        "isbn13": "9780439786130"
+    },
+    {
+        "id": "400",
+        "title": "Libra",
+        "author": 61,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Penguin",
+        "details": {
+            "isbn": "0140156046",
+            "rating": "3.99",
+            "pages": "480"
+        },
+        "isbn13": "9780439786131"
+    },
+    {
+        "id": "403",
+        "title": "Americana",
+        "author": 61,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Penguin Books",
+        "details": {
+            "isbn": "0140119485",
+            "rating": "3.43",
+            "pages": "377"
+        },
+        "isbn13": "9780439786132"
+    },
+    {
+        "id": "404",
+        "title": "Running Dog",
+        "author": 61,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Vintage Contemporaries",
+        "details": {
+            "isbn": "0679722947",
+            "rating": "3.43",
+            "pages": "256"
+        },
+        "isbn13": "9780439786133"
+    },
+    {
+        "id": "406",
+        "title": "Cosmopolis",
+        "author": 61,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Scribner",
+        "details": {
+            "isbn": "0743244257",
+            "rating": "3.22",
+            "pages": "224"
+        },
+        "isbn13": "9780439786134"
+    },
+    {
+        "id": "407",
+        "title": "Great Jones Street",
+        "author": 61,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Penguin Books",
+        "details": {
+            "isbn": "0140179178",
+            "rating": "3.48",
+            "pages": "272"
+        },
+        "isbn13": "9780439786135"
+    },
+    {
+        "id": "408",
+        "title": "The Names",
+        "author": 61,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Vintage",
+        "details": {
+            "isbn": "0679722955",
+            "rating": "3.64",
+            "pages": "339"
+        },
+        "isbn13": "9780439786136"
+    },
+    {
+        "id": "409",
+        "title": "Against the Day",
+        "author": 62,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Penguin Press",
+        "details": {
+            "isbn": "159420120X",
+            "rating": "4.13",
+            "pages": "1085"
+        },
+        "isbn13": "9780439786137"
+    },
+    {
+        "id": "410",
+        "title": "V.",
+        "author": 62,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Harper Perennial Modern Classics",
+        "details": {
+            "isbn": "0060930217",
+            "rating": "3.96",
+            "pages": "547"
+        },
+        "isbn13": "9780439786138"
+    },
+    {
+        "id": "411",
+        "title": "The Crying of Lot 49",
+        "author": 62,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Harper Perennial",
+        "details": {
+            "isbn": "0060931671",
+            "rating": "3.69",
+            "pages": "152"
+        },
+        "isbn13": "9780439786139"
+    },
+    {
+        "id": "412",
+        "title": "Gravity's Rainbow",
+        "author": 62,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Penguin Books",
+        "details": {
+            "isbn": "0140283382",
+            "rating": "4.01",
+            "pages": "784"
+        },
+        "isbn13": "9780439786140"
+    },
+    {
+        "id": "414",
+        "title": "Vineland",
+        "author": 62,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Penguin Classics",
+        "details": {
+            "isbn": "0141180633",
+            "rating": "3.69",
+            "pages": "385"
+        },
+        "isbn13": "9780439786142"
+    },
+    {
+        "id": "415",
+        "title": "Gravity's Rainbow",
+        "author": 62,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Penguin Books",
+        "details": {
+            "isbn": "0143039946",
+            "rating": "4.01",
+            "pages": "776"
+        },
+        "isbn13": "9780439786143"
+    },
+    {
+        "id": "416",
+        "title": "Slow Learner: Early Stories",
+        "author": 62,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Back Bay Books",
+        "details": {
+            "isbn": "0316724432",
+            "rating": "3.50",
+            "pages": "193"
+        },
+        "isbn13": "9780439786144"
+    },
+    {
+        "id": "420",
+        "title": "The Year of Magical Thinking",
+        "author": 63,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Knopf Publishing Group",
+        "details": {
+            "isbn": "140004314X",
+            "rating": "3.89",
+            "pages": "227"
+        },
+        "isbn13": "9780439786146"
+    },
+    {
+        "id": "421",
+        "title": "The White Album",
+        "author": 63,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Farrar Straus Giroux",
+        "details": {
+            "isbn": "0374522219",
+            "rating": "4.17",
+            "pages": "222"
+        },
+        "isbn13": "9780439786147"
+    },
+    {
+        "id": "422",
+        "title": "A Book of Common Prayer",
+        "author": 63,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Vintage International",
+        "details": {
+            "isbn": "0679754865",
+            "rating": "3.80",
+            "pages": "272"
+        },
+        "isbn13": "9780439786148"
+    },
+    {
+        "id": "423",
+        "title": "Where I Was From",
+        "author": 63,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Vintage",
+        "details": {
+            "isbn": "0679752862",
+            "rating": "3.86",
+            "pages": "240"
+        },
+        "isbn13": "9780439786149"
+    },
+    {
+        "id": "424",
+        "title": "Slouching Towards Bethlehem",
+        "author": 63,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Farrar Straus Giroux",
+        "details": {
+            "isbn": "0374521727",
+            "rating": "4.21",
+            "pages": "238"
+        },
+        "isbn13": "9780439786150"
+    },
+    {
+        "id": "425",
+        "title": "Democracy",
+        "author": 63,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Vintage International",
+        "details": {
+            "isbn": "0679754857",
+            "rating": "3.81",
+            "pages": "234"
+        },
+        "isbn13": "9780439786151"
+    },
+    {
+        "id": "432",
+        "title": "City of Glass (The New York Trilogy  #1)",
+        "author": 64,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Penguin Books",
+        "details": {
+            "isbn": "0140097317",
+            "rating": "3.79",
+            "pages": "203"
+        },
+        "isbn13": "9780439786155"
+    },
+    {
+        "id": "434",
+        "title": "Ghosts (The New York Trilogy  #2)",
+        "author": 64,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Penguin Books",
+        "details": {
+            "isbn": "014009735X",
+            "rating": "3.64",
+            "pages": "96"
+        },
+        "isbn13": "9780439786156"
+    },
+    {
+        "id": "435",
+        "title": "The Locked Room (The New York Trilogy  #3)",
+        "author": 64,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Sun and Moon Press",
+        "details": {
+            "isbn": "0940650762",
+            "rating": "3.89",
+            "pages": "179"
+        },
+        "isbn13": "9780439786157"
+    },
+    {
+        "id": "446",
+        "title": "The Brooklyn Follies",
+        "author": 64,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Picador",
+        "details": {
+            "isbn": "0312426232",
+            "rating": "3.84",
+            "pages": "306"
+        },
+        "isbn13": "9780439786159"
+    },
+    {
+        "id": "447",
+        "title": "Moon Palace",
+        "author": 64,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Penguin Books",
+        "details": {
+            "isbn": "0140115854",
+            "rating": "3.94",
+            "pages": "320"
+        },
+        "isbn13": "9780439786160"
+    },
+    {
+        "id": "453",
+        "title": "The Music of Chance",
+        "author": 64,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Penguin Books",
+        "details": {
+            "isbn": "0140154078",
+            "rating": "3.90",
+            "pages": "217"
+        },
+        "isbn13": "9780439786161"
+    },
+    {
+        "id": "454",
+        "title": "Travels in the Scriptorium",
+        "author": 64,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Henry Holt & Company",
+        "details": {
+            "isbn": "0805081453",
+            "rating": "3.23",
+            "pages": "145"
+        },
+        "isbn13": "9780439786162"
+    },
+    {
+        "id": "456",
+        "title": "Leviathan",
+        "author": 64,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Penguin Books",
+        "details": {
+            "isbn": "0140178139",
+            "rating": "3.96",
+            "pages": "275"
+        },
+        "isbn13": "9780439786163"
+    },
+    {
+        "id": "463",
+        "title": "The Red Notebook: True Stories",
+        "author": 64,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "New Directions",
+        "details": {
+            "isbn": "0811214982",
+            "rating": "3.77",
+            "pages": "104"
+        },
+        "isbn13": "9780439786164"
+    },
+    {
+        "id": "466",
+        "title": "Timbuktu / Leviathan / Moon Palace",
+        "author": 64,
+        "cover": "hard cover",
+        "language": "fre",
+        "publisher": "Actes Sud",
+        "details": {
+            "isbn": "2742741461",
+            "rating": "4.38",
+            "pages": "1075"
+        },
+        "isbn13": "9780439786165"
+    },
+    {
+        "id": "475",
+        "title": "Collapse: How Societies Choose to Fail or Succeed",
+        "author": 65,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Penguin Books Ltd. (London)",
+        "details": {
+            "isbn": "0143036556",
+            "rating": "3.93",
+            "pages": "608"
+        },
+        "isbn13": "9780439786166"
+    },
+    {
+        "id": "477",
+        "title": "Collapse of Complex Societies",
+        "author": 66,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Cambridge University Press",
+        "details": {
+            "isbn": "052138673X",
+            "rating": "4.15",
+            "pages": "262"
+        },
+        "isbn13": "9780439786168"
+    },
+    {
+        "id": "478",
+        "title": "Bowling Alone: The Collapse and Revival of American Community",
+        "author": 67,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Simon  Schuster",
+        "details": {
+            "isbn": "0743203046",
+            "rating": "3.80",
+            "pages": "544"
+        },
+        "isbn13": "9780439786169"
+    },
+    {
+        "id": "481",
+        "title": "The Collapse of the Common Good: How America's Lawsuit Culture Undermines Our Freedom",
+        "author": 68,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Ballantine Books",
+        "details": {
+            "isbn": "034543871X",
+            "rating": "3.91",
+            "pages": "272"
+        },
+        "isbn13": "9780439786170"
+    },
+    {
+        "id": "493",
+        "title": "My Inventions",
+        "author": 69,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Filiquarian Publishing  LLC.",
+        "details": {
+            "isbn": "1599869942",
+            "rating": "4.01",
+            "pages": "88"
+        },
+        "isbn13": "9780439786172"
+    },
+    {
+        "id": "497",
+        "title": "Nikola Tesla: A Spark of Genius",
+        "author": 70,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Lerner Publications",
+        "details": {
+            "isbn": "0822549204",
+            "rating": "3.93",
+            "pages": "144"
+        },
+        "isbn13": "9780439786174"
+    },
+    {
+        "id": "524",
+        "title": "Lord of the Flies",
+        "author": 71,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Listening Library (Audio)",
+        "details": {
+            "isbn": "0307281701",
+            "rating": "3.68",
+            "pages": "6"
+        },
+        "isbn13": "9780439786179"
+    },
+    {
+        "id": "531",
+        "title": "A War Like No Other: How the Athenians & Spartans Fought the Peloponnesian War",
+        "author": 72,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Random House",
+        "details": {
+            "isbn": "0812969707",
+            "rating": "4.11",
+            "pages": "397"
+        },
+        "isbn13": "9780439786180"
+    },
+    {
+        "id": "537",
+        "title": "The Lovely Bones",
+        "author": 73,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Picador",
+        "details": {
+            "isbn": "0330485385",
+            "rating": "3.81",
+            "pages": "328"
+        },
+        "isbn13": "9780439786182"
+    },
+    {
+        "id": "538",
+        "title": "The Lovely Bones",
+        "author": 73,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Large Print Press",
+        "details": {
+            "isbn": "159413023X",
+            "rating": "3.81",
+            "pages": "532"
+        },
+        "isbn13": "9780439786183"
+    },
+    {
+        "id": "539",
+        "title": "Lovely in Her Bones (Elizabeth MacPherson  #2)",
+        "author": 74,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Ballantine Books",
+        "details": {
+            "isbn": "0345360354",
+            "rating": "3.80",
+            "pages": "224"
+        },
+        "isbn13": "9780439786184"
+    },
+    {
+        "id": "570",
+        "title": "HTML  XHTML  and CSS (Visual Quickstart Guide)",
+        "author": 75,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Peachpit Press",
+        "details": {
+            "isbn": "0321430840",
+            "rating": "3.80",
+            "pages": "456"
+        },
+        "isbn13": "9780439786186"
+    },
+    {
+        "id": "597",
+        "title": "Killing Yourself to Live: 85% of a True Story",
+        "author": 76,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Scribner",
+        "details": {
+            "isbn": "0743264460",
+            "rating": "3.81",
+            "pages": "245"
+        },
+        "isbn13": "9780439786188"
+    },
+    {
+        "id": "599",
+        "title": "Sex  Drugs  and Cocoa Puffs: A Low Culture Manifesto",
+        "author": 76,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Scribner",
+        "details": {
+            "isbn": "0743236017",
+            "rating": "3.73",
+            "pages": "272"
+        },
+        "isbn13": "9780439786189"
+    },
+    {
+        "id": "619",
+        "title": "Vice (V  #8)",
+        "author": 77,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Bantam",
+        "details": {
+            "isbn": "0553572490",
+            "rating": "3.51",
+            "pages": "419"
+        },
+        "isbn13": "9780439786190"
+    },
+    {
+        "id": "629",
+        "title": "Zen and the Art of Motorcycle Maintenance: An Inquiry Into Values (Phaedrus  #1)",
+        "author": 78,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "HarperTorch",
+        "details": {
+            "isbn": "0060589469",
+            "rating": "3.77",
+            "pages": "540"
+        },
+        "isbn13": "9780439786191"
+    },
+    {
+        "id": "643",
+        "title": "Motorcycle Basics Techbook",
+        "author": 79,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Haynes Manuals N. America  Inc.",
+        "details": {
+            "isbn": "185960515X",
+            "rating": "3.85",
+            "pages": "222"
+        },
+        "isbn13": "9780439786194"
+    },
+    {
+        "id": "663",
+        "title": "For the New Intellectual: The Philosophy of Ayn Rand",
+        "author": 80,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Signet Book",
+        "details": {
+            "isbn": "0451163087",
+            "rating": "3.68",
+            "pages": "224"
+        },
+        "isbn13": "9780439786200"
+    },
+    {
+        "id": "664",
+        "title": "The Fountainhead",
+        "author": 80,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Dutton",
+        "details": {
+            "isbn": "0452286751",
+            "rating": "3.87",
+            "pages": "752"
+        },
+        "isbn13": "9780439786201"
+    },
+    {
+        "id": "667",
+        "title": "Anthem",
+        "author": 80,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "NAL",
+        "details": {
+            "isbn": "0452281253",
+            "rating": "3.63",
+            "pages": "105"
+        },
+        "isbn13": "9780439786203"
+    },
+    {
+        "id": "675",
+        "title": "Sailing from Byzantium: How a Lost Empire Shaped the World",
+        "author": 81,
+        "cover": "hard cover",
+        "language": "eng",
+        "publisher": "Delacorte Press",
+        "details": {
+            "isbn": "0553803816",
+            "rating": "3.88",
+            "pages": "368"
+        },
+        "isbn13": "9780439786208"
+    },
+    {
+        "id": "676",
+        "title": "Sailing Alone Around the Room: New and Selected Poems",
+        "author": 82,
+        "cover": "soft cover",
+        "language": "eng",
+        "publisher": "Random House Trade Paperbacks",
+        "details": {
+            "isbn": "0375755195",
+            "rating": "4.23",
+            "pages": "192"
+        },
+        "isbn13": "9780439786209"
+    },
+    {
+        "id": "678",
+        "title": "The Greatest Sailing Stories Ever Told: Twenty-Seven Unforgettable Stories",
+        "author": 83,
+        "cover": "hard cover with dust jacket",
+        "language": "eng",
+        "publisher": "Lyons Press",
+        "details": {
+            "isbn": "1592283195",
+            "rating": "3.62",
+            "pages": "286"
+        },
+        "isbn13": "9780439786210"
+    },
+    {
+        "id": "681",
+        "title": "Natural Cures \"They\" Don't Want You to Know about,Kevin Trudeau,3.09,0975599518,9780975599518,eng,571,1601,284,1/1/2004,Alliance Publishing",
+        "cover": "hard cover",
+        "details": [],
+        "isbn13": "9780439786211",
+        "author": 8
+    }
+]
