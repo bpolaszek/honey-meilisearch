@@ -6,7 +6,7 @@ namespace Honey\ODM\Meilisearch\Result;
 
 use ArrayAccess;
 use Countable;
-use Honey\ODM\Core\Config\ClassMetadataInterface;
+use Honey\ODM\Core\Config\ClassMetadata;
 use Honey\ODM\Core\Manager\ObjectManager;
 use Honey\ODM\Meilisearch\Config\AsAttribute;
 use Honey\ODM\Meilisearch\Config\AsDocument;
@@ -38,13 +38,13 @@ final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
 
     /**
      * @param ObjectManager<AsDocument<O, AsAttribute>, AsAttribute, DocumentsCriteriaWrapper> $objectManager
-     * @param ClassMetadataInterface<O, AsAttribute> $classMetadata
+     * @param ClassMetadata<O, AsAttribute> $classMetadata
      * @param list<array<string, mixed>>|(Traversable<int, array<string, mixed>>&Countable&ArrayAccess<int, array<string, mixed>>) $documents
      */
     public function __construct(
         private readonly ObjectManager $objectManager,
         private readonly array|(Traversable&Countable&ArrayAccess) $documents,
-        private readonly ClassMetadataInterface $classMetadata,
+        private readonly ClassMetadata $classMetadata,
     ) {
         $this->geo = new WeakMap();
         $this->vectors = new WeakMap();

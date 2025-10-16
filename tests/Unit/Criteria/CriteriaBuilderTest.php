@@ -40,9 +40,9 @@ it('creates instance with correct initial state', function () {
 
 it('creates field from property name using class metadata', function () {
     $classMetadata = new ClassMetadata('test-index');
-    $classMetadata->propertiesMetadata = [
+    Reflection::property($classMetadata, 'propertiesMetadata')->setValue($classMetadata, [
         'propertyName' => (object)['name' => 'attribute_name']
-    ];
+    ]);
 
     $builder = new CriteriaBuilder($classMetadata);
     $field = $builder->field('propertyName');
@@ -94,9 +94,9 @@ it('maintains unique filters in UniqueList', function () {
 
 it('adds sort with string direction', function () {
     $classMetadata = new ClassMetadata('test-index');
-    $classMetadata->propertiesMetadata = [
+    Reflection::property($classMetadata, 'propertiesMetadata')->setValue($classMetadata, [
         'title' => (object)['name' => 'title_attr']
-    ];
+    ]);
 
     $builder = new CriteriaBuilder($classMetadata);
     $result = $builder->addSort('title', 'desc');
@@ -108,9 +108,9 @@ it('adds sort with string direction', function () {
 
 it('adds sort with SortDirection enum', function () {
     $classMetadata = new ClassMetadata('test-index');
-    $classMetadata->propertiesMetadata = [
+    Reflection::property($classMetadata, 'propertiesMetadata')->setValue($classMetadata, [
         'price' => (object)['name' => 'price_attr']
-    ];
+    ]);
 
     $builder = new CriteriaBuilder($classMetadata);
     $result = $builder->addSort('price', SortDirection::ASC);
@@ -122,9 +122,9 @@ it('adds sort with SortDirection enum', function () {
 
 it('adds sort with default asc direction', function () {
     $classMetadata = new ClassMetadata('test-index');
-    $classMetadata->propertiesMetadata = [
+    Reflection::property($classMetadata, 'propertiesMetadata')->setValue($classMetadata, [
         'created_at' => (object)['name' => 'created_at_attr']
-    ];
+    ]);
 
     $builder = new CriteriaBuilder($classMetadata);
     $result = $builder->addSort('created_at');
@@ -160,10 +160,10 @@ it('adds sort with GeoPoint and SortDirection enum', function () {
 
 it('maintains unique sorts in UniqueList', function () {
     $classMetadata = new ClassMetadata('test-index');
-    $classMetadata->propertiesMetadata = [
+    Reflection::property($classMetadata, 'propertiesMetadata')->setValue($classMetadata, [
         'title' => (object)['name' => 'title_attr'],
-        'price' => (object)['name' => 'price_attr']
-    ];
+        'price' => (object)['name' => 'price_attr'],
+    ]);
 
     $builder = new CriteriaBuilder($classMetadata);
 
@@ -255,10 +255,10 @@ it('builds DocumentsCriteriaWrapper with filters', function () {
 
 it('builds DocumentsCriteriaWrapper with sorts', function () {
     $classMetadata = new ClassMetadata('test-index');
-    $classMetadata->propertiesMetadata = [
+    Reflection::property($classMetadata, 'propertiesMetadata')->setValue($classMetadata, [
         'title' => (object)['name' => 'title_attr'],
-        'created_at' => (object)['name' => 'created_at_attr']
-    ];
+        'created_at' => (object)['name' => 'created_at_attr'],
+    ]);
 
     $builder = new CriteriaBuilder($classMetadata);
     $builder->addSort('title', 'asc')
@@ -278,9 +278,9 @@ it('builds DocumentsCriteriaWrapper with sorts', function () {
 
 it('builds DocumentsCriteriaWrapper with all options', function () {
     $classMetadata = new ClassMetadata('test-index');
-    $classMetadata->propertiesMetadata = [
+    Reflection::property($classMetadata, 'propertiesMetadata')->setValue($classMetadata, [
         'priority' => (object)['name' => 'priority_attr']
-    ];
+    ]);
 
     $builder = new CriteriaBuilder($classMetadata);
     $builder->addFilter('status = "active"')

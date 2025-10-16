@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Honey\ODM\Meilisearch\Transport;
 
-use Honey\ODM\Core\Config\ClassMetadataInterface;
+use Honey\ODM\Core\Config\ClassMetadata;
 use Honey\ODM\Core\Mapper\MappingContext;
 use Honey\ODM\Core\Misc\UniqueList;
 use Honey\ODM\Core\Transport\TransportInterface;
@@ -138,7 +138,7 @@ final readonly class MeiliTransport implements TransportInterface
     /**
      * @param AsDocument<object, AsAttribute> $classMetadata
      */
-    public function retrieveDocumentById(ClassMetadataInterface $classMetadata, mixed $id): ?array
+    public function retrieveDocumentById(ClassMetadata $classMetadata, mixed $id): ?array
     {
         try {
             return $this->meili->index($classMetadata->index)->getDocument($id);
