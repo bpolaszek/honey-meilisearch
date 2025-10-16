@@ -70,7 +70,7 @@ $client = new Client('http://localhost:7700', 'your-master-key');
 $objectManager = new ObjectManager($client);
 
 // Get repository for your entity
-$bookRepository = $objectManager->getRepository(Book::class); // <-- This we automatically read the `AsDocument` / `AsAttribute` attributes
+$bookRepository = $objectManager->getRepository(Book::class); // <-- This will automatically read the `AsDocument` / `AsAttribute` attributes
 ```
 
 ### 3. Basic Operations
@@ -215,7 +215,7 @@ class BookRepository extends ObjectRepository
 {
     public function findByAuthor(string $authorName): iterable
     {
-        return $this->findBy(['author.name' => $authorName]);
+        return $this->findBy(['author_name' => $authorName]);
     }
     
     public function findRecentBooks(): iterable
