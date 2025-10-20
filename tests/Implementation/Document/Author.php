@@ -17,14 +17,14 @@ final class Author
     public function __construct(
         #[AsAttribute(name: 'author_id', primary: true)]
         public int $id,
-        #[AsAttribute(name: 'author_name')]
+        #[AsAttribute(name: 'author_name', filterable: true)]
         public string $name,
         #[AsAttribute(name: 'books', transformer: new TransformerMetadata(
             RelationsTransformer::class,
             ['target_class' => Book::class],
         ))]
         public array $books = [],
-        #[AsAttribute(name: 'created_at', transformer: DateTimeImmutableTransformer::class)]
+        #[AsAttribute(name: 'created_at', transformer: DateTimeImmutableTransformer::class, sortable: true)]
         public ?DateTimeInterface $createdAt = null,
     ) {
     }

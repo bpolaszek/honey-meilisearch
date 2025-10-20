@@ -81,7 +81,7 @@ final readonly class MeiliTransport implements TransportInterface
         }
         foreach ($updateIndexes as $index) {
             $objects = iterable($unitOfWork->getPendingUpserts())
-                ->filter(fn (object $object) => $objectsIndex[$object] === $index);
+                ->filter(fn (object $object) => $objectsIndex[$object] === $index); // @phpstan-ignore identical.alwaysFalse
             $documents = $objects->map(function (object $object) use ($mapper, $unitOfWork, $classMetadataRegistry) {
                 $classMetadata = $classMetadataRegistry->getClassMetadata($object::class);
                 $context = new MappingContext($classMetadata, $unitOfWork->objectManager, $object, []);

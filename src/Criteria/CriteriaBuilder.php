@@ -116,6 +116,7 @@ final class CriteriaBuilder
 
     /**
      * @param non-negative-int $limit
+     *
      * @return $this
      */
     public function setLimit(int $limit): CriteriaBuilder

@@ -18,7 +18,7 @@
   },
   "require": {
     "php": ">=8.4",
-    "honey-odm/core": "1.0.0-beta2",
+    "honey-odm/core": "1.0.0-beta3",
     "bentools/meilisearch-filters": "^1.0",
     "meilisearch/meilisearch-php": "^1.16",
     "symfony/options-resolver": "^7.2"

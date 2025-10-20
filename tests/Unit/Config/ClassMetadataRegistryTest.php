@@ -10,6 +10,7 @@ use Honey\ODM\Meilisearch\Config\AsAttribute;
 use Honey\ODM\Meilisearch\Config\AsDocument;
 use Honey\ODM\Meilisearch\Config\ClassMetadataRegistry;
 use Honey\ODM\Meilisearch\Tests\Implementation\Document\Author;
+use Honey\ODM\Meilisearch\Tests\Implementation\Document\Book;
 
 it('returns metadata', function () {
     $registry = new ClassMetadataRegistry();
@@ -31,7 +32,14 @@ it('returns metadata', function () {
         ;
 });
 
+it('is iterable', function () {
+    $registry = new ClassMetadataRegistry(configurations: [
+        Author::class => new AsDocument('authors'),
+        Book::class => new AsDocument('books'),
+    ]);
 
+    expect([...$registry])->toHaveCount(2);
+});
 
 it('returns the id of an object', function () {
     $registry = new ClassMetadataRegistry();

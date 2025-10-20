@@ -15,6 +15,8 @@ final class AsAttribute extends PropertyMetadata
         public readonly ?string $name = null,
         public readonly bool $primary = false,
         protected TransformerMetadataInterface|string|null $transformer = null,
+        public readonly ?bool $filterable = null,
+        public readonly ?bool $sortable = null,
     ) {
     }
 }
