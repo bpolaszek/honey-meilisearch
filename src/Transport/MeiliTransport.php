@@ -19,6 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use WeakMap;
 
 use function array_column;
+use function array_values;
 use function BenTools\IterableFunctions\iterable;
 use function Bentools\MeilisearchFilters\field;
 use function Honey\ODM\Meilisearch\iterable_chunk;
@@ -70,6 +71,7 @@ final readonly class MeiliTransport implements TransportInterface
 
         // Process upserts
         $objectsIndex = new WeakMap();
+        $states = new WeakMap();
         foreach ($unitOfWork->getPendingUpserts() as $object) {
             /** @var AsDocument<object, AsAttribute> $metadata */
             $metadata = $classMetadataRegistry->getClassMetadata($object::class);
@@ -82,11 +84,13 @@ final readonly class MeiliTransport implements TransportInterface
         foreach ($updateIndexes as $index) {
             $objects = iterable($unitOfWork->getPendingUpserts())
                 ->filter(fn (object $object) => $objectsIndex[$object] === $index); // @phpstan-ignore identical.alwaysFalse
-            $documents = $objects->map(function (object $object) use ($mapper, $unitOfWork, $classMetadataRegistry) {
+            $documents = $objects->map(function (object $object) use ($mapper, $unitOfWork, $classMetadataRegistry, $states) {
                 $classMetadata = $classMetadataRegistry->getClassMetadata($object::class);
                 $context = new MappingContext($classMetadata, $unitOfWork->objectManager, $object, []);
+                $document = $mapper->objectToDocument($object, [], $context);
+                $states[$object] = $document;
 
-                return $mapper->objectToDocument($object, [], $context);
+                return $document;
             });
 
             foreach (iterable_chunk($documents, $flushBatchSize) as $documents) {
@@ -128,6 +132,11 @@ final readonly class MeiliTransport implements TransportInterface
             $this->options['flushTimeoutMs'],
             $this->options['flushCheckIntervalMs'],
         );
+
+        foreach ($states as $object => $document) {
+            $objectManager->identities->rememberState($object, $document);
+        }
+        $objectManager->identities->detach(...$unitOfWork->getPendingDeletes());
     }
 
     public function retrieveDocuments(mixed $criteria): DocumentResultset
