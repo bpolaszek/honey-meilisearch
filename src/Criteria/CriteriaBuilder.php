@@ -9,6 +9,7 @@ use Honey\ODM\Core\Misc\UniqueList;
 use Honey\ODM\Meilisearch\Config\AsAttribute as PropertyMetadata;
 use Honey\ODM\Meilisearch\Config\AsDocument as ClassMetadata;
 use Meilisearch\Contracts\DocumentsQuery;
+use Meilisearch\Contracts\SearchQuery;
 use Stringable;
 
 use function Bentools\MeilisearchFilters\field;
@@ -50,6 +51,7 @@ final class CriteriaBuilder
      */
     public function __construct(
         private readonly ClassMetadata $classMetadata,
+        private RetrievalMode $mode = RetrievalMode::DOCUMENTS,
     ) {
         $this->filters = new UniqueList();
         $this->sorts = new UniqueList();
@@ -131,6 +133,18 @@ final class CriteriaBuilder
      */
     public function build(?int $batchSize = null): DocumentsCriteriaWrapper
     {
+        return new DocumentsCriteriaWrapper(
+            $this->classMetadata->index,
+            match ($this->mode) {
+                RetrievalMode::DOCUMENTS => $this->buildDocumentsQuery(),
+                RetrievalMode::SEARCH => $this->buildSearchQuery(),
+            },
+            $batchSize,
+        );
+    }
+
+    private function buildDocumentsQuery(): DocumentsQuery
+    {
         $query = new DocumentsQuery();
         if (isset($this->filters[0])) {
             $query = $query->setFilter($this->filters->toArray()); // @phpstan-ignore argument.type
@@ -146,10 +160,25 @@ final class CriteriaBuilder
         $query = $query->setLimit($this->limit);
         $query = $query->setRetrieveVectors($this->retrieveVectors);
 
-        return new DocumentsCriteriaWrapper(
-            $this->classMetadata->index,
-            $query,
-            $batchSize,
-        );
+        return $query;
+    }
+
+    private function buildSearchQuery(): SearchQuery
+    {
+        $query = new SearchQuery();
+        if (isset($this->filters[0])) {
+            $query = $query->setFilter($this->filters->toArray()); // @phpstan-ignore argument.type
+        }
+        if (isset($this->sorts[0])) {
+            $query = $query->setSort($this->sorts->toArray());
+        }
+        if (isset($this->fields)) {
+            $query = $query->setAttributesToRetrieve($this->fields);
+        }
+
+        $query = $query->setOffset($this->offset);
+        $query = $query->setLimit($this->limit);
+
+        return $query;
     }
 }

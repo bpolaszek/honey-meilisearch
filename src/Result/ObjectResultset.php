@@ -27,14 +27,9 @@ use function count;
 final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
 {
     /**
-     * @var WeakMap<O, array<string, mixed>>
+     * @var WeakMap<O, array<string, array<string, array<string, mixed>>>>
      */
-    public private(set) WeakMap $geo;
-
-    /**
-     * @var WeakMap<O, array<string, mixed>>
-     */
-    public private(set) WeakMap $vectors;
+    public private(set) WeakMap $extra;
 
     /**
      * @param ObjectManager<AsDocument<O, AsAttribute>, AsAttribute, DocumentsCriteriaWrapper> $objectManager
@@ -46,8 +41,7 @@ final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
         private readonly array|(Traversable&Countable&ArrayAccess) $documents,
         private readonly ClassMetadata $classMetadata,
     ) {
-        $this->geo = new WeakMap();
-        $this->vectors = new WeakMap();
+        $this->extra = new WeakMap();
     }
 
     public function getIterator(): Traversable
@@ -65,11 +59,13 @@ final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
     private function factory(array $document): object
     {
         $object = $this->objectManager->factory($document, $this->classMetadata);
-        if (isset($document['_geo'])) {
-            $this->geo[$object] = $document['_geo'];
-        }
-        if (isset($document['_vectors'])) {
-            $this->vectors[$object] = $document['_vectors'];
+
+        foreach ($document as $key => $value) {
+            if (str_starts_with($key, '_')) {
+                $key = substr($key, strlen('_'));
+                $this->extra[$object] ??= [];
+                $this->extra[$object][$key] = $value;
+            }
         }
 
         return $object;

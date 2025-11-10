@@ -10,7 +10,7 @@ use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
 use InvalidArgumentException;
 use IteratorAggregate;
 use Meilisearch\Client;
-use Meilisearch\Contracts\DocumentsQuery;
+use Meilisearch\Contracts\SearchQuery;
 use RuntimeException;
 use Traversable;
 
@@ -23,7 +23,7 @@ use const PHP_INT_MAX;
  * @implements IteratorAggregate<int, array<string, mixed>>
  * @implements ArrayAccess<int, array<string, mixed>>
  */
-final class DocumentResultset implements IteratorAggregate, Countable, ArrayAccess
+final class SearchResultset implements IteratorAggregate, Countable, ArrayAccess
 {
     public private(set) int $totalItems;
     private int $limit;
@@ -37,17 +37,20 @@ final class DocumentResultset implements IteratorAggregate, Countable, ArrayAcce
 
     public function getIterator(): Traversable
     {
-        $query = $this->criteria->query ?? new DocumentsQuery();
+        $query = $this->criteria->query ?? new SearchQuery();
         $offset = $query->toArray()['offset'] ?? 0;
         $i = 0;
 
         NextIteration:
-        /** @var DocumentsQuery $batchQuery */
         $batchQuery = (clone $query)->setOffset($offset);
-        $result = $this->meili->index($this->criteria->index)->getDocuments($batchQuery);
-        $this->totalItems ??= $result->getTotal();
+        $result = $this->meili->index($this->criteria->index)->search(null, $batchQuery->toArray());
+        $this->totalItems ??= $result->getEstimatedTotalHits() ?? PHP_INT_MAX;
+        $hits = $result->getHits();
+        if (!isset($hits[0])) {
+            return;
+        }
 
-        foreach ($result as $item) {
+        foreach ($hits as $item) {
             yield $item;
             ++$i;
             if ($i >= $this->limit) {
@@ -59,7 +62,6 @@ final class DocumentResultset implements IteratorAggregate, Countable, ArrayAcce
         if ($offset > $this->totalItems) {
             return;
         }
-
         goto NextIteration;
     }
 
@@ -67,11 +69,13 @@ final class DocumentResultset implements IteratorAggregate, Countable, ArrayAcce
     {
         // @phpstan-ignore return.type
         return $this->totalItems ??= (function () {
-            /** @var DocumentsQuery $query */
-            $query = clone ($this->criteria->query ?? new DocumentsQuery());
+            $query = clone ($this->criteria->query ?? new SearchQuery());
             $query->setLimit(0);
 
-            return $this->meili->index($this->criteria->index)->getDocuments($query)->getTotal();
+            return $this->meili
+                ->index($this->criteria->index)
+                ->search(null, $query->toArray())
+                ->getEstimatedTotalHits() ?? PHP_INT_MAX;
         })();
     }
 

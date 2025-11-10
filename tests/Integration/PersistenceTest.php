@@ -7,12 +7,14 @@ namespace Honey\ODM\Meilisearch\Tests\Integration;
 use BenTools\ReflectionPlus\Reflection;
 use Honey\ODM\Core\Manager\Identities;
 use Honey\ODM\Core\Mapper\MappingContext;
+use Honey\ODM\Meilisearch\Criteria\CriteriaBuilder;
 use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
 use Honey\ODM\Meilisearch\ObjectManager\ObjectManager;
 use Honey\ODM\Meilisearch\Result\ObjectResultset;
 use Honey\ODM\Meilisearch\Tests\Implementation\Document\Book;
 use InvalidArgumentException;
 use Meilisearch\Contracts\DocumentsQuery;
+use Meilisearch\Contracts\SearchQuery;
 use RuntimeException;
 use stdClass;
 
@@ -93,14 +95,24 @@ it('returns null when the document does not exist', function () {
     expect($book)->toBeNull();
 });
 
-it('finds a specific book using filters', function () {
+it('finds a specific book using filters', function (mixed $criteria) {
     $objectManager = new ObjectManager(meili());
     $repository = $objectManager->getRepository(Book::class);
     /** @var Book $book */
-    $book = $repository->findOneBy(['isbn' => '9780439786184']);
+    $book = $repository->findOneBy($criteria);
     expect($book)->toBeInstanceOf(Book::class)
         ->and($book->isbn)->toBe('9780439786184')
     ;
+})->with(function () {
+    yield 'array' => [['isbn' => '9780439786184']];
+    yield 'DocumentsQuery' => [new DocumentsQuery()->setFilter(['isbn13 = 9780439786184'])];
+    yield 'SearchQuery' => [new SearchQuery()->setFilter(['isbn13 = 9780439786184'])];
+    yield 'DocumentsCriteriaWrapper' => [new DocumentsCriteriaWrapper('books', new DocumentsQuery()->setFilter(['isbn13 = 9780439786184']))];
+
+    $objectManager = new ObjectManager(meili());
+    $criteriaBuilder = new CriteriaBuilder($objectManager->classMetadataRegistry->getClassMetadata(Book::class));
+
+    yield 'CriteriaBuilder' => [$criteriaBuilder->addFilter($criteriaBuilder->field('isbn')->equals('9780439786184'))];
 });
 
 it('complains when criteria are not of the expected type', function () {

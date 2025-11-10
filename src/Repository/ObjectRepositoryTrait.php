@@ -13,8 +13,9 @@ use Honey\ODM\Meilisearch\Result\ObjectResultset;
 use Honey\ODM\Meilisearch\Transport\MeiliTransport;
 use InvalidArgumentException;
 use Meilisearch\Contracts\DocumentsQuery;
+use Meilisearch\Contracts\SearchQuery;
 
-use function is_array;
+use function get_debug_type;
 
 /**
  * @template O of object
@@ -92,24 +93,27 @@ trait ObjectRepositoryTrait
     {
         /** @var AsDocument<O, AsAttribute> $classMetadata */
         $classMetadata = $this->manager->classMetadataRegistry->getClassMetadata($this->className);
-        if (null === $criteria) {
-            return new DocumentsCriteriaWrapper($classMetadata->index);
-        }
-        if ($criteria instanceof DocumentsCriteriaWrapper) {
-            return $criteria;
-        }
-        if ($criteria instanceof DocumentsQuery) {
-            return new DocumentsCriteriaWrapper($classMetadata->index, $criteria);
-        }
-        if (is_array($criteria)) {
-            $builder = $this->createCriteriaBuilder();
-            foreach ($criteria as $key => $value) {
-                $builder->addFilter($builder->field($key)->equals($value));
-            }
 
-            return $builder->build();
+        return match (get_debug_type($criteria)) {
+            'array' => $this->resolveArrayCriteria($criteria),
+            'null' => new DocumentsCriteriaWrapper($classMetadata->index),
+            DocumentsQuery::class, SearchQuery::class => new DocumentsCriteriaWrapper($classMetadata->index, $criteria),
+            DocumentsCriteriaWrapper::class => $criteria,
+            CriteriaBuilder::class => $criteria->build(),
+            default => throw new InvalidArgumentException('Invalid criteria.'),
+        };
+    }
+
+    /**
+     * @param array<string, mixed> $criteria
+     */
+    private function resolveArrayCriteria(array $criteria): DocumentsCriteriaWrapper
+    {
+        $builder = $this->createCriteriaBuilder();
+        foreach ($criteria as $key => $value) {
+            $builder->addFilter($builder->field($key)->equals($value));
         }
 
-        throw new InvalidArgumentException('Invalid criteria.');
+        return $builder->build();
     }
 }
