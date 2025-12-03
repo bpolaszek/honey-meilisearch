@@ -13,13 +13,16 @@ use Honey\ODM\Meilisearch\Config\AsAttribute;
 use Honey\ODM\Meilisearch\Config\AsDocument;
 use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
 use Honey\ODM\Meilisearch\Result\DocumentResultset;
+use Honey\ODM\Meilisearch\Result\SearchResultset;
 use Meilisearch\Client;
+use Meilisearch\Contracts\SearchQuery;
 use Meilisearch\Exceptions\ApiException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use WeakMap;
 
 use function array_column;
 use function array_values;
+use function assert;
 use function BenTools\IterableFunctions\iterable;
 use function Bentools\MeilisearchFilters\field;
 use function Honey\ODM\Meilisearch\iterable_chunk;
@@ -139,9 +142,14 @@ final readonly class MeiliTransport implements TransportInterface
         $objectManager->identities->detach(...$unitOfWork->getPendingDeletes());
     }
 
-    public function retrieveDocuments(mixed $criteria): DocumentResultset
+    public function retrieveDocuments(mixed $criteria): DocumentResultset|SearchResultset
     {
-        return new DocumentResultset($this->meili, $criteria);
+        assert($criteria instanceof DocumentsCriteriaWrapper);
+
+        return match ($criteria->query instanceof SearchQuery) {
+            true => new SearchResultset($this->meili, $criteria),
+            false => new DocumentResultset($this->meili, $criteria),
+        };
     }
 
     /**

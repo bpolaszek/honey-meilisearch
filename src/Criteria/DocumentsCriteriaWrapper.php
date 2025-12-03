@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Honey\ODM\Meilisearch\Criteria;
 
 use Meilisearch\Contracts\DocumentsQuery;
+use Meilisearch\Contracts\SearchQuery;
 
 final class DocumentsCriteriaWrapper
 {
@@ -30,7 +31,7 @@ final class DocumentsCriteriaWrapper
      */
     public function __construct(
         public readonly string $index,
-        public readonly ?DocumentsQuery $query = null,
+        public readonly DocumentsQuery|SearchQuery|null $query = null,
         ?int $batchSize = null,
     ) {
         $this->batchSize = $batchSize ?? self::$batchSizeByIndex[$this->index] ?? self::$defaultBatchSize;
