@@ -21,17 +21,17 @@
     "honey-odm/core": "^1.0@beta",
     "bentools/meilisearch-filters": "^1.0",
     "meilisearch/meilisearch-php": "^1.16",
-    "symfony/options-resolver": "^7.2"
+    "symfony/options-resolver": "^7.2|~8.0"
   },
   "require-dev": {
-    "symfony/var-dumper": "^7.2",
-    "symfony/http-client": "^7.2",
+    "symfony/var-dumper": "^7.2|~8.0",
+    "symfony/http-client": "^7.2|~8.0",
     "nyholm/psr7": "^1.8",
     "pestphp/pest": "^4.1",
     "phpstan/phpstan": "^2.1",
     "squizlabs/php_codesniffer": "^4.0",
     "friendsofphp/php-cs-fixer": "^3.88",
-    "symfony/dotenv": "^7.3"
+    "symfony/dotenv": "^7.3|~8.0"
   },
   "config": {
     "allow-plugins": {
