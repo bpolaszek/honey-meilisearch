@@ -58,7 +58,7 @@ final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
      */
     private function factory(array $document): object
     {
-        $object = $this->objectManager->factory($document, $this->classMetadata);
+        $object = $this->objectManager->factory($document, $this->classMetadata->className);
 
         foreach ($document as $key => $value) {
             if (str_starts_with($key, '_')) {

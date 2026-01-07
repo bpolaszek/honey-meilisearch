@@ -78,7 +78,7 @@ trait ObjectRepositoryTrait
             return null;
         }
 
-        return $this->manager->factory($document, $classMetadata);
+        return $this->manager->factory($document, $this->className);
     }
 
     public function createCriteriaBuilder(): CriteriaBuilder
