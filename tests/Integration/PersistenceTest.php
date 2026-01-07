@@ -6,7 +6,6 @@ namespace Honey\ODM\Meilisearch\Tests\Integration;
 
 use BenTools\ReflectionPlus\Reflection;
 use Honey\ODM\Core\Manager\Identities;
-use Honey\ODM\Core\Mapper\MappingContext;
 use Honey\ODM\Meilisearch\Criteria\CriteriaBuilder;
 use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
 use Honey\ODM\Meilisearch\ObjectManager\ObjectManager;
@@ -123,7 +122,6 @@ it('complains when criteria are not of the expected type', function () {
 
 it('persists stuff', function () {
     $objectManager = new ObjectManager(meili());
-    $classMetadata = $objectManager->classMetadataRegistry->getClassMetadata(Book::class);
     $book = $objectManager->find(Book::class, 4);
     assert($book instanceof Book);
 
@@ -139,7 +137,7 @@ it('persists stuff', function () {
     expect($objectManager->find(Book::class, 4))->toBeNull();
 
     // When
-    $book = $objectManager->factory($initialDocument, $classMetadata);
+    $book = $objectManager->factory($initialDocument, Book::class);
     $objectManager->persist($book);
     $objectManager->flush();
 
