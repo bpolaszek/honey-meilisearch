@@ -11,6 +11,7 @@ use Honey\ODM\Core\Manager\ObjectManager;
 use Honey\ODM\Meilisearch\Config\AsAttribute;
 use Honey\ODM\Meilisearch\Config\AsDocument;
 use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
+use Honey\ODM\Meilisearch\Transport\MeiliTransport;
 use IteratorAggregate;
 use RuntimeException;
 use Traversable;
@@ -23,6 +24,7 @@ use function count;
  *
  * @implements IteratorAggregate<int, O>
  * @implements ArrayAccess<int, O>
+ * @phpstan-import-type MeiliTransportOptions from MeiliTransport
  */
 final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
 {
@@ -32,7 +34,7 @@ final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
     public private(set) WeakMap $extra;
 
     /**
-     * @param ObjectManager<AsDocument<O, AsAttribute>, AsAttribute, DocumentsCriteriaWrapper> $objectManager
+     * @param ObjectManager<AsDocument<O, AsAttribute>, AsAttribute, DocumentsCriteriaWrapper, MeiliTransportOptions> $objectManager
      * @param ClassMetadata<O, AsAttribute> $classMetadata
      * @param list<array<string, mixed>>|(Traversable<int, array<string, mixed>>&Countable&ArrayAccess<int, array<string, mixed>>) $documents
      */
