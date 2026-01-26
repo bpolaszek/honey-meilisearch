@@ -20,7 +20,7 @@ use Meilisearch\Client;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
- * @extends BaseObjectManager<AsDocument, AsAttribute, DocumentsCriteriaWrapper>
+ * @extends BaseObjectManager<AsDocument, AsAttribute, DocumentsCriteriaWrapper, MeiliTransportOptions>
  *
  * @phpstan-import-type MeiliTransportOptions from MeiliTransport
  */
@@ -42,11 +42,14 @@ final class ObjectManager extends BaseObjectManager
         DocumentMapperInterface $documentMapper = new DocumentMapper(),
         EventDispatcherInterface $eventDispatcher = new NullEventDispatcher(),
     ) {
+        $transport = new MeiliTransport($this->meili, $options);
+
         parent::__construct(
-            $classMetadataRegistry,
-            $documentMapper,
-            $eventDispatcher,
-            new MeiliTransport($this->meili, $options),
+            classMetadataRegistry: $classMetadataRegistry,
+            documentMapper: $documentMapper,
+            eventDispatcher: $eventDispatcher,
+            transport: $transport,
+            defaultFlushOptions: $transport->options,
         );
     }
 

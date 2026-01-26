@@ -21,11 +21,12 @@ use function get_debug_type;
  * @template O of object
  *
  * @implements ObjectRepositoryInterface<O>
+ * @phpstan-import-type MeiliTransportOptions from MeiliTransport
  */
 trait ObjectRepositoryTrait
 {
     /**
-     * @param ObjectManager<AsDocument<object, AsAttribute>, AsAttribute, DocumentsCriteriaWrapper> $manager
+     * @param ObjectManager<AsDocument<object, AsAttribute>, AsAttribute, DocumentsCriteriaWrapper, MeiliTransportOptions> $manager
      * @param class-string<O> $className
      */
     public function __construct(

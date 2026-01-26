@@ -17,6 +17,7 @@ use Honey\ODM\Meilisearch\Result\SearchResultset;
 use Meilisearch\Client;
 use Meilisearch\Contracts\SearchQuery;
 use Meilisearch\Exceptions\ApiException;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use WeakMap;
 
@@ -29,9 +30,9 @@ use function Honey\ODM\Meilisearch\iterable_chunk;
 use function Honey\ODM\Meilisearch\weakmap_values;
 
 /**
- * @implements TransportInterface<DocumentsCriteriaWrapper>
+ * @implements TransportInterface<DocumentsCriteriaWrapper, MeiliTransportOptions>
  *
- * @phpstan-type MeiliTransportOptions array{flushBatchSize?: int, flushTimeoutMs?: int, flushCheckIntervalMs?: int}
+ * @phpstan-type MeiliTransportOptions array{flushBatchSize?: int, flushTimeoutMs?: int, flushCheckIntervalMs?: int, wait?: bool}
  */
 final readonly class MeiliTransport implements TransportInterface
 {
@@ -39,12 +40,15 @@ final readonly class MeiliTransport implements TransportInterface
         'flushBatchSize' => PHP_INT_MAX,
         'flushTimeoutMs' => 900_000,
         'flushCheckIntervalMs' => 50,
+        'wait' => true,
     ];
+
+    private OptionsResolver $optionsResolver;
 
     /**
      * @var MeiliTransportOptions
      */
-    public array $options;
+    public private(set) array $options;
 
     /**
      * @param MeiliTransportOptions $options
@@ -53,21 +57,23 @@ final readonly class MeiliTransport implements TransportInterface
         public Client $meili,
         array $options = [],
     ) {
-        $optionsResolver = new OptionsResolver();
-        $optionsResolver->setDefaults(self::DEFAULT_OPTIONS);
-        $optionsResolver->setAllowedTypes('flushBatchSize', ['int']);
-        $optionsResolver->setAllowedTypes('flushTimeoutMs', ['int']);
-        $optionsResolver->setAllowedTypes('flushCheckIntervalMs', ['int']);
-        $this->options = $optionsResolver->resolve($options);
+        $this->optionsResolver = new OptionsResolver();
+        $this->optionsResolver->setDefaults(self::DEFAULT_OPTIONS);
+        $this->optionsResolver->setAllowedTypes('flushBatchSize', ['int']);
+        $this->optionsResolver->setAllowedTypes('flushTimeoutMs', ['int']);
+        $this->optionsResolver->setAllowedTypes('flushCheckIntervalMs', ['int']);
+        $this->optionsResolver->setAllowedTypes('wait', ['bool']);
+        $this->options = $this->optionsResolver->resolve($options);
     }
 
     /**
-     * @param UnitOfWork<AsDocument<object, AsAttribute>, AsAttribute, DocumentsCriteriaWrapper> $unitOfWork
+     * @param UnitOfWork<AsDocument<object, AsAttribute>, AsAttribute, DocumentsCriteriaWrapper, MeiliTransportOptions> $unitOfWork
      */
-    public function flushPendingOperations(UnitOfWork $unitOfWork): void // @phpstan-ignore method.childParameterType
+    public function flushPendingOperations(UnitOfWork $unitOfWork, array $flushOptions = []): void // @phpstan-ignore method.childParameterType
     {
         $tasks = [];
-        $flushBatchSize = $this->options['flushBatchSize'];
+        $options = $flushOptions ? $this->optionsResolver->resolve([...$this->options, ...$flushOptions]) : $this->options;
+        $flushBatchSize = $options['flushBatchSize'];
         $objectManager = $unitOfWork->objectManager;
         $classMetadataRegistry = $objectManager->classMetadataRegistry;
         $mapper = $objectManager->documentMapper;
@@ -130,11 +136,13 @@ final readonly class MeiliTransport implements TransportInterface
             }
         }
 
-        $this->meili->waitForTasks(
-            array_column($tasks, 'taskUid'),
-            $this->options['flushTimeoutMs'],
-            $this->options['flushCheckIntervalMs'],
-        );
+        if ($options['wait']) {
+            $this->meili->waitForTasks(
+                array_column($tasks, 'taskUid'),
+                $options['flushTimeoutMs'],
+                $options['flushCheckIntervalMs'],
+            );
+        }
 
         foreach ($states as $object => $document) {
             $objectManager->identities->rememberState($object, $document);
