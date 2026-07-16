@@ -4,29 +4,25 @@ declare(strict_types=1);
 
 namespace Honey\ODM\Meilisearch\Repository;
 
+use Honey\ODM\Core\Criteria\Criteria;
 use Honey\ODM\Core\Manager\ObjectManager;
-use Honey\ODM\Meilisearch\Config\AsAttribute;
-use Honey\ODM\Meilisearch\Config\AsDocument;
-use Honey\ODM\Meilisearch\Criteria\CriteriaBuilder;
 use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
 use Honey\ODM\Meilisearch\Result\ObjectResultset;
 use Honey\ODM\Meilisearch\Transport\MeiliTransport;
-use InvalidArgumentException;
 use Meilisearch\Contracts\DocumentsQuery;
 use Meilisearch\Contracts\SearchQuery;
 
-use function get_debug_type;
+use function assert;
+use function Honey\ODM\Meilisearch\index_uid;
+use function is_array;
 
 /**
  * @template O of object
- *
- * @implements ObjectRepositoryInterface<O>
- * @phpstan-import-type MeiliTransportOptions from MeiliTransport
  */
+// @phpstan-ignore trait.unused
 trait ObjectRepositoryTrait
 {
     /**
-     * @param ObjectManager<AsDocument<object, AsAttribute>, AsAttribute, DocumentsCriteriaWrapper, MeiliTransportOptions> $manager
      * @param class-string<O> $className
      */
     public function __construct(
@@ -35,31 +31,48 @@ trait ObjectRepositoryTrait
     ) {
     }
 
-    public function findBy(mixed $criteria): ObjectResultset
+    /**
+     * @param Criteria|DocumentsQuery|SearchQuery|DocumentsCriteriaWrapper|array<string, mixed>|null $criteria
+     *
+     * @return ObjectResultset<O>
+     */
+    public function findBy(Criteria|DocumentsQuery|SearchQuery|DocumentsCriteriaWrapper|array|null $criteria): ObjectResultset
     {
-        $criteria = $this->resolveCriteria($criteria);
+        $classMetadata = $this->manager->getClassMetadata($this->className);
+        $transport = $this->transport();
+        $documents = match (true) {
+            $criteria instanceof DocumentsCriteriaWrapper => $transport->retrieve($criteria),
+            $criteria instanceof DocumentsQuery,
+            $criteria instanceof SearchQuery => $transport->retrieve(
+                new DocumentsCriteriaWrapper(index_uid($classMetadata), $criteria),
+            ),
+            default => $transport->retrieveDocuments($classMetadata, self::resolveCriteria($criteria)),
+        };
 
-        /** @var MeiliTransport $transport */
-        $transport = $this->manager->transport;
-        /** @var AsDocument<O, AsAttribute> $classMetadata */
-        $classMetadata = $this->manager->classMetadataRegistry->getClassMetadata($this->className);
-        $documents = $transport->retrieveDocuments($criteria);
-
-        return new ObjectResultset($this->manager, $documents, $classMetadata); // @phpstan-ignore return.type
+        return new ObjectResultset($this->manager, $documents, $classMetadata);
     }
 
+    /**
+     * @return ObjectResultset<O>
+     */
     public function findAll(): ObjectResultset
     {
         return $this->findBy(null);
     }
 
     /**
+     * @param Criteria|DocumentsQuery|SearchQuery|DocumentsCriteriaWrapper|array<string, mixed> $criteria
+     *
      * @return O|null
      */
-    public function findOneBy(mixed $criteria): ?object
+    public function findOneBy(Criteria|DocumentsQuery|SearchQuery|DocumentsCriteriaWrapper|array $criteria): ?object
     {
-        $criteria = $this->resolveCriteria($criteria);
-        $criteria->query?->setLimit(1);
+        if ($criteria instanceof Criteria || is_array($criteria)) {
+            $criteria = clone self::resolveCriteria($criteria);
+            $criteria->limit(1);
+        } else {
+            ($criteria instanceof DocumentsCriteriaWrapper ? $criteria->query : $criteria)?->setLimit(1);
+        }
 
         return [...$this->findBy($criteria)][0] ?? null;
     }
@@ -69,52 +82,25 @@ trait ObjectRepositoryTrait
      */
     public function find(mixed $id): ?object
     {
-        /** @var MeiliTransport $transport */
+        return $this->manager->find($this->className, $id);
+    }
+
+    private function transport(): MeiliTransport
+    {
         $transport = $this->manager->transport;
-        /** @var AsDocument<O, AsAttribute> $classMetadata */
-        $classMetadata = $this->manager->classMetadataRegistry->getClassMetadata($this->className);
+        assert($transport instanceof MeiliTransport);
 
-        $document = $transport->retrieveDocumentById($classMetadata, $id);
-        if (null === $document) {
-            return null;
-        }
-
-        return $this->manager->factory($document, $this->className);
-    }
-
-    public function createCriteriaBuilder(): CriteriaBuilder
-    {
-        /** @var AsDocument<O, AsAttribute> $classMetadata */
-        $classMetadata = $this->manager->classMetadataRegistry->getClassMetadata($this->className);
-
-        return new CriteriaBuilder($classMetadata);
-    }
-
-    private function resolveCriteria(mixed $criteria): DocumentsCriteriaWrapper
-    {
-        /** @var AsDocument<O, AsAttribute> $classMetadata */
-        $classMetadata = $this->manager->classMetadataRegistry->getClassMetadata($this->className);
-
-        return match (get_debug_type($criteria)) {
-            'array' => $this->resolveArrayCriteria($criteria),
-            'null' => new DocumentsCriteriaWrapper($classMetadata->index),
-            DocumentsQuery::class, SearchQuery::class => new DocumentsCriteriaWrapper($classMetadata->index, $criteria),
-            DocumentsCriteriaWrapper::class => $criteria,
-            CriteriaBuilder::class => $criteria->build(),
-            default => throw new InvalidArgumentException('Invalid criteria.'),
-        };
+        return $transport;
     }
 
     /**
-     * @param array<string, mixed> $criteria
+     * @param Criteria|array<string, mixed>|null $criteria
      */
-    private function resolveArrayCriteria(array $criteria): DocumentsCriteriaWrapper
+    private static function resolveCriteria(Criteria|array|null $criteria): Criteria
     {
-        $builder = $this->createCriteriaBuilder();
-        foreach ($criteria as $key => $value) {
-            $builder->addFilter($builder->field($key)->equals($value));
-        }
-
-        return $builder->build();
+        return match (true) {
+            $criteria instanceof Criteria => $criteria,
+            default => Criteria::fromArray($criteria ?? []),
+        };
     }
 }

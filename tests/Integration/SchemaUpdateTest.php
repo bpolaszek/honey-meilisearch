@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Honey\ODM\Meilisearch\Tests\Integration;
 
-use Honey\ODM\Meilisearch\Config\AsDocument;
-use Honey\ODM\Meilisearch\Config\ClassMetadataRegistry;
+use Honey\ODM\Core\Config\ClassMetadataRegistry;
 use Honey\ODM\Meilisearch\Schema\SchemaUpdater;
 use Honey\ODM\Meilisearch\Tests\Implementation\Document\Author;
 use Honey\ODM\Meilisearch\Tests\Implementation\Document\Book;
@@ -12,23 +13,19 @@ use Meilisearch\Exceptions\ApiException;
 use function Honey\ODM\Meilisearch\Tests\meili;
 
 describe('Schema Updater', function () {
-
     $updater = new SchemaUpdater(
         meili(),
-        new ClassMetadataRegistry(configurations: [
-            Author::class => new AsDocument('authors'),
-            Book::class => new AsDocument('books'),
-        ]),
+        new ClassMetadataRegistry(configurations: [Author::class, Book::class]),
     );
 
     it('updates schema', function () use ($updater) {
         $updater->updateSchema();
 
-        $filterableAttributes = meili()->index('authors')->getFilterableAttributes();
-        expect($filterableAttributes)->toBe(['author_id', 'author_name']);
-
-        $sortableAttributes = meili()->index('authors')->getSortableAttributes();
-        expect($sortableAttributes)->toBe(['author_id', 'created_at']);
+        expect(meili()->index('authors')->getFilterableAttributes())->toBe(['author_id', 'author_name'])
+            ->and(meili()->index('authors')->getSortableAttributes())->toBe(['author_id', 'created_at'])
+            ->and(meili()->index('books')->getFilterableAttributes())->toEqualCanonicalizing(['id', 'author', 'language', 'isbn13'])
+            ->and(meili()->index('books')->getSortableAttributes())->toBe(['id'])
+        ;
     });
 
     it('drops schema', function () use ($updater) {

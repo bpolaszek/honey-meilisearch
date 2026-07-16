@@ -5,23 +5,25 @@ declare(strict_types=1);
 namespace Honey\ODM\Meilisearch\Tests\Integration;
 
 use BenTools\ReflectionPlus\Reflection;
+use Honey\ODM\Core\Criteria\Criteria;
 use Honey\ODM\Core\Manager\Identities;
-use Honey\ODM\Meilisearch\Criteria\CriteriaBuilder;
 use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
-use Honey\ODM\Meilisearch\ObjectManager\ObjectManager;
+use Honey\ODM\Meilisearch\ObjectManagerFactory;
 use Honey\ODM\Meilisearch\Result\ObjectResultset;
 use Honey\ODM\Meilisearch\Tests\Implementation\Document\Book;
 use InvalidArgumentException;
 use Meilisearch\Contracts\DocumentsQuery;
 use Meilisearch\Contracts\SearchQuery;
 use RuntimeException;
-use stdClass;
+use TypeError;
 
 use function afterAll;
 use function array_column;
 use function beforeAll;
 use function dirname;
 use function file_get_contents;
+use function Honey\ODM\Core\Criteria\field;
+use function Honey\ODM\Core\Criteria\not;
 use function Honey\ODM\Meilisearch\Tests\meili;
 use function is_array;
 
@@ -47,7 +49,7 @@ afterAll(function () {
 });
 
 it('retrieves all books', function () {
-    $objectManager = new ObjectManager(meili());
+    $objectManager = ObjectManagerFactory::create(meili());
     DocumentsCriteriaWrapper::setDefaultBatchSize(100, 'books');
     $repository = $objectManager->getRepository(Book::class);
     $allBooks = $repository->findAll();
@@ -66,17 +68,70 @@ it('retrieves all books', function () {
         ;
 });
 
-it('uses filters', function () {
-    $objectManager = new ObjectManager(meili());
+it('uses native filters', function () {
+    $objectManager = ObjectManagerFactory::create(meili());
     $repository = $objectManager->getRepository(Book::class);
 
     $query = new DocumentsQuery();
-    $books = $repository->findBy($query->setFilter(["language = spa"]));
-    expect(count($books))->toBe(3);
+    $books = $repository->findBy($query->setFilter(['language = spa']));
+    expect($books)->toHaveCount(3);
+});
+
+it('filters with the generic criteria', function () {
+    $objectManager = ObjectManagerFactory::create(meili());
+    $repository = $objectManager->getRepository(Book::class);
+
+    $spanishBooks = $repository->findBy(Criteria::create()->where(field('language')->equals('spa')));
+    expect($spanishBooks)->toHaveCount(3);
+
+    $spanishOrFrenchBooks = $repository->findBy(Criteria::create()->where(field('language')->in(['spa', 'fre'])));
+    expect($spanishOrFrenchBooks)->toHaveCount(5);
+
+    $sameButComposed = $repository->findBy(
+        Criteria::create()
+            ->where(field('language')->equals('spa'))
+            ->orWhere(field('language')->equals('fre')),
+    );
+    expect($sameButComposed)->toHaveCount(5);
+
+    $frenchBooksAgain = $repository->findBy(
+        Criteria::create()->where(
+            field('language')->in(['spa', 'fre']),
+            not(field('language')->equals('spa')),
+        ),
+    );
+    expect($frenchBooksAgain)->toHaveCount(2);
+});
+
+it('sorts and paginates with the generic criteria', function () {
+    $objectManager = ObjectManagerFactory::create(meili());
+    $repository = $objectManager->getRepository(Book::class);
+
+    $ascending = [...$repository->findBy(Criteria::create()->orderBy('id')->limit(3))];
+    $descending = [...$repository->findBy(Criteria::create()->orderBy('id', 'desc')->limit(3))];
+    $shifted = [...$repository->findBy(Criteria::create()->orderBy('id')->offset(1)->limit(3))];
+
+    expect($ascending)->toHaveCount(3)
+        ->and($descending)->toHaveCount(3)
+        ->and($ascending[0]->id)->not->toBe($descending[0]->id)
+        ->and($shifted[0]->id)->toBe($ascending[1]->id);
+});
+
+it('searches with the generic criteria', function () {
+    $objectManager = ObjectManagerFactory::create(meili());
+    $repository = $objectManager->getRepository(Book::class);
+
+    $book = $repository->findOneBy(
+        Criteria::create()
+            ->search('chamber of secrets')
+            ->where(field('language')->equals('eng')),
+    );
+    expect($book)->toBeInstanceOf(Book::class)
+        ->and($book->name)->toContain('Chamber of Secrets');
 });
 
 it('finds a specific book by its id', function () {
-    $objectManager = new ObjectManager(meili());
+    $objectManager = ObjectManagerFactory::create(meili());
     $repository = $objectManager->getRepository(Book::class);
     /** @var Book $book */
     $book = $repository->find(619);
@@ -87,7 +142,7 @@ it('finds a specific book by its id', function () {
 });
 
 it('returns null when the document does not exist', function () {
-    $objectManager = new ObjectManager(meili());
+    $objectManager = ObjectManagerFactory::create(meili());
     $repository = $objectManager->getRepository(Book::class);
     /** @var Book $book */
     $book = $repository->find(1337);
@@ -95,7 +150,7 @@ it('returns null when the document does not exist', function () {
 });
 
 it('finds a specific book using filters', function (mixed $criteria) {
-    $objectManager = new ObjectManager(meili());
+    $objectManager = ObjectManagerFactory::create(meili());
     $repository = $objectManager->getRepository(Book::class);
     /** @var Book $book */
     $book = $repository->findOneBy($criteria);
@@ -104,24 +159,20 @@ it('finds a specific book using filters', function (mixed $criteria) {
     ;
 })->with(function () {
     yield 'array' => [['isbn' => '9780439786184']];
+    yield 'Criteria' => [Criteria::create()->where(field('isbn')->equals('9780439786184'))];
     yield 'DocumentsQuery' => [new DocumentsQuery()->setFilter(['isbn13 = 9780439786184'])];
     yield 'SearchQuery' => [new SearchQuery()->setFilter(['isbn13 = 9780439786184'])];
     yield 'DocumentsCriteriaWrapper' => [new DocumentsCriteriaWrapper('books', new DocumentsQuery()->setFilter(['isbn13 = 9780439786184']))];
-
-    $objectManager = new ObjectManager(meili());
-    $criteriaBuilder = new CriteriaBuilder($objectManager->classMetadataRegistry->getClassMetadata(Book::class));
-
-    yield 'CriteriaBuilder' => [$criteriaBuilder->addFilter($criteriaBuilder->field('isbn')->equals('9780439786184'))];
 });
 
 it('complains when criteria are not of the expected type', function () {
-    $objectManager = new ObjectManager(meili());
+    $objectManager = ObjectManagerFactory::create(meili());
     $repository = $objectManager->getRepository(Book::class);
-    $repository->findOneBy(new stdClass()); // @phpstan-ignore argument.type
-})->throws(InvalidArgumentException::class);
+    $repository->findOneBy(new \stdClass()); // @phpstan-ignore argument.type
+})->throws(TypeError::class);
 
 it('persists stuff', function () {
-    $objectManager = new ObjectManager(meili());
+    $objectManager = ObjectManagerFactory::create(meili());
     $book = $objectManager->find(Book::class, 4);
     assert($book instanceof Book);
 
@@ -131,7 +182,7 @@ it('persists stuff', function () {
 
     // When
     $objectManager->remove($book);
-    $objectManager->flush();
+    $objectManager->flush(['flushBatchSize' => 10]);
 
     // Then
     expect($objectManager->find(Book::class, 4))->toBeNull();
@@ -139,7 +190,7 @@ it('persists stuff', function () {
     // When
     $book = $objectManager->factory($initialDocument, Book::class);
     $objectManager->persist($book);
-    $objectManager->flush();
+    $objectManager->flush(['flushBatchSize' => 10]);
 
     // Then
     expect($objectManager->find(Book::class, 4))->toBeInstanceOf(Book::class);

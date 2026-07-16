@@ -4,11 +4,35 @@ declare(strict_types=1);
 
 namespace Honey\ODM\Meilisearch\Tests\Unit;
 
+use Honey\ODM\Core\Config\AsDocument;
+use Honey\ODM\Core\Config\AsField;
+use Honey\ODM\Core\Config\ClassMetadataRegistry;
+use Honey\ODM\Meilisearch\Tests\Implementation\Document\Book;
+use LogicException;
 use stdClass;
 use WeakMap;
 
+use function Honey\ODM\Meilisearch\index_uid;
 use function Honey\ODM\Meilisearch\iterable_chunk;
 use function Honey\ODM\Meilisearch\weakmap_values;
+
+describe('index_uid()', function () {
+    it('returns the collection name as index uid', function () {
+        $classMetadata = new ClassMetadataRegistry()->getClassMetadata(Book::class);
+
+        expect(index_uid($classMetadata))->toBe('books');
+    });
+
+    it('complains when the class has no collection name', function () {
+        $document = new #[AsDocument] class {
+            #[AsField(primary: true)]
+            public int $id = 1;
+        };
+        $classMetadata = new ClassMetadataRegistry()->getClassMetadata($document::class);
+
+        index_uid($classMetadata);
+    })->throws(LogicException::class);
+});
 
 describe('weakmap_values()', function () {
 

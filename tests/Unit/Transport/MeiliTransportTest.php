@@ -16,7 +16,7 @@ it('returns DocumentResultset when query is DocumentsQuery', function () {
     $transport = new MeiliTransport(new Client('http://example.com:7700'));
     $criteria = new DocumentsCriteriaWrapper('my-index', new DocumentsQuery());
 
-    $result = $transport->retrieveDocuments($criteria);
+    $result = $transport->retrieve($criteria);
 
     expect($result)->toBeInstanceOf(DocumentResultset::class);
 });
@@ -25,7 +25,7 @@ it('returns SearchResultset when query is SearchQuery', function () {
     $transport = new MeiliTransport(new Client('http://example.com:7700'));
     $criteria = new DocumentsCriteriaWrapper('my-index', new SearchQuery());
 
-    $result = $transport->retrieveDocuments($criteria);
+    $result = $transport->retrieve($criteria);
 
     expect($result)->toBeInstanceOf(SearchResultset::class);
 });

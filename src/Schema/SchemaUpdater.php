@@ -6,13 +6,15 @@ namespace Honey\ODM\Meilisearch\Schema;
 
 use Closure;
 use Exception;
+use Honey\ODM\Core\Config\AsField;
+use Honey\ODM\Core\Config\ClassMetadataRegistry;
 use Honey\ODM\Core\Misc\UniqueList;
-use Honey\ODM\Meilisearch\Config\AsAttribute as AttributeMetatada;
-use Honey\ODM\Meilisearch\Config\ClassMetadataRegistry;
+use Honey\ODM\Meilisearch\Config\Attribute;
 use Meilisearch\Client;
 
 use function array_values;
 use function BenTools\IterableFunctions\iterable;
+use function Honey\ODM\Meilisearch\index_uid;
 
 final readonly class SchemaUpdater
 {
@@ -29,29 +31,30 @@ final readonly class SchemaUpdater
     {
         $onProgress ??= fn () => null;
         foreach ($this->registry as $class => $metadata) {
-            $primaryKey = $metadata->getIdPropertyMetadata()->name ?? $metadata->getIdPropertyMetadata()->reflection->name;
-            $task = $this->meili->createIndex($metadata->index, ['primaryKey' => $primaryKey]);
+            $index = index_uid($metadata);
+            $primaryKey = $metadata->getIdPropertyMetadata()->fieldName;
+            $task = $this->meili->createIndex($index, ['primaryKey' => $primaryKey]);
             $this->meili->waitForTask($task['taskUid']);
             $shouldBeFilterableAttributes = [
                 $primaryKey,
                 ...iterable(array_values($metadata->propertiesMetadata))
-                    ->filter(fn (AttributeMetatada $attribute) => true === $attribute->filterable)
-                    ->map(fn (AttributeMetatada $attr) => $attr->name ?? $attr->reflection->name),
+                    ->filter(fn (AsField $field) => true === $field->getPlatformMetadata(Attribute::class)?->filterable)
+                    ->map(fn (AsField $field) => $field->fieldName),
             ];
             $shouldBeSortableAttributes = [
                 $primaryKey,
                 ...iterable(array_values($metadata->propertiesMetadata))
-                    ->filter(fn (AttributeMetatada $attribute) => true === $attribute->sortable)
-                    ->map(fn (AttributeMetatada $attr) => $attr->name ?? $attr->reflection->name),
+                    ->filter(fn (AsField $field) => true === $field->getPlatformMetadata(Attribute::class)?->sortable)
+                    ->map(fn (AsField $field) => $field->fieldName),
             ];
             /** @var string[] $existingFilterableAttributes */
-            $existingFilterableAttributes = $this->meili->index($metadata->index)->getFilterableAttributes();
-            $task = $this->meili->index($metadata->index)->updateFilterableAttributes(
+            $existingFilterableAttributes = $this->meili->index($index)->getFilterableAttributes();
+            $task = $this->meili->index($index)->updateFilterableAttributes(
                 new UniqueList([...$existingFilterableAttributes, ...$shouldBeFilterableAttributes])->toArray() // @phpstan-ignore argument.type
             );
             $this->meili->waitForTask($task['taskUid']);
-            $existingSortableAttributes = $this->meili->index($metadata->index)->getSortableAttributes();
-            $task = $this->meili->index($metadata->index)->updateSortableAttributes(
+            $existingSortableAttributes = $this->meili->index($index)->getSortableAttributes();
+            $task = $this->meili->index($index)->updateSortableAttributes(
                 new UniqueList([...$existingSortableAttributes, ...$shouldBeSortableAttributes])->toArray() // @phpstan-ignore argument.type
             );
             $this->meili->waitForTask($task['taskUid']);
@@ -63,10 +66,11 @@ final readonly class SchemaUpdater
     {
         $onProgress ??= fn () => null;
         foreach ($this->registry as $class => $metadata) {
-            if (!$this->indexExists($metadata->index)) {
+            $index = index_uid($metadata);
+            if (!$this->indexExists($index)) {
                 goto Next; // @codeCoverageIgnore
             }
-            $task = $this->meili->deleteIndex($metadata->index);
+            $task = $this->meili->deleteIndex($index);
             $this->meili->waitForTask($task['taskUid']);
             Next:
             $onProgress($class, $metadata);
