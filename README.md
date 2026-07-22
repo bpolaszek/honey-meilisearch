@@ -1,6 +1,6 @@
 # 🐝 Honey / Meilisearch
 
-A powerful Object Document Mapper (ODM) for [Meilisearch](https://www.meilisearch.com/), inspired by Doctrine ORM.
+A powerful Object Document Mapper (ODM) for [Meilisearch](https://www.meilisearch.com/), built on top of [Honey ODM Core](https://github.com/bpolaszek/honey-odm).
 
 [![CI Workflow](https://github.com/bpolaszek/honey-meilisearch/actions/workflows/ci-workflow.yml/badge.svg)](https://github.com/bpolaszek/honey-meilisearch/actions/workflows/ci-workflow.yml)
 [![codecov](https://codecov.io/gh/bpolaszek/honey-meilisearch/branch/main/graph/badge.svg)](https://codecov.io/gh/bpolaszek/honey-meilisearch)
@@ -9,8 +9,8 @@ A powerful Object Document Mapper (ODM) for [Meilisearch](https://www.meilisearc
 
 - 🚀 **Modern PHP**: Requires PHP 8.4+ with full type safety
 - 🏷️ **Attribute-based Configuration**: Use PHP 8 attributes to configure your entities
-- 🔍 **Flexible Querying**: Support for multiple query types (arrays, query builders, Meilisearch queries)
-- 🔄 **Property Transformers**: Built-in transformers for dates, relations, and custom data types
+- 🔍 **Flexible Querying**: Support for multiple query types (arrays, the portable `Criteria` API, native Meilisearch queries)
+- 🔄 **Property Transformers**: Built-in transformers for dates, enums, relations, and custom data types
 - 📦 **Repository Pattern**: Clean data access layer with repository interfaces
 - 🧪 **100% Test Coverage**: Thoroughly tested with Pest PHP 💯
 - ⚡  **Batch Processing**: Efficient bulk operations with chunking support
@@ -28,49 +28,56 @@ composer require honey-odm/meilisearch
 
 ### 1. Define Your Entities
 
-Use PHP attributes to configure your entities:
+Core attributes (`AsDocument`, `AsField`) describe the mapping and are shared across every Honey ODM
+implementation. Meilisearch-specific concerns (filterable/sortable attributes) live in the `AsAttribute`
+attribute from this package:
 
 ```php
 <?php
 
-use Honey\ODM\Meilisearch\Config\AsDocument;
+use Honey\ODM\Core\Config\AsDocument;
+use Honey\ODM\Core\Config\AsField;
 use Honey\ODM\Meilisearch\Config\AsAttribute;
 
-#[AsDocument('books')] // <-- Mark class as a Meilisearch document
+#[AsDocument(collection: 'books')] // <-- Mark class as a Meilisearch document
 final class Book // <-- Yes, classes can be final ! 🤩
 {
     public function __construct(
-        #[AsAttribute(primary: true)] // <-- Exactly 1 property must be marked as primary key
+        #[AsField(primary: true)] // <-- Exactly 1 property must be marked as primary key
         public int $id,
-        
-        #[AsAttribute(name: 'title')] // <-- Optionally set the attribute name on Meilisearch's side
+
+        #[AsField(name: 'title')] // <-- Optionally set the field name on Meilisearch's side
         public string $name,
-        
-        #[AsAttribute]
+
+        #[AsField]
+        #[AsAttribute(filterable: true)] // <-- Meilisearch-specific: make this field filterable
         public ?string $cover = null,
-        
-        #[AsAttribute(name: 'isbn13')]
+
+        #[AsField(name: 'isbn13')]
         public ?string $isbn = null,
     ) {}
 }
 ```
+
+The same annotated class works on any other Honey ODM implementation — the `#[AsAttribute]` flags are
+simply ignored there.
 
 ### 2. Configure the Object Manager
 
 ```php
 <?php
 
-use Honey\ODM\Meilisearch\ObjectManager\ObjectManager;
+use Honey\ODM\Meilisearch\ObjectManagerFactory;
 use Meilisearch\Client;
 
 // Create Meilisearch client
 $client = new Client('http://localhost:7700', 'your-master-key');
 
 // Create Object Manager
-$objectManager = new ObjectManager($client);
+$objectManager = ObjectManagerFactory::create($client);
 
 // Get repository for your entity
-$bookRepository = $objectManager->getRepository(Book::class); // <-- This will automatically read the `AsDocument` / `AsAttribute` attributes
+$bookRepository = $objectManager->getRepository(Book::class); // <-- This will automatically read the `AsDocument` / `AsField` attributes
 ```
 
 ### 3. Basic Operations
@@ -78,24 +85,25 @@ $bookRepository = $objectManager->getRepository(Book::class); // <-- This will a
 ```php
 <?php
 
+use Honey\ODM\Core\Criteria\Criteria;
+
+use function Honey\ODM\Core\Criteria\field;
+
 // Find all books
 $books = $bookRepository->findAll();
 
 // Find by ID
 $book = $bookRepository->find(1);
 
-// Find by criteria (array)
+// Find by criteria (array of equality filters, AND-combined)
 $books = $bookRepository->findBy(['cover' => 'hardcover']);
 
 // Find one by criteria
 $book = $bookRepository->findOneBy(['isbn' => '978-0123456789']); // <-- The ODM will know that `isbn` means `isbn13` on Meilisearch's side
 
-// Using query builder for complex queries
-$builder = $bookRepository->createCriteriaBuilder();
+// Using the portable Criteria API for complex queries
 $books = $bookRepository->findBy(
-    $builder->addFilter(
-        $builder->field('name')->contains('PHP')
-    )->build()
+    Criteria::create()->where(field('name')->contains('PHP'))
 );
 ```
 
@@ -106,46 +114,66 @@ $books = $bookRepository->findBy(
 The `#[AsDocument]` attribute marks a class as a Meilisearch document:
 
 ```php
-#[AsDocument('my_index_name')]
+#[AsDocument(collection: 'my_index_name')]
 class MyEntity
 {
     // ...
 }
 ```
 
-### Attribute Configuration
+### Field Configuration
 
-The `#[AsAttribute]` attribute configures individual properties:
+The `#[AsField]` attribute configures individual properties (storage-side field name, primary key,
+transformer). Meilisearch's own concerns — filterable / sortable attributes — are configured
+alongside it with `#[AsAttribute]`:
 
 ```php
+use DateTimeInterface;
+use Honey\ODM\Core\Config\AsDocument;
+use Honey\ODM\Core\Config\AsField;
+use Honey\ODM\Core\Mapper\PropertyTransformer\DateTimeImmutableTransformer;
+use Honey\ODM\Meilisearch\Config\AsAttribute;
+
+#[AsDocument(collection: 'authors')]
 class Author
 {
     public function __construct(
         // Primary key with custom field name
-        #[AsAttribute(name: 'author_id', primary: true)]
+        #[AsField(name: 'author_id', primary: true)]
         public int $id,
-        
-        // Custom field name
-        #[AsAttribute(name: 'author_name')]
+
+        // Custom field name, filterable on Meilisearch's side
+        #[AsField(name: 'author_name')]
+        #[AsAttribute(filterable: true)]
         public string $name,
-        
-        // Default field name (uses property name)
-        #[AsAttribute]
-        public ?string $email = null,
-        
-        // With data transformer
-        #[AsAttribute(
-            name: 'created_at', 
-            transformer: DateTimeImmutableTransformer::class
-        )]
+
+        // With a built-in data transformer, sortable on Meilisearch's side
+        #[AsField(name: 'created_at', transformer: DateTimeImmutableTransformer::class)]
+        #[AsAttribute(sortable: true)]
         public ?DateTimeInterface $createdAt = null,
-        
-        #[AsAttribute(
-            name: 'books', 
-            transformer: new TransformerMetadata(RelationsTransformer::class, ['target_class' => Book::class]))]
-        public array $books = [], // <-- Relations are automatically handled by the ODM
     ) {}
 }
+```
+
+Once your entities are mapped, apply the schema (index creation, filterable/sortable attributes) to
+Meilisearch with the `SchemaUpdater`:
+
+```php
+use Honey\ODM\Core\Config\ClassMetadataRegistry;
+use Honey\ODM\Meilisearch\Schema\SchemaUpdater;
+
+$updater = new SchemaUpdater($client, new ClassMetadataRegistry(configurations: [Author::class, Book::class]));
+$updater->updateSchema();
+```
+
+### Index Prefixes
+
+If you run separate Meilisearch environments (e.g. `local-`, `staging-`), give `ObjectManagerFactory`
+an `$indexPrefix` so every index name is prefixed consistently — without changing your `#[AsDocument]`
+collection names:
+
+```php
+$objectManager = ObjectManagerFactory::create($client, indexPrefix: 'staging-');
 ```
 
 ## Data Transformers
@@ -154,7 +182,9 @@ Transform data between PHP objects and Meilisearch documents:
 
 ### Built-in Transformers
 
-- `DateTimeImmutableTransformer`: Convert DateTimeImmutable objects to/from strings
+- `DateTimeImmutableTransformer`: Convert `DateTimeImmutable` objects to/from strings
+- `BackedEnumTransformer`: Convert backed enums to/from their scalar value
+- `StringableTransformer`: Convert `Stringable` objects to/from strings
 - `RelationTransformer`: Handle ManyToOne-like relations ⚠️
 - `RelationsTransformer`: Handle OneToMany-like relations ⚠️
 
@@ -165,93 +195,113 @@ Transform data between PHP objects and Meilisearch documents:
 ```php
 use Honey\ODM\Core\Config\TransformerMetadata;
 
-#[AsAttribute(transformer: new TransformerMetadata(
+#[AsField(transformer: new TransformerMetadata(
     MyCustomTransformer::class,
     ['option1' => 'value1']
 ))]
 public mixed $myProperty;
 ```
 
-To make your ObjectManager aware of your custom transformer, you need to register it in a PSR-11 compliant container 
-(along with the built-in transformers if you use them), and inject it to the document mapper:
+`PropertyTransformers` already registers every built-in transformer; register your own alongside them
+and inject the container into the document mapper:
 
 ```php
-use Honey\ODM\Core\Mapper\PropertyTransformer\BuiltinTransformers;
-use Honey\ODM\Meilisearch\Mapper\DocumentMapper;
-use Honey\ODM\Meilisearch\ObjectManager\ObjectManager;
+use Honey\ODM\Core\Mapper\DocumentMapper;
+use Honey\ODM\Core\Mapper\PropertyTransformer\PropertyTransformers;
+use Honey\ODM\Meilisearch\ObjectManagerFactory;
 
-$container->set(MyCustomTransformer::class, new MyCustomTransformer());
-foreach (new BuiltinTransformers() as $className => $transformer) {
-    $container->set($className, $transformer);
-}
-$objectManager = new ObjectManager(documentMapper: new DocumentMapper(transformers: $container));
-```
+$transformers = new PropertyTransformers();
+$transformers->register(new MyCustomTransformer());
 
-## Query Builder
-
-Build complex queries using the fluent query builder:
-
-```php
-$builder = $repository->createCriteriaBuilder();
-
-$results = $repository->findBy(
-    $builder
-        ->addFilter($builder->field('category')->equals('fiction'))
-        ->addFilter($builder->field('year')->greaterThan(2020))
-        ->build()
+$objectManager = ObjectManagerFactory::create(
+    $client,
+    documentMapper: new DocumentMapper(transformers: $transformers),
 );
 ```
+
+## Criteria API
+
+Build complex, platform-agnostic queries with `Criteria`:
+
+```php
+use Honey\ODM\Core\Criteria\Criteria;
+
+use function Honey\ODM\Core\Criteria\field;
+use function Honey\ODM\Core\Criteria\not;
+
+$results = $repository->findBy(
+    Criteria::create()
+        ->where(
+            field('category')->equals('fiction'),
+            not(field('year')->lessThan(2020)),
+        )
+        ->orderBy('year', 'desc')
+        ->limit(10)
+);
+```
+
+The same `Criteria` object is portable across Honey ODM implementations; this package compiles it to
+native Meilisearch filters (or a `SearchQuery` when `->search(...)` is used), throwing rather than
+silently degrading whenever an expression can't be translated (see `CriteriaCompiler`).
 
 ## Advanced Usage
 
 ### Custom Repository
 
-Extend the base repository for domain-specific methods:
+`ObjectRepository` (the default repository) is `final` — compose `ObjectRepositoryTrait` into your own
+class instead for domain-specific methods:
 
 ```php
-use Honey\ODM\Meilisearch\Repository\ObjectRepository;
+use Honey\ODM\Core\Criteria\Criteria;
+use Honey\ODM\Meilisearch\Repository\ObjectRepositoryInterface;
+use Honey\ODM\Meilisearch\Repository\ObjectRepositoryTrait;
 
-class BookRepository extends ObjectRepository
+use function Honey\ODM\Core\Criteria\field;
+
+/**
+ * @implements ObjectRepositoryInterface<Book>
+ */
+final class BookRepository implements ObjectRepositoryInterface
 {
+    use ObjectRepositoryTrait;
+
     public function findByAuthor(string $authorName): iterable
     {
         return $this->findBy(['author_name' => $authorName]);
     }
-    
+
     public function findRecentBooks(): iterable
     {
-        $builder = $this->createCriteriaBuilder();
         return $this->findBy(
-            $builder->addFilter(
-                $builder->field('created_at')->greaterThan(
-                    (new DateTimeImmutable('-1 month'))->format('c')
-                )
-            )->build()
+            Criteria::create()->where(
+                field('created_at')->greaterThan((new DateTimeImmutable('-1 month'))->format('c'))
+            )
         );
     }
 }
 ```
 
-Once instantiated, register the repository with the Object Manager as  early as possible in your application:
+Once instantiated, register the repository with the Object Manager as early as possible in your application:
 
 ```php
+$bookRepository = new BookRepository($objectManager, Book::class);
 $objectManager->registerRepository(Book::class, $bookRepository);
 ```
 
 ### Persist your data
 
-Honey ODM is heavily inspired by Doctrine ORM. You can persist your data using the Object Manager:
+The Object Manager (not the repository) owns persistence:
 
 ```php
 $book = new Book(1, 'PHP: The Right Way');
 
-$bookRepository->persist($book);
+$objectManager->persist($book);
 $objectManager->flush();
 
 $book->isbn = '9780123456789';
 $objectManager->flush(); // <-- Change on $book detected, Meilisearch updated
 
-$bookRepository->remove($book);
+$objectManager->remove($book);
 $objectManager->flush(); // <-- $book removed from Meilisearch
 ```
 
@@ -260,11 +310,14 @@ $objectManager->flush(); // <-- $book removed from Meilisearch
 Bring your own (PSR-14 compliant) event dispatcher, and hook your logic to lifecycle events:
 
 ```php
-$eventDispatcher = new EventDispatcher();
-$objectManager = new ObjectManager($client, eventDispatcher: $eventDispatcher);
+use Honey\ODM\Core\Event\PrePersistEvent;
+use Honey\ODM\Meilisearch\ObjectManagerFactory;
+
+$eventDispatcher = new EventDispatcher(); // <-- Any PSR-14 compliant dispatcher
+$objectManager = ObjectManagerFactory::create($client, eventDispatcher: $eventDispatcher);
 $eventDispatcher->addListener(PrePersistEvent::class, function (PrePersistEvent $event) {
     var_dump($event->object); // <-- The object being persisted
-})
+});
 
 // ...
 ```
@@ -275,7 +328,7 @@ This package includes comprehensive test coverage using Pest PHP:
 
 ```bash
 # Run tests
-composer test:run
+composer tests:run
 
 # Check types
 composer types:check
@@ -301,7 +354,7 @@ composer ci:check
 2. Install dependencies: `composer install`
 3. Start Meilisearch server
 4. Optionally configure your Meilisearch connection in your `.env.local`
-5. Run tests: `composer test:run`
+5. Run tests: `composer tests:run`
 
 ### Code Quality
 
@@ -341,4 +394,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Honey ODM Core](https://github.com/bpolaszek/honey-odm) - The core ODM framework
 - [Meilisearch PHP](https://github.com/meilisearch/meilisearch-php) - Official Meilisearch PHP client
 - [Meilisearch](https://github.com/meilisearch/meilisearch) - The Meilisearch search engine
-
