@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Honey\ODM\Meilisearch\Tests\Unit;
 
 use Honey\ODM\Core\Config\ClassMetadataRegistry;
+use Honey\ODM\Core\Criteria\Comparison;
 use Honey\ODM\Core\Criteria\CompositeExpression;
 use Honey\ODM\Core\Criteria\Criteria;
 use Honey\ODM\Core\Criteria\ExpressionInterface;
+use Honey\ODM\Core\Criteria\Operator;
 use Honey\ODM\Core\Criteria\UnsupportedExpressionException;
 use Honey\ODM\Meilisearch\Criteria\CriteriaCompiler;
 use Honey\ODM\Meilisearch\Tests\Implementation\Document\Book;
@@ -47,7 +49,41 @@ describe('CriteriaCompiler', function () {
         'startsWith' => [fn () => field('name')->startsWith('Dune'), "title STARTS WITH 'Dune'"],
         'isNull' => [fn () => field('language')->isNull(), 'language IS NULL'],
         'isNotNull' => [fn () => field('language')->isNotNull(), 'language IS NOT NULL'],
+        'hasAll' => [fn () => field('language')->hasAll(['spa', 'fre']), "language = 'spa' AND language = 'fre'"],
+        'exists' => [fn () => field('language')->exists(), 'language EXISTS'],
+        'isEmpty' => [fn () => field('language')->isEmpty(), 'language IS EMPTY'],
+        'between, both bounds inclusive' => [fn () => field('id')->between(1, 10), "id '1' TO '10'"],
+        'between, left exclusive' => [
+            fn () => field('id')->between(1, 10, includeLeft: false),
+            "id > '1' AND id <= '10'",
+        ],
+        'between, right exclusive' => [
+            fn () => field('id')->between(1, 10, includeRight: false),
+            "id >= '1' AND id < '10'",
+        ],
+        'between, open-ended left' => [fn () => field('id')->between(null, 10), "id <= '10'"],
+        'between, open-ended right' => [fn () => field('id')->between(1, null), "id >= '1'"],
+        'withinGeoRadius' => [
+            fn () => field('location')->withinGeoRadius(48.8566, 2.3522, 1500.4),
+            '_geoRadius(48.8566, 2.3522, 1500)',
+        ],
+        'withinGeoBoundingBox' => [
+            fn () => field('location')->withinGeoBoundingBox(48.8, 2.3, 48.9, 2.4),
+            '_geoBoundingBox([48.9, 2.4], [48.8, 2.3])',
+        ],
     ]);
+
+    it('complains about ENDS_WITH, which Meilisearch cannot express', function () use ($compiler, $classMetadata) {
+        $compiler->compile($classMetadata, Criteria::create()->where(field('name')->endsWith('Dune')));
+    })->throws(UnsupportedExpressionException::class);
+
+    it('complains when a geo comparison does not map to the reserved `_geo` field', function () use ($compiler, $classMetadata) {
+        $compiler->compile($classMetadata, Criteria::create()->where(field('language')->withinGeoRadius(48.8566, 2.3522, 1000)));
+    })->throws(UnsupportedExpressionException::class);
+
+    it('complains when BETWEEN carries a value that is not a Range', function () use ($compiler, $classMetadata) {
+        $compiler->compile($classMetadata, Criteria::create()->where(new Comparison('id', Operator::BETWEEN, 5)));
+    })->throws(UnsupportedExpressionException::class);
 
     it('compiles composite expressions and negations', function () use ($compiler, $classMetadata) {
         $criteria = Criteria::create()

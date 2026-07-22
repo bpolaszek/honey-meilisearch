@@ -31,6 +31,8 @@ final class Book
         #[AsField(name: 'isbn13')]
         #[AsAttribute(filterable: true)]
         public ?string $isbn = null,
+        #[AsField(name: '_geo')]
+        public ?array $location = null,
     ) {
     }
 }
