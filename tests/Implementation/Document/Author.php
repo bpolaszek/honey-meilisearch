@@ -10,7 +10,7 @@ use Honey\ODM\Core\Config\AsField;
 use Honey\ODM\Core\Config\TransformerMetadata;
 use Honey\ODM\Core\Mapper\PropertyTransformer\DateTimeImmutableTransformer;
 use Honey\ODM\Core\Mapper\PropertyTransformer\RelationsTransformer;
-use Honey\ODM\Meilisearch\Config\Attribute;
+use Honey\ODM\Meilisearch\Config\AsAttribute;
 
 #[AsDocument(collection: 'authors')]
 final class Author
@@ -19,7 +19,7 @@ final class Author
         #[AsField(name: 'author_id', primary: true)]
         public int $id,
         #[AsField(name: 'author_name')]
-        #[Attribute(filterable: true)]
+        #[AsAttribute(filterable: true)]
         public string $name,
         #[AsField(name: 'books', transformer: new TransformerMetadata(
             RelationsTransformer::class,
@@ -27,7 +27,7 @@ final class Author
         ))]
         public array $books = [],
         #[AsField(name: 'created_at', transformer: DateTimeImmutableTransformer::class)]
-        #[Attribute(sortable: true)]
+        #[AsAttribute(sortable: true)]
         public ?DateTimeInterface $createdAt = null,
     ) {
     }

@@ -31,8 +31,9 @@ final readonly class ObjectManagerFactory
         ClassMetadataRegistryInterface $classMetadataRegistry = new ClassMetadataRegistry(),
         DocumentMapperInterface $documentMapper = new DocumentMapper(),
         EventDispatcherInterface $eventDispatcher = new NullEventDispatcher(),
+        string $indexPrefix = '',
     ): ObjectManager {
-        $transport = new MeiliTransport($meili, $options);
+        $transport = new MeiliTransport($meili, $options, $indexPrefix);
 
         return new ObjectManager(
             transport: $transport,

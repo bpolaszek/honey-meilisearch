@@ -6,10 +6,11 @@ namespace Honey\ODM\Meilisearch\Schema;
 
 use Closure;
 use Exception;
+use Honey\ODM\Core\Config\AsDocument;
 use Honey\ODM\Core\Config\AsField;
 use Honey\ODM\Core\Config\ClassMetadataRegistry;
 use Honey\ODM\Core\Misc\UniqueList;
-use Honey\ODM\Meilisearch\Config\Attribute;
+use Honey\ODM\Meilisearch\Config\AsAttribute;
 use Meilisearch\Client;
 
 use function array_values;
@@ -24,6 +25,7 @@ final readonly class SchemaUpdater
     public function __construct(
         private Client $meili,
         private ClassMetadataRegistry $registry,
+        private string $indexPrefix = '',
     ) {
     }
 
@@ -31,20 +33,20 @@ final readonly class SchemaUpdater
     {
         $onProgress ??= fn () => null;
         foreach ($this->registry as $class => $metadata) {
-            $index = index_uid($metadata);
+            $index = $this->indexUid($metadata);
             $primaryKey = $metadata->getIdPropertyMetadata()->fieldName;
             $task = $this->meili->createIndex($index, ['primaryKey' => $primaryKey]);
             $this->meili->waitForTask($task['taskUid']);
             $shouldBeFilterableAttributes = [
                 $primaryKey,
                 ...iterable(array_values($metadata->propertiesMetadata))
-                    ->filter(fn (AsField $field) => true === $field->getPlatformMetadata(Attribute::class)?->filterable)
+                    ->filter(fn (AsField $field) => true === $field->getPlatformMetadata(AsAttribute::class)?->filterable)
                     ->map(fn (AsField $field) => $field->fieldName),
             ];
             $shouldBeSortableAttributes = [
                 $primaryKey,
                 ...iterable(array_values($metadata->propertiesMetadata))
-                    ->filter(fn (AsField $field) => true === $field->getPlatformMetadata(Attribute::class)?->sortable)
+                    ->filter(fn (AsField $field) => true === $field->getPlatformMetadata(AsAttribute::class)?->sortable)
                     ->map(fn (AsField $field) => $field->fieldName),
             ];
             /** @var string[] $existingFilterableAttributes */
@@ -66,7 +68,7 @@ final readonly class SchemaUpdater
     {
         $onProgress ??= fn () => null;
         foreach ($this->registry as $class => $metadata) {
-            $index = index_uid($metadata);
+            $index = $this->indexUid($metadata);
             if (!$this->indexExists($index)) {
                 goto Next; // @codeCoverageIgnore
             }
@@ -89,5 +91,13 @@ final readonly class SchemaUpdater
         }
 
         return true;
+    }
+
+    /**
+     * @param AsDocument<object> $metadata
+     */
+    private function indexUid(AsDocument $metadata): string
+    {
+        return $this->indexPrefix . index_uid($metadata);
     }
 }

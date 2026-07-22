@@ -13,7 +13,6 @@ use Meilisearch\Contracts\DocumentsQuery;
 use Meilisearch\Contracts\SearchQuery;
 
 use function assert;
-use function Honey\ODM\Meilisearch\index_uid;
 use function is_array;
 
 /**
@@ -44,7 +43,7 @@ trait ObjectRepositoryTrait
             $criteria instanceof DocumentsCriteriaWrapper => $transport->retrieve($criteria),
             $criteria instanceof DocumentsQuery,
             $criteria instanceof SearchQuery => $transport->retrieve(
-                new DocumentsCriteriaWrapper(index_uid($classMetadata), $criteria),
+                new DocumentsCriteriaWrapper($transport->indexUid($classMetadata), $criteria),
             ),
             default => $transport->retrieveDocuments($classMetadata, self::resolveCriteria($criteria)),
         };

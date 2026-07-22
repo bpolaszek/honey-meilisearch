@@ -10,7 +10,7 @@ use Honey\ODM\Core\Config\PlatformMetadataInterface;
  * Meilisearch-specific property metadata, to be placed alongside the core #[AsField] attribute.
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
-final readonly class Attribute implements PlatformMetadataInterface
+final readonly class AsAttribute implements PlatformMetadataInterface
 {
     public function __construct(
         public ?bool $filterable = null,

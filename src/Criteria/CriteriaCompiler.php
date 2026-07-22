@@ -34,13 +34,18 @@ use function sprintf;
  */
 final readonly class CriteriaCompiler
 {
+    public function __construct(
+        private string $indexPrefix = '',
+    ) {
+    }
+
     /**
      * @param AsDocument<object> $classMetadata
      */
     public function compile(AsDocument $classMetadata, Criteria $criteria): DocumentsCriteriaWrapper
     {
         return new DocumentsCriteriaWrapper(
-            index_uid($classMetadata),
+            $this->indexPrefix . index_uid($classMetadata),
             match ($criteria->search) {
                 null => $this->compileDocumentsQuery($classMetadata, $criteria),
                 default => $this->compileSearchQuery($classMetadata, $criteria),

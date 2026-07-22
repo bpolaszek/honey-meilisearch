@@ -51,6 +51,7 @@ final readonly class MeiliTransport implements TransportInterface
     public function __construct(
         public Client $meili,
         array $options = [],
+        private string $indexPrefix = '',
     ) {
         $this->optionsResolver = new OptionsResolver();
         $this->optionsResolver->setDefaults(self::DEFAULT_OPTIONS);
@@ -59,7 +60,17 @@ final readonly class MeiliTransport implements TransportInterface
         $this->optionsResolver->setAllowedTypes('flushCheckIntervalMs', ['int']);
         $this->optionsResolver->setAllowedTypes('wait', ['bool']);
         $this->options = $this->optionsResolver->resolve($options);
-        $this->criteriaCompiler = new CriteriaCompiler();
+        $this->criteriaCompiler = new CriteriaCompiler($this->indexPrefix);
+    }
+
+    /**
+     * Returns the (optionally prefixed) Meilisearch index UID for the given class metadata.
+     *
+     * @param AsDocument<object> $classMetadata
+     */
+    public function indexUid(AsDocument $classMetadata): string
+    {
+        return $this->indexPrefix . index_uid($classMetadata);
     }
 
     public function flushPendingOperations(UnitOfWork $unitOfWork, array $flushOptions = []): void
@@ -79,7 +90,7 @@ final readonly class MeiliTransport implements TransportInterface
             $context = new MappingContext($classMetadata, $objectManager, $object, []);
             $document = $mapper->objectToDocument($object, [], $context);
             $states[$object] = $document;
-            $documentsByIndex[index_uid($classMetadata)][] = $document;
+            $documentsByIndex[$this->indexUid($classMetadata)][] = $document;
         }
         foreach ($documentsByIndex as $index => $documents) {
             foreach (iterable_chunk($documents, $flushBatchSize) as $chunk) {
@@ -92,7 +103,7 @@ final readonly class MeiliTransport implements TransportInterface
         $primaryKeys = [];
         foreach ($unitOfWork->getPendingDeletes() as $object) {
             $classMetadata = $classMetadataRegistry->getClassMetadata($object::class);
-            $index = index_uid($classMetadata);
+            $index = $this->indexUid($classMetadata);
             $primaryKeys[$index] = $classMetadata->getIdPropertyMetadata()->fieldName;
             $idsByIndex[$index][] = $classMetadataRegistry->getIdFromObject($object);
         }
@@ -137,7 +148,7 @@ final readonly class MeiliTransport implements TransportInterface
     public function retrieveDocumentById(AsDocument $classMetadata, mixed $id): ?array
     {
         try {
-            return $this->meili->index(index_uid($classMetadata))->getDocument($id);
+            return $this->meili->index($this->indexUid($classMetadata))->getDocument($id);
         } catch (ApiException $e) {
             if (404 === $e->httpStatus) {
                 return null;

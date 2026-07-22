@@ -8,7 +8,7 @@ use Honey\ODM\Core\Config\AsDocument;
 use Honey\ODM\Core\Config\AsField;
 use Honey\ODM\Core\Config\TransformerMetadata;
 use Honey\ODM\Core\Mapper\PropertyTransformer\RelationTransformer;
-use Honey\ODM\Meilisearch\Config\Attribute;
+use Honey\ODM\Meilisearch\Config\AsAttribute;
 
 #[AsDocument(collection: 'books')]
 final class Book
@@ -19,17 +19,17 @@ final class Book
         #[AsField(name: 'title')]
         public string $name,
         #[AsField(transformer: new TransformerMetadata(RelationTransformer::class))]
-        #[Attribute(filterable: true)]
+        #[AsAttribute(filterable: true)]
         public ?Author $author,
         #[AsField]
         public ?string $cover = null,
         #[AsField]
-        #[Attribute(filterable: true)]
+        #[AsAttribute(filterable: true)]
         public ?string $language = null,
         #[AsField]
         public array $details = [],
         #[AsField(name: 'isbn13')]
-        #[Attribute(filterable: true)]
+        #[AsAttribute(filterable: true)]
         public ?string $isbn = null,
     ) {
     }

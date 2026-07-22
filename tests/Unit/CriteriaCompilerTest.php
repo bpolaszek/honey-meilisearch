@@ -113,4 +113,12 @@ describe('CriteriaCompiler', function () {
 
         $compiler->compile($classMetadata, Criteria::create()->where($unsupported));
     })->throws(UnsupportedExpressionException::class);
+
+    it('prepends the configured index prefix to the index uid', function () use ($classMetadata) {
+        $prefixedCompiler = new CriteriaCompiler(indexPrefix: 'staging-');
+
+        $wrapper = $prefixedCompiler->compile($classMetadata, Criteria::create());
+
+        expect($wrapper->index)->toBe('staging-books');
+    });
 });
