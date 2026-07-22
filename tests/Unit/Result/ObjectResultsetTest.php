@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Honey\ODM\Meilisearch\Tests\Unit\Result;
 
-use Honey\ODM\Meilisearch\Config\AsAttribute;
-use Honey\ODM\Meilisearch\Config\AsDocument;
-use Honey\ODM\Meilisearch\Config\ClassMetadataRegistry;
-use Honey\ODM\Meilisearch\ObjectManager\ObjectManager;
+use Honey\ODM\Core\Config\AsDocument;
+use Honey\ODM\Core\Config\AsField;
+use Honey\ODM\Core\Config\ClassMetadataRegistry;
+use Honey\ODM\Meilisearch\ObjectManagerFactory;
 use Honey\ODM\Meilisearch\Result\ObjectResultset;
 use Meilisearch\Client;
 
@@ -37,15 +37,15 @@ it('stores metadata', function () {
 
     $city = new class {
         public function __construct(
-            #[AsAttribute(primary: true)]
+            #[AsField(primary: true)]
             public ?int $id = null,
-            #[AsAttribute]
+            #[AsField]
             public ?string $name = null,
         ) {
         }
     };
 
-    $objectManager = new ObjectManager(
+    $objectManager = ObjectManagerFactory::create(
         new Client('https://example.com:7700'),
         classMetadataRegistry: new ClassMetadataRegistry(configurations: [
             $city::class => new AsDocument('cities'),

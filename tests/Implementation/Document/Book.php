@@ -4,29 +4,35 @@ declare(strict_types=1);
 
 namespace Honey\ODM\Meilisearch\Tests\Implementation\Document;
 
+use Honey\ODM\Core\Config\AsDocument;
+use Honey\ODM\Core\Config\AsField;
 use Honey\ODM\Core\Config\TransformerMetadata;
 use Honey\ODM\Core\Mapper\PropertyTransformer\RelationTransformer;
 use Honey\ODM\Meilisearch\Config\AsAttribute;
-use Honey\ODM\Meilisearch\Config\AsDocument;
 
-#[AsDocument('books')]
+#[AsDocument(collection: 'books')]
 final class Book
 {
     public function __construct(
-        #[AsAttribute(primary: true)]
+        #[AsField(primary: true)]
         public int $id,
-        #[AsAttribute(name: 'title')]
+        #[AsField(name: 'title')]
         public string $name,
-        #[AsAttribute(transformer: new TransformerMetadata(RelationTransformer::class))]
+        #[AsField(transformer: new TransformerMetadata(RelationTransformer::class))]
+        #[AsAttribute(filterable: true)]
         public ?Author $author,
-        #[AsAttribute]
+        #[AsField]
         public ?string $cover = null,
-        #[AsAttribute]
+        #[AsField]
+        #[AsAttribute(filterable: true)]
         public ?string $language = null,
-        #[AsAttribute]
+        #[AsField]
         public array $details = [],
-        #[AsAttribute(name: 'isbn13')]
+        #[AsField(name: 'isbn13')]
+        #[AsAttribute(filterable: true)]
         public ?string $isbn = null,
+        #[AsField(name: '_geo')]
+        public ?array $location = null,
     ) {
     }
 }

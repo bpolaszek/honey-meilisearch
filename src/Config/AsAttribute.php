@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace Honey\ODM\Meilisearch\Config;
 
-use Attribute;
-use Honey\ODM\Core\Config\PropertyMetadata;
-use Honey\ODM\Core\Config\TransformerMetadataInterface;
+use Honey\ODM\Core\Config\PlatformMetadataInterface;
 
-#[Attribute(Attribute::TARGET_PROPERTY)]
-final class AsAttribute extends PropertyMetadata
+/**
+ * Meilisearch-specific property metadata, to be placed alongside the core #[AsField] attribute.
+ */
+#[\Attribute(\Attribute::TARGET_PROPERTY)]
+final readonly class AsAttribute implements PlatformMetadataInterface
 {
     public function __construct(
-        public readonly ?string $name = null,
-        public readonly bool $primary = false,
-        protected TransformerMetadataInterface|string|null $transformer = null,
-        public readonly ?bool $filterable = null,
-        public readonly ?bool $sortable = null,
+        public ?bool $filterable = null,
+        public ?bool $sortable = null,
     ) {
     }
 }

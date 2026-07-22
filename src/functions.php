@@ -4,11 +4,25 @@ declare(strict_types=1);
 
 namespace Honey\ODM\Meilisearch;
 
+use Honey\ODM\Core\Config\AsDocument;
+use LogicException;
 use WeakMap;
 
 use function in_array;
+use function sprintf;
 
 use const PHP_INT_MAX;
+
+/**
+ * Returns the Meilisearch index UID for the given class metadata.
+ *
+ * @param AsDocument<object> $classMetadata
+ */
+function index_uid(AsDocument $classMetadata): string
+{
+    return $classMetadata->collection
+        ?? throw new LogicException(sprintf('Class %s has no collection (index) name defined.', $classMetadata->className));
+}
 
 /**
  * @internal

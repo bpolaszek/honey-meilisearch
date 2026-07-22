@@ -6,25 +6,23 @@ namespace Honey\ODM\Meilisearch\Result;
 
 use ArrayAccess;
 use Countable;
-use Honey\ODM\Core\Config\ClassMetadata;
+use Honey\ODM\Core\Config\AsDocument;
 use Honey\ODM\Core\Manager\ObjectManager;
-use Honey\ODM\Meilisearch\Config\AsAttribute;
-use Honey\ODM\Meilisearch\Config\AsDocument;
-use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
-use Honey\ODM\Meilisearch\Transport\MeiliTransport;
 use IteratorAggregate;
 use RuntimeException;
 use Traversable;
 use WeakMap;
 
 use function count;
+use function str_starts_with;
+use function strlen;
+use function substr;
 
 /**
  * @template O of object
  *
  * @implements IteratorAggregate<int, O>
  * @implements ArrayAccess<int, O>
- * @phpstan-import-type MeiliTransportOptions from MeiliTransport
  */
 final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
 {
@@ -34,14 +32,13 @@ final class ObjectResultset implements IteratorAggregate, Countable, ArrayAccess
     public private(set) WeakMap $extra;
 
     /**
-     * @param ObjectManager<AsDocument<O, AsAttribute>, AsAttribute, DocumentsCriteriaWrapper, MeiliTransportOptions> $objectManager
-     * @param ClassMetadata<O, AsAttribute> $classMetadata
+     * @param AsDocument<O> $classMetadata
      * @param list<array<string, mixed>>|(Traversable<int, array<string, mixed>>&Countable&ArrayAccess<int, array<string, mixed>>) $documents
      */
     public function __construct(
         private readonly ObjectManager $objectManager,
         private readonly array|(Traversable&Countable&ArrayAccess) $documents,
-        private readonly ClassMetadata $classMetadata,
+        private readonly AsDocument $classMetadata,
     ) {
         $this->extra = new WeakMap();
     }
