@@ -9,6 +9,7 @@ use Honey\ODM\Core\Criteria\Criteria;
 use Honey\ODM\Core\Manager\Identities;
 use Honey\ODM\Meilisearch\Criteria\DocumentsCriteriaWrapper;
 use Honey\ODM\Meilisearch\ObjectManagerFactory;
+use Honey\ODM\Meilisearch\Result\DocumentResultset;
 use Honey\ODM\Meilisearch\Result\ObjectResultset;
 use Honey\ODM\Meilisearch\Tests\Implementation\Document\Book;
 use InvalidArgumentException;
@@ -66,6 +67,17 @@ it('retrieves all books', function () {
             unset($allBooks[0]);
         })->toThrow(RuntimeException::class)
         ;
+});
+
+it('does not silently skip documents when a batch has fewer results than the batch size (issue #12)', function () {
+    // The books index holds 164 documents, well beyond Meilisearch's default
+    // page size of 20. A batch size of 1000 means the very first batch query
+    // (offset=0, no limit set) returns only 20 documents from Meilisearch,
+    // yet the offset then jumps to 1000, which is past totalItems — silently
+    // skipping every document beyond the first page.
+    $resultset = new DocumentResultset(meili(), new DocumentsCriteriaWrapper('books', batchSize: 1000));
+
+    expect(iterator_to_array($resultset))->toHaveCount(164);
 });
 
 it('uses native filters', function () {

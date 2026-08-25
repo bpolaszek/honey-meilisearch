@@ -43,7 +43,7 @@ final class DocumentResultset implements IteratorAggregate, Countable, ArrayAcce
 
         NextIteration:
         /** @var DocumentsQuery $batchQuery */
-        $batchQuery = (clone $query)->setOffset($offset);
+        $batchQuery = (clone $query)->setOffset($offset)->setLimit(max(0, min($this->criteria->batchSize, $this->limit - $i)));
         $result = $this->meili->index($this->criteria->index)->getDocuments($batchQuery);
         $this->totalItems ??= $result->getTotal();
 
